@@ -50,4 +50,6 @@ Recovery's CLR workload contains one page, one loser and one patch: crash/failur
 
 ## Delivery and review
 
+Implementation: [PR #135](https://github.com/ulrichheringer/vetradb/pull/135), stacked on M01 PR #134. The complete local gate passed with both Rust 1.85.0 and 1.97.1 on macOS ARM/APFS. [Cross-platform CI evidence](https://github.com/ulrichheringer/vetradb/actions?query=branch%3Afeat%2Fm02-durable-transactions) runs the same complete gate; issue completion records link its successful run.
+
 M02 is an experimental native durability/isolation milestone. Its issue closure is based on the APIs, regression/oracle mappings and passing native CI above. Merge, architecture/release ratification and production platform qualification remain separate steps. No SQL or production release is created by closing this epic.
