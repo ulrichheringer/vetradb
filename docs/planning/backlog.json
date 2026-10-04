@@ -1,0 +1,4964 @@
+{
+  "schema_version": 1,
+  "planning_date": "2026-10-03",
+  "repository": "ulrichheringer/vetradb",
+  "status": "planning-only",
+  "documentation_language": "en",
+  "license": "Apache-2.0",
+  "notes": [
+    "No engine implementation is included.",
+    "GitHub is authoritative for live issue status; this manifest snapshots the initial plan.",
+    "All explicit dependencies are linked in task bodies; native blocking edges use an equivalent transitive reduction."
+  ],
+  "milestones": [
+    {
+      "id": "M00",
+      "title": "M00 — Foundation and design freeze",
+      "area": "governance",
+      "summary": "Ratified contracts, module/MSRV/dependency policy, durable-format and fault-model specifications, contributor/release governance.",
+      "gate": "Experimental implementation may start only after the transaction/storage/history invariants and verification plan are reviewed.",
+      "phase": "single-node",
+      "release": "v0.0 design",
+      "github": {
+        "number": 1,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/1",
+        "title": "M00 — Foundation and design freeze"
+      },
+      "epic": {
+        "number": 1,
+        "id": 5695291590,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/1",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dAxg",
+        "title": "[M00] Epic: Foundation and design freeze"
+      }
+    },
+    {
+      "id": "M01",
+      "title": "M01 — Pages, buffer pool and B+Trees",
+      "area": "storage",
+      "summary": "Native page engine with checked codecs, allocation, overflow, bounded buffer management and structurally validated B+Trees.",
+      "gate": "Reference-model random tests, format fixtures and split/merge/allocation failure scenarios pass; durability is not claimed before M02.",
+      "phase": "single-node",
+      "release": "v0.1-alpha storage foundation",
+      "github": {
+        "number": 2,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/2",
+        "title": "M01 — Pages, buffer pool and B+Trees"
+      },
+      "epic": {
+        "number": 2,
+        "id": 5695291748,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/2",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dBZA",
+        "title": "[M01] Epic: Pages, buffer pool and B+Trees"
+      }
+    },
+    {
+      "id": "M02",
+      "title": "M02 — Durable ACID transactions and recovery",
+      "area": "transactions",
+      "summary": "WAL/checkpoints/recovery, shared commit envelope, MVCC, locks, savepoints and supported isolation.",
+      "gate": "External acknowledgment oracle, crash-at-boundary recovery and isolation/constraint tests establish an atomic durable committed prefix.",
+      "phase": "single-node",
+      "release": "v0.1-alpha durable core",
+      "github": {
+        "number": 3,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/3",
+        "title": "M02 — Durable ACID transactions and recovery"
+      },
+      "epic": {
+        "number": 3,
+        "id": 5695291908,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/3",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dCBA",
+        "title": "[M02] Epic: Durable ACID transactions and recovery"
+      }
+    },
+    {
+      "id": "M03",
+      "title": "M03 — Relational SQL and indexes",
+      "area": "sql",
+      "summary": "Versioned catalog, SQL types and relational execution, DDL/DML, constraints, indexes and common backend SQL.",
+      "gate": "Declared SQL subset passes deterministic and PostgreSQL differential fixtures, including concurrent constraint enforcement.",
+      "phase": "single-node",
+      "release": "v0.2-alpha SQL",
+      "github": {
+        "number": 4,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/4",
+        "title": "M03 — Relational SQL and indexes"
+      },
+      "epic": {
+        "number": 4,
+        "id": 5695292101,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/4",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dCxQ",
+        "title": "[M03] Epic: Relational SQL and indexes"
+      }
+    },
+    {
+      "id": "M04",
+      "title": "M04 — Server, embedded API and PostgreSQL wire",
+      "area": "api",
+      "summary": "Shared embedded API, lifecycle, authenticated server, protocol 3.0, codecs, COPY and real client workflows.",
+      "gate": "Embedded/server equivalent histories and version-pinned driver journeys pass; networking is bounded and authenticated.",
+      "phase": "single-node",
+      "release": "v0.2-alpha clients",
+      "github": {
+        "number": 5,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/5",
+        "title": "M04 — Server, embedded API and PostgreSQL wire"
+      },
+      "epic": {
+        "number": 5,
+        "id": 5695292269,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/5",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dDbQ",
+        "title": "[M04] Epic: Server, embedded API and PostgreSQL wire"
+      }
+    },
+    {
+      "id": "M05",
+      "title": "M05 — Complete history and time travel",
+      "area": "history",
+      "summary": "AS OF, historical catalog binding, history/diff queries, metadata, pinned snapshots and explicit retention.",
+      "gate": "Golden histories reconstruct rows and schemas at every commit; permissions, pin horizons and unavailable-history errors are verified.",
+      "phase": "single-node",
+      "release": "v0.3-alpha history",
+      "github": {
+        "number": 6,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/6",
+        "title": "M05 — Complete history and time travel"
+      },
+      "epic": {
+        "number": 6,
+        "id": 5695292420,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/6",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dEBA",
+        "title": "[M05] Epic: Complete history and time travel"
+      }
+    },
+    {
+      "id": "M06",
+      "title": "M06 — Transactional queues, jobs and cron",
+      "area": "work",
+      "summary": "Atomic enqueue, fenced leases, acknowledgment, retries, dead letters, priorities, delayed work and schedule materialization.",
+      "gate": "Worker/restart/clock/DST tests show bounded at-least-once work with no stale completion or duplicate schedule occurrence.",
+      "phase": "single-node",
+      "release": "v0.4-alpha work",
+      "github": {
+        "number": 7,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/7",
+        "title": "M06 — Transactional queues, jobs and cron"
+      },
+      "epic": {
+        "number": 7,
+        "id": 5695292600,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/7",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dEuA",
+        "title": "[M06] Epic: Transactional queues, jobs and cron"
+      }
+    },
+    {
+      "id": "M07",
+      "title": "M07 — Events, pub/sub, CDC and realtime",
+      "area": "events",
+      "summary": "Transactional durable publish, ordered CDC, consumer offsets/groups, race-free initial snapshot and resumable subscriptions.",
+      "gate": "Commit/rollback, reconnect, schema ordering, snapshot handoff, slow consumers and authorization changes pass without gaps.",
+      "phase": "single-node",
+      "release": "v0.5-alpha streams",
+      "github": {
+        "number": 8,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/8",
+        "title": "M07 — Events, pub/sub, CDC and realtime"
+      },
+      "epic": {
+        "number": 8,
+        "id": 5695292794,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/8",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dFeg",
+        "title": "[M07] Epic: Events, pub/sub, CDC and realtime"
+      }
+    },
+    {
+      "id": "M08",
+      "title": "M08 — Optimizer and measured performance",
+      "area": "optimizer",
+      "summary": "Cost statistics, safe rewrites, access/join choices, spill, cache and reproducible capacity benchmarks.",
+      "gate": "Optimizer agrees with baseline results, memory/spill are bounded and release capacity/latency budgets are measured and published.",
+      "phase": "single-node",
+      "release": "v0.9-beta performance",
+      "github": {
+        "number": 9,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/9",
+        "title": "M08 — Optimizer and measured performance"
+      },
+      "epic": {
+        "number": 9,
+        "id": 5695292950,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/9",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dGFg",
+        "title": "[M08] Epic: Optimizer and measured performance"
+      }
+    },
+    {
+      "id": "M09",
+      "title": "M09 — Security, operations and data lifecycle",
+      "area": "operations",
+      "summary": "Grants/RLS, quotas, safe configuration, observability, backup/PITR, retention, upgrades and distribution.",
+      "gate": "Restore/upgrade/disk-pressure drills and security review pass on the declared production platforms using release-like artifacts.",
+      "phase": "single-node",
+      "release": "v0.9-beta operations",
+      "github": {
+        "number": 10,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/10",
+        "title": "M09 — Security, operations and data lifecycle"
+      },
+      "epic": {
+        "number": 10,
+        "id": 5695293131,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/10",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dGyw",
+        "title": "[M09] Epic: Security, operations and data lifecycle"
+      }
+    },
+    {
+      "id": "M10",
+      "title": "M10 — Single-node production qualification",
+      "area": "quality",
+      "summary": "Cross-feature fault/soak/security/compatibility qualification and supported 1.0 release artifacts.",
+      "gate": "All M00-M09 gates are evidenced; no release-blocking correctness/security issue remains; production claims match the support matrix.",
+      "phase": "single-node",
+      "release": "v1.0 single node",
+      "github": {
+        "number": 11,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/11",
+        "title": "M10 — Single-node production qualification"
+      },
+      "epic": {
+        "number": 11,
+        "id": 5695293402,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/11",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dH2g",
+        "title": "[M10] Epic: Single-node production qualification"
+      }
+    },
+    {
+      "id": "M11",
+      "title": "M11 — Replication foundation and read replicas",
+      "area": "replication",
+      "summary": "Post-1.0 log/consensus RFC, deterministic apply, verified replica bootstrap, catch-up and consistency APIs.",
+      "gate": "Committed history/service state remains equivalent on leader/followers; replica lag, lineage and read guarantees are explicit.",
+      "phase": "future",
+      "release": "post-1.0 replication preview",
+      "github": {
+        "number": 12,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/12",
+        "title": "M11 — Replication foundation and read replicas"
+      },
+      "epic": {
+        "number": 12,
+        "id": 5695293598,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/12",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dIng",
+        "title": "[M11] Epic: Replication foundation and read replicas"
+      }
+    },
+    {
+      "id": "M12",
+      "title": "M12 — Consensus HA and failover qualification",
+      "area": "ha",
+      "summary": "Quorum durability, membership, leader/service fencing, failover, rolling upgrades and distributed qualification.",
+      "gate": "Partition/failover tests preserve acknowledged commits and reject stale leadership; RPO/RTO and operations are measured.",
+      "phase": "future",
+      "release": "future HA release",
+      "github": {
+        "number": 13,
+        "url": "https://github.com/ulrichheringer/vetradb/milestone/13",
+        "title": "M12 — Consensus HA and failover qualification"
+      },
+      "epic": {
+        "number": 13,
+        "id": 5695293773,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/13",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dJTQ",
+        "title": "[M12] Epic: Consensus HA and failover qualification"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "GOV-001",
+      "milestone": "M00",
+      "title": "Ratify product scope and release guarantees",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [],
+      "goal": "Establish a reviewable single-node contract before implementation begins.",
+      "scope": [
+        "Ratify product journeys and explicit 1.0/non-goal boundaries",
+        "Define supported database/transaction scopes and capability terminology",
+        "Separate experimental, supported and production-qualified statuses"
+      ],
+      "acceptance": [
+        "Architecture and roadmap agree on every advertised feature",
+        "No current implementation or compatibility claim appears in initial materials",
+        "Release gates require evidence rather than calendar deadlines",
+        "Cross-database transactions and external exactly-once effects are explicitly excluded"
+      ],
+      "verification": [
+        "Review order/work, time-travel and restore journeys against the contracts",
+        "Trace every requested capability to a milestone/task and record gaps"
+      ],
+      "native_dependencies": [],
+      "github": {
+        "number": 14,
+        "id": 5695293952,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/14",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dKAA",
+        "title": "[GOV-001] Ratify product scope and release guarantees"
+      },
+      "parent": 1
+    },
+    {
+      "id": "GOV-002",
+      "milestone": "M00",
+      "title": "Specify Rust module boundaries and dependency policy",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-001"
+      ],
+      "goal": "Choose a maintainable Rust workspace design without coupling the core to network or worker runtimes.",
+      "scope": [
+        "Define ownership and acyclic module dependency graph from architecture.md",
+        "Select MSRV, edition, supported targets and dependency/license criteria",
+        "Document safe/unsafe boundaries and injectable I/O/clock interfaces"
+      ],
+      "acceptance": [
+        "Embedded core can be used without a server network runtime",
+        "Only the native page engine owns authoritative data persistence",
+        "Dependency choices include maintenance/license/security rationale",
+        "Public types do not expose raw page pointers or unstable runtime internals"
+      ],
+      "verification": [
+        "Review module graph for cycles and hidden blocking/async coupling",
+        "Produce a future workspace/bootstrap checklist and target matrix"
+      ],
+      "native_dependencies": [
+        "GOV-001"
+      ],
+      "github": {
+        "number": 15,
+        "id": 5695294177,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/15",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dK4Q",
+        "title": "[GOV-002] Specify Rust module boundaries and dependency policy"
+      },
+      "parent": 1
+    },
+    {
+      "id": "GOV-003",
+      "milestone": "M00",
+      "title": "Freeze storage, WAL and transaction envelope specifications",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-001",
+        "GOV-002"
+      ],
+      "goal": "Make persistent encodings and commit invariants precise enough to implement and fault-test.",
+      "scope": [
+        "Specify proposed 8 KiB page/superblock/record formats and stable identifier scopes",
+        "Specify WAL framing, LSN/CSN roles, CLRs, full-page protection and checkpoint records",
+        "Specify logical envelope, intra-transaction operation order, lineage and metadata bounds"
+      ],
+      "acceptance": [
+        "Every persisted field has an endian/width/version/bounds definition",
+        "Crash points and visibility rules cover ledger, user and service state together",
+        "Structural B+Tree top actions and user undo are distinguished",
+        "Gaps in CSN reservation and unknown commit outcomes have defined behavior"
+      ],
+      "verification": [
+        "Walk hand-written page/WAL/envelope examples through recovery",
+        "Review crash matrices for split, catalog change and cross-feature commit"
+      ],
+      "native_dependencies": [
+        "GOV-002"
+      ],
+      "github": {
+        "number": 16,
+        "id": 5695294416,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/16",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dL0A",
+        "title": "[GOV-003] Freeze storage, WAL and transaction envelope specifications"
+      },
+      "parent": 1
+    },
+    {
+      "id": "GOV-004",
+      "milestone": "M00",
+      "title": "Define PostgreSQL conformance and extension contracts",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-001"
+      ],
+      "goal": "Prevent wire connectivity from being mistaken for complete PostgreSQL compatibility.",
+      "scope": [
+        "Pin PostgreSQL 17 and protocol 3.0 reference baseline",
+        "Inventory SQL/type/catalog/session features and native extension namespaces",
+        "Define driver/ORM candidates, version pinning and deviation reporting"
+      ],
+      "acceptance": [
+        "Matrix distinguishes planned, tested, unsupported and deferred features",
+        "No unsupported security or semantic parameter is silently ignored",
+        "Native temporal/work/events APIs are distinguishable from PostgreSQL features",
+        "Acceptance fixtures include errors and transaction-state behavior"
+      ],
+      "verification": [
+        "Map driver startup/prepared/COPY flows to protocol requirements",
+        "Review catalog queries needed by selected ORM/migration candidates"
+      ],
+      "native_dependencies": [
+        "GOV-001"
+      ],
+      "github": {
+        "number": 17,
+        "id": 5695294593,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/17",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dMgQ",
+        "title": "[GOV-004] Define PostgreSQL conformance and extension contracts"
+      },
+      "parent": 1
+    },
+    {
+      "id": "GOV-005",
+      "milestone": "M00",
+      "title": "Ratify fault model and independent correctness oracles",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-003",
+        "GOV-004"
+      ],
+      "goal": "Define what durability, isolation and cross-feature correctness tests must actually prove.",
+      "scope": [
+        "Specify persistence simulator behavior for loss of unsynced writes and torn/reordered I/O",
+        "Define external acknowledgment and reference-state oracles",
+        "Set concurrency/model-checking strategy and platform evidence levels"
+      ],
+      "acceptance": [
+        "Process kill and power-loss evidence are labeled separately",
+        "Unknown-outcome transactions permit full commit or absence but never partial state",
+        "Serializable/queue/snapshot handoff oracles are independent of engine internals",
+        "Fault traces are reproducible with seeds and minimal counterexamples"
+      ],
+      "verification": [
+        "Manually inject an inconsistent cross-feature state into oracle examples and require detection",
+        "Review platform sync assumptions and unsupported filesystem cases"
+      ],
+      "native_dependencies": [
+        "GOV-003",
+        "GOV-004"
+      ],
+      "github": {
+        "number": 18,
+        "id": 5695294785,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/18",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dNQQ",
+        "title": "[GOV-005] Ratify fault model and independent correctness oracles"
+      },
+      "parent": 1
+    },
+    {
+      "id": "GOV-006",
+      "milestone": "M00",
+      "title": "Establish implementation workspace, CI and contributor tooling",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "GOV-002",
+        "GOV-005"
+      ],
+      "goal": "Create the actual Rust workspace only when implementation starts, with useful correctness gates.",
+      "scope": [
+        "Bootstrap approved crate boundaries and chosen toolchain/MSRV",
+        "Add format/lint/unit/integration gates and bounded artifact retention",
+        "Add reproducible dependency locking, fuzz/benchmark entry points and documentation checks"
+      ],
+      "acceptance": [
+        "Fresh checkout builds on supported development targets using documented commands",
+        "CI has deterministic test fixtures and no embedded secrets",
+        "Required checks reflect meaningful behavioral gates and fail on representative defects",
+        "Documentation identifies which future workflows are present and maintained"
+      ],
+      "verification": [
+        "Run clean CI/build on the target matrix",
+        "Demonstrate a deliberately failing behavioral test and format/link gate in a temporary branch"
+      ],
+      "native_dependencies": [
+        "GOV-005"
+      ],
+      "github": {
+        "number": 19,
+        "id": 5695294957,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/19",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dN7Q",
+        "title": "[GOV-006] Establish implementation workspace, CI and contributor tooling"
+      },
+      "parent": 1
+    },
+    {
+      "id": "GOV-007",
+      "milestone": "M00",
+      "title": "Ratify governance, disclosure and release policy",
+      "kind": "docs",
+      "priority": "p1",
+      "dependencies": [
+        "GOV-001"
+      ],
+      "goal": "Make open-source contribution and release ownership explicit.",
+      "scope": [
+        "Confirm Apache-2.0 attribution and third-party review policy",
+        "Define maintainer/review responsibilities, RFC/ADR lifecycle and conduct reporting",
+        "Specify vulnerability reporting, supported-version policy and release-blocking criteria"
+      ],
+      "acceptance": [
+        "Private disclosure path is verified and visible",
+        "Contributor guide matches actual tooling once introduced",
+        "Production labels require reviewed milestone evidence",
+        "No artificial CLA or unsupported support promise is introduced"
+      ],
+      "verification": [
+        "Check repository community files and report/contact links",
+        "Walk a security fix and format-breaking release through the proposed policy"
+      ],
+      "native_dependencies": [
+        "GOV-001"
+      ],
+      "github": {
+        "number": 20,
+        "id": 5695295190,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/20",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dO1g",
+        "title": "[GOV-007] Ratify governance, disclosure and release policy"
+      },
+      "parent": 1
+    },
+    {
+      "id": "STO-001",
+      "milestone": "M01",
+      "title": "Implement fault-injectable local I/O and database ownership",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-003",
+        "GOV-005",
+        "GOV-006"
+      ],
+      "goal": "Provide the file boundary on which every durability guarantee depends.",
+      "scope": [
+        "Implement positioned I/O, short-write loops, sync and directory lifecycle operations",
+        "Provide injectable persistence faults without bypassing real filesystem tests",
+        "Enforce exclusive directory ownership, safe path behavior and restrictive permissions"
+      ],
+      "acceptance": [
+        "Two writable processes cannot open the same database directory",
+        "Short writes and interrupted I/O never produce silent success",
+        "Sync/ENOSPC failures carry typed actionable errors",
+        "Supported/unsupported filesystem assumptions are documented"
+      ],
+      "verification": [
+        "Open the same directory from competing processes",
+        "Inject short writes, interrupted sync and failed rename; verify correct error and ownership cleanup"
+      ],
+      "native_dependencies": [
+        "GOV-006"
+      ],
+      "github": {
+        "number": 21,
+        "id": 5695295381,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/21",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dPlQ",
+        "title": "[STO-001] Implement fault-injectable local I/O and database ownership"
+      },
+      "parent": 2
+    },
+    {
+      "id": "STO-002",
+      "milestone": "M01",
+      "title": "Implement versioned superblocks and checksummed page codecs",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "STO-001"
+      ],
+      "goal": "Decode storage safely and establish stable database identity.",
+      "scope": [
+        "Implement redundant generation-checked superblocks and page headers",
+        "Use explicit endian/width/version fields and bounds-checked decoding",
+        "Detect wrong lineage, page kind, reuse generation and unsupported format"
+      ],
+      "acceptance": [
+        "Corrupt/truncated/unknown-version pages fail before unsafe reads or mutation",
+        "Superblock selection tolerates one incomplete update without accepting stale incompatible state",
+        "Database and timeline IDs remain stable across reopen",
+        "Golden fixtures encode the format independently of native Rust layout"
+      ],
+      "verification": [
+        "Fuzz page/superblock bytes with truncation and length overflow",
+        "Reopen after partial alternate-superblock writes and validate identity/generation"
+      ],
+      "native_dependencies": [
+        "STO-001"
+      ],
+      "github": {
+        "number": 22,
+        "id": 5695295581,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/22",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dQXQ",
+        "title": "[STO-002] Implement versioned superblocks and checksummed page codecs"
+      },
+      "parent": 2
+    },
+    {
+      "id": "STO-003",
+      "milestone": "M01",
+      "title": "Implement slotted records, value encoding and overflow pages",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "STO-002"
+      ],
+      "goal": "Store variable-sized relational/history/service values without page corruption.",
+      "scope": [
+        "Implement record slot directory, compaction and length-checked SQL value framing",
+        "Implement bounded overflow chains with identity/generation validation",
+        "Separate immutable logical payload identity from physical record relocation"
+      ],
+      "acceptance": [
+        "Boundary-sized and oversized values round-trip losslessly",
+        "Malformed cyclic/truncated overflow chains are detected",
+        "Compaction preserves stable references under the chosen indirection scheme",
+        "NULL, zero length and binary values remain distinct"
+      ],
+      "verification": [
+        "Exercise page-full, fragmented and large-value sequences against a reference encoder",
+        "Inject broken overflow links and validate bounded failure without hangs"
+      ],
+      "native_dependencies": [
+        "STO-002"
+      ],
+      "github": {
+        "number": 23,
+        "id": 5695295854,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/23",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dRbg",
+        "title": "[STO-003] Implement slotted records, value encoding and overflow pages"
+      },
+      "parent": 2
+    },
+    {
+      "id": "STO-004",
+      "milestone": "M01",
+      "title": "Implement page allocation, reuse generations and free-space maps",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "STO-002"
+      ],
+      "goal": "Allocate pages safely and prevent stale references from aliasing reused storage.",
+      "scope": [
+        "Define allocation metadata and free-space accounting under the WAL interface",
+        "Track page generations and delayed reuse pins",
+        "Support allocation/deallocation/root ownership with recoverable state transitions"
+      ],
+      "acceptance": [
+        "A page cannot simultaneously belong to two live trees",
+        "Reused IDs increment generation and stale references are rejected",
+        "Allocation failure cannot leak a published root or overwrite live data",
+        "Free-space maps can be validated/reconstructed from documented authoritative state"
+      ],
+      "verification": [
+        "Run randomized allocate/free/reopen against a reference ownership map",
+        "Exercise allocation failures and generation wrap/overflow policy"
+      ],
+      "native_dependencies": [
+        "STO-002"
+      ],
+      "github": {
+        "number": 24,
+        "id": 5695296037,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/24",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dSJQ",
+        "title": "[STO-004] Implement page allocation, reuse generations and free-space maps"
+      },
+      "parent": 2
+    },
+    {
+      "id": "STO-005",
+      "milestone": "M01",
+      "title": "Implement a bounded buffer pool with pins and dirty-page tracking",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "STO-001",
+        "STO-002",
+        "STO-004"
+      ],
+      "goal": "Keep page caching correct under contention, eviction and WAL ordering.",
+      "scope": [
+        "Implement pin/latch ownership, bounded replacement and dirty/recLSN tracking",
+        "Require WAL durable-through-pageLSN before dirty eviction",
+        "Provide backpressure for pin exhaustion and bounded I/O queues"
+      ],
+      "acceptance": [
+        "Pinned pages never evict or get reused",
+        "Concurrent loads do not create divergent writable frames for one page generation",
+        "Dirty flush obeys WAL-before-data even under eviction pressure",
+        "No lock/latch remains held across an async adapter await"
+      ],
+      "verification": [
+        "Stress small-buffer workloads with concurrent load/eviction",
+        "Inject WAL flush failure before dirty-page write and confirm data flush is blocked"
+      ],
+      "native_dependencies": [
+        "STO-004"
+      ],
+      "github": {
+        "number": 25,
+        "id": 5695296249,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/25",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dS-Q",
+        "title": "[STO-005] Implement a bounded buffer pool with pins and dirty-page tracking"
+      },
+      "parent": 2
+    },
+    {
+      "id": "STO-006",
+      "milestone": "M01",
+      "title": "Implement B+Tree lookup, insertion and recoverable splitting",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "STO-003",
+        "STO-004",
+        "STO-005"
+      ],
+      "goal": "Build ordered native indexes with safe multi-page structural changes.",
+      "scope": [
+        "Implement point/range seek, inserts and root/leaf/internal splits",
+        "Define latch/retry rules and structural system transactions",
+        "Use encoded key ordering and generational page links"
+      ],
+      "acceptance": [
+        "Reference-map queries match after arbitrary insert order",
+        "Separators, parent ownership and leaf order pass structural validation",
+        "Crashes at every split/root publication step have a specified recovery path",
+        "User rollback does not undo a split needed by another transaction"
+      ],
+      "verification": [
+        "Run seeded insertion/permutation tests with a tiny page/cache configuration",
+        "Validate duplicate/composite keys and injected failure at each split stage"
+      ],
+      "native_dependencies": [
+        "STO-003",
+        "STO-005"
+      ],
+      "github": {
+        "number": 26,
+        "id": 5695296440,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/26",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dTuA",
+        "title": "[STO-006] Implement B+Tree lookup, insertion and recoverable splitting"
+      },
+      "parent": 2
+    },
+    {
+      "id": "STO-007",
+      "milestone": "M01",
+      "title": "Implement B+Tree deletion, rebalance and bidirectional scans",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "STO-006"
+      ],
+      "goal": "Complete index traversal and reclamation without invalidating readers.",
+      "scope": [
+        "Implement ascending/descending range scans and resume positions",
+        "Implement delete/merge/rebalance under structural recovery rules",
+        "Respect snapshot/recovery pins before page reuse"
+      ],
+      "acceptance": [
+        "Scan boundaries and ordering agree with a reference map",
+        "Concurrent structural changes cause safe retry rather than missed/duplicated logical rows",
+        "Root shrink and leaf merge preserve invariants",
+        "Physical reclamation cannot remove a version needed by a pin"
+      ],
+      "verification": [
+        "Run randomized insert/delete/scan sequences",
+        "Interleave split/merge with pinned scanners and force reopen at root-change steps"
+      ],
+      "native_dependencies": [
+        "STO-006"
+      ],
+      "github": {
+        "number": 27,
+        "id": 5695296623,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/27",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dUbw",
+        "title": "[STO-007] Implement B+Tree deletion, rebalance and bidirectional scans"
+      },
+      "parent": 2
+    },
+    {
+      "id": "STO-008",
+      "milestone": "M01",
+      "title": "Implement row-version and primary serving structures",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "STO-006"
+      ],
+      "goal": "Prepare native row storage for MVCC and retained history.",
+      "scope": [
+        "Create stable table/row/version identities and row-version tree layout",
+        "Implement current directory and visibility-aware version access hooks",
+        "Store schema identity and creator transaction without overwriting committed payloads"
+      ],
+      "acceptance": [
+        "Primary-key changes do not change internal row history identity",
+        "Committed payloads are logically immutable despite physical relocation",
+        "Current lookup can reach the correct visible version once MVCC supplies a basis",
+        "Missing or corrupt references produce typed integrity errors"
+      ],
+      "verification": [
+        "Round-trip multi-version rows across key/schema changes",
+        "Use a reference visibility stub to validate lookup across retained versions"
+      ],
+      "native_dependencies": [
+        "STO-006"
+      ],
+      "github": {
+        "number": 28,
+        "id": 5695296842,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/28",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dVSg",
+        "title": "[STO-008] Implement row-version and primary serving structures"
+      },
+      "parent": 2
+    },
+    {
+      "id": "STO-009",
+      "milestone": "M01",
+      "title": "Build storage invariants, codec fuzzing and randomized model tests",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "STO-003",
+        "STO-004",
+        "STO-005",
+        "STO-006",
+        "STO-007",
+        "STO-008"
+      ],
+      "goal": "Prove the page/tree foundation before relying on it for transactional recovery.",
+      "scope": [
+        "Provide independent reference maps and a structural integrity walker",
+        "Fuzz codecs, links and size fields under resource limits",
+        "Record minimized seeds/fixtures for every discovered defect"
+      ],
+      "acceptance": [
+        "Corrupt bounds/generations never panic or cause unchecked reads",
+        "Random workloads validate both query answers and tree ownership structure",
+        "Injected structural defects are detected by the walker",
+        "Failure fixtures are reproducible in CI with a bounded budget"
+      ],
+      "verification": [
+        "Demonstrate detection of a bad separator, reused generation and overflow cycle",
+        "Run randomized tiny-page scenarios to force all structural transitions"
+      ],
+      "native_dependencies": [
+        "STO-007",
+        "STO-008"
+      ],
+      "github": {
+        "number": 29,
+        "id": 5695297041,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/29",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dWEQ",
+        "title": "[STO-009] Build storage invariants, codec fuzzing and randomized model tests"
+      },
+      "parent": 2
+    },
+    {
+      "id": "TXN-001",
+      "milestone": "M02",
+      "title": "Implement segmented WAL framing, checksums and durable flush",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-003",
+        "STO-001",
+        "STO-002"
+      ],
+      "goal": "Create a durable recovery log with explicit record and segment boundaries.",
+      "scope": [
+        "Implement versioned record/segment framing, transaction links and LSN allocation",
+        "Implement append/flush-through-LSN and bounded group buffers",
+        "Define torn-tail versus interior-corruption detection"
+      ],
+      "acceptance": [
+        "Successful flush reports only the proven durable prefix",
+        "Segment rollover and file creation obey directory sync requirements",
+        "Corruption inside an acknowledged prefix is never silently truncated",
+        "Unknown codecs/lineages are rejected before replay"
+      ],
+      "verification": [
+        "Inject partial records, torn segment headers and failed sync",
+        "Verify reopen at every append/rollover boundary against an external durable-prefix oracle"
+      ],
+      "native_dependencies": [
+        "STO-002"
+      ],
+      "github": {
+        "number": 30,
+        "id": 5695297256,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/30",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dW6A",
+        "title": "[TXN-001] Implement segmented WAL framing, checksums and durable flush"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-002",
+      "milestone": "M02",
+      "title": "Implement transactional undo, CLRs and structural top actions",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-001",
+        "STO-006",
+        "STO-007",
+        "STO-008"
+      ],
+      "goal": "Support rollback without damaging other transactions or committed logical history.",
+      "scope": [
+        "Define page/row/index/allocation undo and transaction backward chains",
+        "Log compensation records with redo-only recovery behavior",
+        "Separate structural system transactions from undoable user operations"
+      ],
+      "acceptance": [
+        "Rollback removes all logical effects of the transaction",
+        "Repeated crash during undo completes without reversing a CLR twice",
+        "A user abort leaves valid tree splits/merges used by surviving transactions",
+        "Undo respects page generation and resource-reserve constraints"
+      ],
+      "verification": [
+        "Crash after every undo/CLR step and reopen repeatedly",
+        "Interleave two inserts sharing a split, abort one and verify the surviving row/tree"
+      ],
+      "native_dependencies": [
+        "TXN-001",
+        "STO-007",
+        "STO-008"
+      ],
+      "github": {
+        "number": 31,
+        "id": 5695297462,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/31",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dXtg",
+        "title": "[TXN-002] Implement transactional undo, CLRs and structural top actions"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-003",
+      "milestone": "M02",
+      "title": "Implement torn-page protection and fuzzy checkpoints",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-001",
+        "TXN-002",
+        "STO-005"
+      ],
+      "goal": "Make page flush and restart safe without forcing every data page at commit.",
+      "scope": [
+        "Log required full-page images under the approved checkpoint policy",
+        "Persist dirty-page/active-transaction tables and checkpoint completion",
+        "Coordinate safe WAL recycling horizons"
+      ],
+      "acceptance": [
+        "A torn page can be repaired from a required valid image or fails precisely",
+        "Checkpoint interruption cannot publish an incomplete recovery basis",
+        "Active undo/dirty-page WAL is never recycled",
+        "Checkpoint does not discard retained logical history"
+      ],
+      "verification": [
+        "Inject torn writes after checkpoint and recover affected pages",
+        "Run active transactions and dirty eviction while interrupting checkpoint/segment cleanup"
+      ],
+      "native_dependencies": [
+        "TXN-002"
+      ],
+      "github": {
+        "number": 32,
+        "id": 5695297656,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/32",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dYeA",
+        "title": "[TXN-003] Implement torn-page protection and fuzzy checkpoints"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-004",
+      "milestone": "M02",
+      "title": "Implement analysis, redo, undo and restart recovery",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-002",
+        "TXN-003"
+      ],
+      "goal": "Restore exactly one valid committed database state after crashes.",
+      "scope": [
+        "Implement startup analysis, idempotent physiological redo and loser undo",
+        "Recover allocations, roots, catalog, ledger and service mutations",
+        "Expose progress and fail-closed corruption/format handling"
+      ],
+      "acceptance": [
+        "All acknowledged commits and no partial transaction survive within the fault model",
+        "Aborted/loser logical effects are invisible after recovery",
+        "Recovery can itself crash and resume safely",
+        "Interior missing/corrupt WAL returns an actionable integrity error"
+      ],
+      "verification": [
+        "Crash workloads at every WAL/data/commit boundary including repeated recovery crashes",
+        "Compare recovered user/index/ledger/service state to the independent oracle"
+      ],
+      "native_dependencies": [
+        "TXN-003"
+      ],
+      "github": {
+        "number": 33,
+        "id": 5695297840,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/33",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dZMA",
+        "title": "[TXN-004] Implement analysis, redo, undo and restart recovery"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-005",
+      "milestone": "M02",
+      "title": "Implement atomic logical envelopes and immutable ledger primitives",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-001",
+        "TXN-002",
+        "STO-008"
+      ],
+      "goal": "Put history and backend primitives inside the original transaction boundary.",
+      "scope": [
+        "Record stable-ID row/catalog/service mutation operations in one sealed envelope",
+        "Stage ledger and temporal references under the same creator transaction",
+        "Capture trusted principal and bounded application metadata; exclude secrets"
+      ],
+      "acceptance": [
+        "A committed transaction has one complete ordered envelope with matching row mutations",
+        "Abort/savepoint rollback never leaks staged operations into committed history",
+        "Large envelopes use checked bounded framing rather than unbounded buffers",
+        "Engine participants cannot independently commit or call external I/O"
+      ],
+      "verification": [
+        "Commit/abort a synthetic transaction containing row, queue, event and offset participants",
+        "Recover after truncation around envelope/commit records and verify all-or-nothing visibility"
+      ],
+      "native_dependencies": [
+        "TXN-002"
+      ],
+      "github": {
+        "number": 34,
+        "id": 5695298045,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/34",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dZ_Q",
+        "title": "[TXN-005] Implement atomic logical envelopes and immutable ledger primitives"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-006",
+      "milestone": "M02",
+      "title": "Implement commit sequencing, group commit and visibility publication",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-004",
+        "TXN-005"
+      ],
+      "goal": "Acknowledge only fully durable, atomically visible commits.",
+      "scope": [
+        "Reserve CSNs and associate commit timestamps/outcome IDs",
+        "Flush through commit LSN before publication and release of locks",
+        "Handle group commit, failed reservations, lost replies and poisoned durability paths"
+      ],
+      "acceptance": [
+        "Visible CSN advances only over resolved durable commit order; gaps are safe",
+        "Readers cannot see ledger/user/work/event participants at different commit states",
+        "Failed sync never yields a successful commit response",
+        "Outcome lookup and retry guidance distinguish durable success from lost response"
+      ],
+      "verification": [
+        "Interleave concurrent commits with delayed/failed flush and reader barriers",
+        "Crash after durable commit before response and verify outcome lookup and idempotent replay behavior"
+      ],
+      "native_dependencies": [
+        "TXN-004",
+        "TXN-005"
+      ],
+      "github": {
+        "number": 35,
+        "id": 5695298252,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/35",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dazA",
+        "title": "[TXN-006] Implement commit sequencing, group commit and visibility publication"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-007",
+      "milestone": "M02",
+      "title": "Implement MVCC read committed and repeatable read",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-006",
+        "STO-008"
+      ],
+      "goal": "Give readers stable visibility without confusing snapshot isolation with serializability.",
+      "scope": [
+        "Implement transaction status, statement/transaction bases and read-your-writes",
+        "Recheck locked DML targets and detect concurrent update conflicts",
+        "Map READ UNCOMMITTED to the explicitly documented PostgreSQL-equivalent behavior"
+      ],
+      "acceptance": [
+        "No dirty reads or aborted version visibility",
+        "Read committed can observe later commits on later statements",
+        "Repeatable read preserves its fixed basis and rejects conflicting writes correctly",
+        "NULL/index scans and own staged updates use the same visibility rules"
+      ],
+      "verification": [
+        "Test dirty/nonrepeatable reads, lost updates and concurrent delete/update",
+        "Demonstrate documented write-skew behavior under repeatable read rather than claiming serializability"
+      ],
+      "native_dependencies": [
+        "TXN-006"
+      ],
+      "github": {
+        "number": 36,
+        "id": 5695298458,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/36",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dbmg",
+        "title": "[TXN-007] Implement MVCC read committed and repeatable read"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-008",
+      "milestone": "M02",
+      "title": "Implement row/key/range locks, wait queues and deadlock detection",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-007"
+      ],
+      "goal": "Protect concurrent writes and constraints with bounded transaction locks.",
+      "scope": [
+        "Implement row/key locks, range/predicate representation and safe lock ordering",
+        "Provide bounded waits, cancellation and deadlock victim selection",
+        "Separate transaction locks from page latches and expose diagnostics"
+      ],
+      "acceptance": [
+        "Unique-key contenders cannot both commit incompatible values",
+        "Deadlock resolution fully aborts one victim and releases its resources",
+        "Timeout/cancelled wait does not leak ownership or pins",
+        "Lock diagnostics redact values and remain bounded"
+      ],
+      "verification": [
+        "Generate cyclic waits and verify victim rollback plus surviving progress",
+        "Race inserts/deletes and cancel a waiter while ownership changes"
+      ],
+      "native_dependencies": [
+        "TXN-007"
+      ],
+      "github": {
+        "number": 37,
+        "id": 5695298660,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/37",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dcZA",
+        "title": "[TXN-008] Implement row/key/range locks, wait queues and deadlock detection"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-009",
+      "milestone": "M02",
+      "title": "Implement reviewed serializable isolation and anomaly checks",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-007",
+        "TXN-008"
+      ],
+      "goal": "Satisfy the 1.0 serializable contract with a conservative provable implementation.",
+      "scope": [
+        "Ratify strict two-phase row/range/predicate locking and visibility revalidation RFC",
+        "Apply read/predicate protection to full scans, index scans and writes",
+        "Provide accurate serialization/deadlock errors without silent isolation downgrade"
+      ],
+      "acceptance": [
+        "Accepted histories admit a serial ordering under the reviewed mixed-mode contract",
+        "Write skew and phantoms are prevented or cause a retryable failure",
+        "Predicate coverage includes missing keys and non-indexed scans",
+        "Lock/visibility design has documented progress and resource bounds"
+      ],
+      "verification": [
+        "Check small generated histories against an independent serializability oracle",
+        "Exercise write skew, range insertion phantoms, read/write cycles and mixed isolation modes"
+      ],
+      "native_dependencies": [
+        "TXN-008"
+      ],
+      "github": {
+        "number": 38,
+        "id": 5695298877,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/38",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ddPQ",
+        "title": "[TXN-009] Implement reviewed serializable isolation and anomaly checks"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-010",
+      "milestone": "M02",
+      "title": "Implement savepoints, rollback semantics and transaction state",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-002",
+        "TXN-005",
+        "TXN-007"
+      ],
+      "goal": "Match transactional failure behavior across SQL, embedded and service operations.",
+      "scope": [
+        "Implement nested savepoints, rollback-to and release rules",
+        "Track active/failed/committed/aborted state and statement errors",
+        "Remove rolled-back logical envelope operations while keeping physical recovery valid"
+      ],
+      "acceptance": [
+        "An explicit transaction remains failed until the permitted rollback operation",
+        "Savepoint rollback restores user, queue/event and metadata staging consistently",
+        "Released savepoint behavior matches the declared SQL contract",
+        "Disconnect/handle drop cannot leave a transaction owning locks forever"
+      ],
+      "verification": [
+        "Mix DML, enqueue/publish and savepoint rollback; inspect final ledger",
+        "Test nested savepoint errors and disconnect during an open/failed transaction"
+      ],
+      "native_dependencies": [
+        "TXN-007"
+      ],
+      "github": {
+        "number": 39,
+        "id": 5695299083,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/39",
+        "node_id": "I_kwDOU6u-SM8AAAABU3deCw",
+        "title": "[TXN-010] Implement savepoints, rollback semantics and transaction state"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-011",
+      "milestone": "M02",
+      "title": "Implement snapshot horizons and MVCC-safe vacuum",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-003",
+        "TXN-007",
+        "TXN-008"
+      ],
+      "goal": "Reclaim serving storage without deleting complete committed history or active views.",
+      "scope": [
+        "Coordinate active reader, undo, backup and future service retention pins",
+        "Reclaim aborted/unreachable versions and obsolete serving-index entries",
+        "Expose horizon owners, quotas and explicit expiry behavior"
+      ],
+      "acceptance": [
+        "Default vacuum preserves lossless committed ledger/schema history",
+        "Pinned readers never observe a recycled page/version",
+        "Reclamation cannot outrun WAL/recovery or backup horizons",
+        "Expired snapshots fail explicitly rather than read partially reclaimed data"
+      ],
+      "verification": [
+        "Hold an old reader while churning rows and vacuuming with tiny storage",
+        "Expire the reader, reclaim, then validate history remains complete and current reads correct"
+      ],
+      "native_dependencies": [
+        "TXN-008"
+      ],
+      "github": {
+        "number": 40,
+        "id": 5695299278,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/40",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dezg",
+        "title": "[TXN-011] Implement snapshot horizons and MVCC-safe vacuum"
+      },
+      "parent": 3
+    },
+    {
+      "id": "TXN-012",
+      "milestone": "M02",
+      "title": "Build transaction crash and isolation qualification suite",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-004",
+        "TXN-006",
+        "TXN-009",
+        "TXN-010",
+        "TXN-011",
+        "STO-009"
+      ],
+      "goal": "Establish the durable-core milestone using independent evidence.",
+      "scope": [
+        "Integrate acknowledgment oracle, persistence faults and concurrency histories",
+        "Cover catalog/ledger/service participant stubs plus real row/index storage",
+        "Persist minimized fault traces and supported-platform results"
+      ],
+      "acceptance": [
+        "Every advertised core invariant has an oracle and failure fixture",
+        "At least one deliberately inconsistent state is detected by each oracle class",
+        "Repeated recovery, failed sync and unknown outcomes have passing scenarios",
+        "Results identify process-crash versus modeled/actual power-loss evidence"
+      ],
+      "verification": [
+        "Run seeded crash-at-every-boundary and anomaly suites",
+        "Reproduce counterexamples from regression fixtures on supported platforms"
+      ],
+      "native_dependencies": [
+        "TXN-009",
+        "TXN-010",
+        "TXN-011",
+        "STO-009"
+      ],
+      "github": {
+        "number": 41,
+        "id": 5695299485,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/41",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dfnQ",
+        "title": "[TXN-012] Build transaction crash and isolation qualification suite"
+      },
+      "parent": 3
+    },
+    {
+      "id": "SQL-001",
+      "milestone": "M03",
+      "title": "Implement versioned catalog and stable schema identities",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-005",
+        "TXN-007",
+        "TXN-008"
+      ],
+      "goal": "Make relational names and historical schemas transactional.",
+      "scope": [
+        "Implement database-scoped schemas/tables/columns/index metadata and stable IDs",
+        "Version DDL definitions and object dependency edges",
+        "Coordinate catalog epoch locks and cache invalidation"
+      ],
+      "acceptance": [
+        "Uncommitted DDL is not visible to other transactions",
+        "Rename/drop/recreate never reuse an old object's historical identity",
+        "Plans bind to one valid schema epoch",
+        "Historical row payloads keep a lossless decoder reference after schema changes"
+      ],
+      "verification": [
+        "Race table rename/drop with reads and prepared plans",
+        "Rollback multi-object DDL and verify catalog/history consistency after restart"
+      ],
+      "native_dependencies": [
+        "TXN-008"
+      ],
+      "github": {
+        "number": 42,
+        "id": 5695299683,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/42",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dgYw",
+        "title": "[SQL-001] Implement versioned catalog and stable schema identities"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-002",
+      "milestone": "M03",
+      "title": "Implement SQL parsing and explicit unsupported syntax errors",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-004",
+        "GOV-006"
+      ],
+      "goal": "Parse the declared relational subset safely and reproducibly.",
+      "scope": [
+        "Choose/review a parser dependency or grammar implementation",
+        "Support planned statements, parameters, quoted names and extension namespace",
+        "Bound nesting/input size and preserve useful error positions"
+      ],
+      "acceptance": [
+        "Accepted grammar matches the support inventory",
+        "Unsupported constructs fail before side effects with feature/syntax errors",
+        "Multi-statement tokenization does not split inside literals/comments",
+        "Malformed SQL cannot panic or bypass resource limits"
+      ],
+      "verification": [
+        "Fuzz tokens/nesting/comments and run golden parser fixtures",
+        "Use unsupported extensions/stored-code constructs to verify explicit rejection"
+      ],
+      "native_dependencies": [
+        "GOV-006"
+      ],
+      "github": {
+        "number": 43,
+        "id": 5695299881,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/43",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dhKQ",
+        "title": "[SQL-002] Implement SQL parsing and explicit unsupported syntax errors"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-003",
+      "milestone": "M03",
+      "title": "Implement SQL scalar types, ordering and lossless encodings",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-004",
+        "STO-003"
+      ],
+      "goal": "Provide correct values for storage, comparisons and PostgreSQL codecs.",
+      "scope": [
+        "Implement planned bool/integer/float/text/bytea/UUID/numeric/time/JSON value types",
+        "Define NULL, overflow, NaN, timezone, precision and collation semantics",
+        "Version lossless persistence and ordered index-key encodings"
+      ],
+      "acceptance": [
+        "Numeric values do not round through floating point",
+        "Comparisons/index order preserve declared SQL semantics",
+        "Timestamp timezone/precision and binary/text round trips are explicit",
+        "Invalid UTF-8, ranges and sizes return typed errors"
+      ],
+      "verification": [
+        "Differential boundary cases against PostgreSQL 17",
+        "Golden persistence/index ordering fixtures across negative/NULL/NaN/time values"
+      ],
+      "native_dependencies": [
+        "STO-003"
+      ],
+      "github": {
+        "number": 44,
+        "id": 5695300078,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/44",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dh7g",
+        "title": "[SQL-003] Implement SQL scalar types, ordering and lossless encodings"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-004",
+      "milestone": "M03",
+      "title": "Implement binder, type checking and normalized logical plans",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-001",
+        "SQL-002",
+        "SQL-003"
+      ],
+      "goal": "Resolve queries against one catalog snapshot before execution.",
+      "scope": [
+        "Bind names/aliases/parameters and infer/coerce supported types",
+        "Create logical relational plans with schema/basis dependencies",
+        "Enforce expression volatility and parameter count/resource rules"
+      ],
+      "acceptance": [
+        "Ambiguous/missing names and invalid casts fail before mutation",
+        "Prepared parameter types and result columns are stable/accurate",
+        "Three-valued predicate logic is preserved in normalized expressions",
+        "Historical basis is an explicit property that rewrites cannot discard"
+      ],
+      "verification": [
+        "Test alias shadowing, NULL predicates and parameter inference",
+        "Compare binder errors/result types to declared PostgreSQL reference cases"
+      ],
+      "native_dependencies": [
+        "SQL-001",
+        "SQL-002",
+        "SQL-003"
+      ],
+      "github": {
+        "number": 45,
+        "id": 5695300260,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/45",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dipA",
+        "title": "[SQL-004] Implement binder, type checking and normalized logical plans"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-005",
+      "milestone": "M03",
+      "title": "Implement transactional CREATE, ALTER and DROP",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-001",
+        "SQL-004",
+        "TXN-010"
+      ],
+      "goal": "Make supported schema changes atomic with data and history.",
+      "scope": [
+        "Implement schemas/tables and supported add/drop/rename/type-change operations",
+        "Validate dependencies and supported CASCADE behavior",
+        "Define lock/backfill/rollback rules for schema migrations"
+      ],
+      "acceptance": [
+        "DDL commit/rollback changes catalog and logical history together",
+        "Invalid dependencies fail before any partial change",
+        "Old values remain decodable under their historical schema IDs",
+        "Concurrent readers/plans see a consistent epoch or a precise retry/error"
+      ],
+      "verification": [
+        "Restart during schema changes and backfill failures",
+        "Run rename/drop/recreate and type migration while holding an old snapshot"
+      ],
+      "native_dependencies": [
+        "SQL-004",
+        "TXN-010"
+      ],
+      "github": {
+        "number": 46,
+        "id": 5695300452,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/46",
+        "node_id": "I_kwDOU6u-SM8AAAABU3djZA",
+        "title": "[SQL-005] Implement transactional CREATE, ALTER and DROP"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-006",
+      "milestone": "M03",
+      "title": "Implement INSERT, UPDATE, DELETE and RETURNING",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-004",
+        "SQL-005",
+        "TXN-007",
+        "TXN-010"
+      ],
+      "goal": "Expose transactional relational mutations over versioned row storage.",
+      "scope": [
+        "Execute DML with typed expressions, read-your-writes and multi-row behavior",
+        "Record stable-ID before/after operations in the shared envelope",
+        "Apply statement atomicity and RETURNING under declared SQL semantics"
+      ],
+      "acceptance": [
+        "Partial multi-row failure leaves no statement effects",
+        "Primary-key update preserves row identity and historical chain",
+        "RETURNING reflects committed-candidate values and normal transaction rollback",
+        "DML cannot bypass catalog, authorization or resource checks"
+      ],
+      "verification": [
+        "Differential DML fixtures and multi-row errors",
+        "Crash/rollback repeated updates to one row and verify intra-transaction history exclusion rules"
+      ],
+      "native_dependencies": [
+        "SQL-005"
+      ],
+      "github": {
+        "number": 47,
+        "id": 5695300644,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/47",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dkJA",
+        "title": "[SQL-006] Implement INSERT, UPDATE, DELETE and RETURNING"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-007",
+      "milestone": "M03",
+      "title": "Implement MVCC-aware primary and composite secondary indexes",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-003",
+        "SQL-005",
+        "SQL-006",
+        "TXN-008",
+        "STO-007"
+      ],
+      "goal": "Maintain indexes atomically while serving the correct visible row version.",
+      "scope": [
+        "Implement primary/secondary create/drop, composite keys and NULL ordering",
+        "Update index entries under the same user transaction",
+        "Define supported scan predicates and historical fallback behavior"
+      ],
+      "acceptance": [
+        "Index and baseline scans return identical visible rows",
+        "Rollback/recovery cannot leave a committed dangling/stale logical entry",
+        "Unique index checks include concurrent contenders and key changes",
+        "Historical reads never use a current-only index unsafely"
+      ],
+      "verification": [
+        "Random DML plus index/scan result comparison across snapshots",
+        "Race identical unique keys and crash during index update/build publication"
+      ],
+      "native_dependencies": [
+        "SQL-006"
+      ],
+      "github": {
+        "number": 48,
+        "id": 5695300826,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/48",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dk2g",
+        "title": "[SQL-007] Implement MVCC-aware primary and composite secondary indexes"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-008",
+      "milestone": "M03",
+      "title": "Implement primary, unique, NOT NULL, CHECK and foreign-key constraints",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-006",
+        "SQL-007",
+        "TXN-008",
+        "TXN-009"
+      ],
+      "goal": "Enforce relational invariants under real concurrency and bulk writes.",
+      "scope": [
+        "Validate supported immediate constraints on every write path",
+        "Implement FK references and documented update/delete actions with locks",
+        "Reject unsupported deferred modes before mutation"
+      ],
+      "acceptance": [
+        "Competing unique/FK operations cannot commit an invalid state",
+        "CHECK/NULL behavior matches declared SQL semantics",
+        "Internal APIs and COPY cannot bypass constraints",
+        "Constraint errors use accurate SQLSTATE and statement rollback"
+      ],
+      "verification": [
+        "Race child insert with parent delete/update and unique-key contenders",
+        "Test multi-row/bulk failures, NULL checks and supported cascade/restrict actions"
+      ],
+      "native_dependencies": [
+        "SQL-007",
+        "TXN-009"
+      ],
+      "github": {
+        "number": 49,
+        "id": 5695301028,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/49",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dlpA",
+        "title": "[SQL-008] Implement primary, unique, NOT NULL, CHECK and foreign-key constraints"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-009",
+      "milestone": "M03",
+      "title": "Implement scans, filters, projections, sorting and limits",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-004",
+        "SQL-006",
+        "SQL-007"
+      ],
+      "goal": "Deliver a correct baseline SELECT execution path.",
+      "scope": [
+        "Implement typed row/batch operators over transaction snapshots",
+        "Support WHERE/projection/DISTINCT/order/limit/offset and stable cancellation",
+        "Introduce bounded operator memory and spill interface hooks"
+      ],
+      "acceptance": [
+        "Unordered queries avoid false ordering guarantees",
+        "NULL/direction/tie ordering matches declared semantics",
+        "Cancellation releases operator pages/pins promptly",
+        "Baseline scans remain available when an optimization is ineligible"
+      ],
+      "verification": [
+        "sqllogictest-style fixtures and differential NULL/order/limit cases",
+        "Cancel a large scan and inspect memory/pin release"
+      ],
+      "native_dependencies": [
+        "SQL-007"
+      ],
+      "github": {
+        "number": 50,
+        "id": 5695301208,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/50",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dmWA",
+        "title": "[SQL-009] Implement scans, filters, projections, sorting and limits"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-010",
+      "milestone": "M03",
+      "title": "Implement relational joins and correlated row visibility",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-009"
+      ],
+      "goal": "Support common backend joins without mixing snapshots or NULL rules.",
+      "scope": [
+        "Implement inner/left/right/full/cross joins for the supported grammar",
+        "Start with a correct bounded nested-loop/batch execution path",
+        "Bind all inputs to the same default catalog/transaction basis"
+      ],
+      "acceptance": [
+        "Outer join NULL extension and duplicate multiplicity are correct",
+        "Concurrent changes cannot make one query mix transaction bases",
+        "Join predicates obey three-valued logic",
+        "Unbounded result/cardinality pressure triggers configured limits"
+      ],
+      "verification": [
+        "Differential joins with duplicate/NULL/empty inputs",
+        "Join while concurrent commits occur and compare with a pinned reference basis"
+      ],
+      "native_dependencies": [
+        "SQL-009"
+      ],
+      "github": {
+        "number": 51,
+        "id": 5695301374,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/51",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dm_g",
+        "title": "[SQL-010] Implement relational joins and correlated row visibility"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-011",
+      "milestone": "M03",
+      "title": "Implement aggregation, grouping and HAVING",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-009",
+        "SQL-010"
+      ],
+      "goal": "Provide reliable summary queries over relational and historical data.",
+      "scope": [
+        "Implement supported aggregate functions, GROUP BY and HAVING",
+        "Define numeric/NULL/empty-set semantics and bounded aggregation",
+        "Expose planned spill/cancellation interfaces"
+      ],
+      "acceptance": [
+        "COUNT and NULL aggregates match the reference subset",
+        "Empty groups and exact numeric accumulation are correct",
+        "Result ordering is promised only with ORDER BY",
+        "Large cardinality respects memory budgets without corrupt partial output"
+      ],
+      "verification": [
+        "Differential aggregate/HAVING fixtures with NULL and empty tables",
+        "Pressure/cancellation tests on high-cardinality grouping"
+      ],
+      "native_dependencies": [
+        "SQL-010"
+      ],
+      "github": {
+        "number": 52,
+        "id": 5695301622,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/52",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dn9g",
+        "title": "[SQL-011] Implement aggregation, grouping and HAVING"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-012",
+      "milestone": "M03",
+      "title": "Implement defaults, identity sequences and conflict-aware upsert",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "SQL-006",
+        "SQL-007",
+        "SQL-008"
+      ],
+      "goal": "Cover common create/update flows with explicit sequence and concurrency semantics.",
+      "scope": [
+        "Implement immutable/default/generated expressions and supported identity/sequence behavior",
+        "Implement ON CONFLICT variants using unique-key arbitration",
+        "Record generated committed values without replaying volatile expressions"
+      ],
+      "acceptance": [
+        "Sequence gaps/rollback behavior are documented and durable",
+        "Concurrent upserts preserve constraints and correct RETURNING results",
+        "Unsupported expressions/conflict targets fail before mutation",
+        "Replay uses stored mutation values rather than redrawing IDs"
+      ],
+      "verification": [
+        "Differential identity/default/upsert cases",
+        "Race upserts and crash after sequence allocation but before/after user commit"
+      ],
+      "native_dependencies": [
+        "SQL-008"
+      ],
+      "github": {
+        "number": 53,
+        "id": 5695301810,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/53",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dosg",
+        "title": "[SQL-012] Implement defaults, identity sequences and conflict-aware upsert"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-013",
+      "milestone": "M03",
+      "title": "Implement subqueries, CTEs, views and selected window functions",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "SQL-004",
+        "SQL-010",
+        "SQL-011"
+      ],
+      "goal": "Complete the declared 1.0 SQL subset for backend query composition.",
+      "scope": [
+        "Implement supported EXISTS/IN/scalar subqueries and non-recursive CTEs",
+        "Implement versioned views/dependencies and selected window functions",
+        "Enumerate unsupported recursion/window frames explicitly"
+      ],
+      "acceptance": [
+        "Correlated subqueries and NULL IN behavior match fixtures",
+        "Views invalidate/rebind on compatible schema changes and reject unsafe drops",
+        "Selected windows have correct partition/order/frame semantics",
+        "Unsupported constructs return precise errors without partial execution"
+      ],
+      "verification": [
+        "Differential correlated/CTE/view/window corpus",
+        "Hold historical/current views through schema changes and compare pinned results"
+      ],
+      "native_dependencies": [
+        "SQL-011"
+      ],
+      "github": {
+        "number": 54,
+        "id": 5695301997,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/54",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dpbQ",
+        "title": "[SQL-013] Implement subqueries, CTEs, views and selected window functions"
+      },
+      "parent": 4
+    },
+    {
+      "id": "SQL-014",
+      "milestone": "M03",
+      "title": "Implement JSON operators and a versioned built-in function inventory",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "SQL-003",
+        "SQL-004",
+        "SQL-009"
+      ],
+      "goal": "Expose a finite, tested expression library instead of vague PostgreSQL function compatibility.",
+      "scope": [
+        "Implement selected JSON/JSONB path/access/containment and cast operations",
+        "Implement the agreed numeric/string/date/time/common scalar functions",
+        "Track signatures, volatility, errors and compatibility deviations"
+      ],
+      "acceptance": [
+        "Every exposed function/operator has a documented tested signature",
+        "Missing paths, JSON null and SQL NULL remain distinct",
+        "Time functions have statement/transaction semantics as specified",
+        "Unsupported functions/OIDs fail explicitly and safely"
+      ],
+      "verification": [
+        "Differential JSON and scalar edge-case corpus",
+        "Verify volatile values in replay/history are stored once rather than re-evaluated"
+      ],
+      "native_dependencies": [
+        "SQL-009"
+      ],
+      "github": {
+        "number": 55,
+        "id": 5695302187,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/55",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dqKw",
+        "title": "[SQL-014] Implement JSON operators and a versioned built-in function inventory"
+      },
+      "parent": 4
+    },
+    {
+      "id": "API-001",
+      "milestone": "M04",
+      "title": "Implement safe embedded engine and transaction APIs",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-002",
+        "TXN-012",
+        "SQL-009"
+      ],
+      "goal": "Expose the shared engine through explicit safe Rust ownership.",
+      "scope": [
+        "Implement open/close, transaction, prepared query and read snapshot handles",
+        "Provide typed errors, cancellation and in-process shared-handle semantics",
+        "Keep workers/network runtimes opt-in and blocking behavior documented"
+      ],
+      "acceptance": [
+        "Dropping failed/open handles rolls back and releases locks safely",
+        "Multiple handles share one valid engine owner without unsafe aliasing",
+        "Embedded SQL/service operations use the same commit path as server requests",
+        "No background worker starts merely by opening a read snapshot"
+      ],
+      "verification": [
+        "Exercise handle lifetime/drop/cancel and reopen from a Rust caller",
+        "Compare embedded commit histories with equivalent engine reference operations"
+      ],
+      "native_dependencies": [
+        "TXN-012",
+        "SQL-009"
+      ],
+      "github": {
+        "number": 56,
+        "id": 5695302402,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/56",
+        "node_id": "I_kwDOU6u-SM8AAAABU3drAg",
+        "title": "[API-001] Implement safe embedded engine and transaction APIs"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-002",
+      "milestone": "M04",
+      "title": "Implement server lifecycle, sessions and bounded networking",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "API-001",
+        "TXN-010"
+      ],
+      "goal": "Serve the engine without turning slow clients into unbounded memory or locks.",
+      "scope": [
+        "Implement listeners, database/session routing and bounded request/output queues",
+        "Tie connection termination to transaction cancellation/rollback",
+        "Expose readiness, graceful drain and configurable connection/time budgets"
+      ],
+      "acceptance": [
+        "Readiness remains false during recovery or failed writable state",
+        "Slow/disconnected clients cannot leak locks or exhaust unbounded queues",
+        "Graceful stop prevents new requests and resolves bounded in-flight work",
+        "Independent databases have isolated transaction/ordering scopes"
+      ],
+      "verification": [
+        "Open many slow clients and enforce limits",
+        "Kill/disconnect sessions mid-query/transaction and verify resource cleanup and recovery"
+      ],
+      "native_dependencies": [
+        "API-001"
+      ],
+      "github": {
+        "number": 57,
+        "id": 5695302607,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/57",
+        "node_id": "I_kwDOU6u-SM8AAAABU3drzw",
+        "title": "[API-002] Implement server lifecycle, sessions and bounded networking"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-003",
+      "milestone": "M04",
+      "title": "Implement PostgreSQL startup and simple-query protocol state",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "API-002",
+        "GOV-004",
+        "SQL-006",
+        "SQL-009"
+      ],
+      "goal": "Support real protocol 3.0 clients with accurate transaction/error state.",
+      "scope": [
+        "Implement startup negotiation, status/backend keys and termination",
+        "Implement Query/RowDescription/DataRow/CommandComplete/Error/ReadyForQuery",
+        "Match multi-statement implicit transaction and explicit failed-state behavior"
+      ],
+      "acceptance": [
+        "ReadyForQuery I/T/E accurately reflects transaction state",
+        "Multi-statement failure respects the pinned PostgreSQL behavior",
+        "Unsupported major/minor/options are rejected or explicitly negotiated",
+        "Malformed/truncated/oversized messages cannot desynchronize a surviving session"
+      ],
+      "verification": [
+        "Run psql/libpq query/transaction/error journeys",
+        "Fuzz startup and simple-query frames, including multi-statement rollback edge cases"
+      ],
+      "native_dependencies": [
+        "API-002"
+      ],
+      "github": {
+        "number": 58,
+        "id": 5695302911,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/58",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ds_w",
+        "title": "[API-003] Implement PostgreSQL startup and simple-query protocol state"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-004",
+      "milestone": "M04",
+      "title": "Implement TLS and SCRAM authentication with safe local defaults",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "API-002",
+        "API-003",
+        "GOV-007"
+      ],
+      "goal": "Authenticate network users before access to any engine service.",
+      "scope": [
+        "Use reviewed TLS/SCRAM implementations and bounded auth state",
+        "Define certificate configuration/reload and local development trust opt-in",
+        "Store credential verifiers behind the security-provider boundary"
+      ],
+      "acceptance": [
+        "Remote password sessions require negotiated TLS under the production policy",
+        "No silent plaintext downgrade or default remote trust",
+        "Failed auth responses/logs do not reveal secrets or account-sensitive details",
+        "Credential changes are audited without inserting verifiers into user history"
+      ],
+      "verification": [
+        "Connect with trusted/untrusted certificates and correct/incorrect SCRAM credentials",
+        "Test downgrade attempts, malformed SASL, brute-force limits and log redaction"
+      ],
+      "native_dependencies": [
+        "API-003",
+        "GOV-007"
+      ],
+      "github": {
+        "number": 59,
+        "id": 5695303113,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/59",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dtyQ",
+        "title": "[API-004] Implement TLS and SCRAM authentication with safe local defaults"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-005",
+      "milestone": "M04",
+      "title": "Implement extended queries, prepared statements and portals",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "API-003",
+        "SQL-004"
+      ],
+      "goal": "Make parameterized drivers usable with PostgreSQL error recovery rules.",
+      "scope": [
+        "Implement Parse/Bind/Describe/Execute/Close/Flush/Sync",
+        "Implement named/unnamed statement/portal lifetimes and suspended execution",
+        "Drain messages to Sync after extended-query errors"
+      ],
+      "acceptance": [
+        "Parameter/result metadata is accurate and consistent with codecs",
+        "PortalSuspended resumes without losing/duplicating logical rows",
+        "Sync produces correct implicit commit/rollback and explicit-transaction behavior",
+        "Schema invalidation never executes an incompatible cached plan"
+      ],
+      "verification": [
+        "Run real driver parameter/prepared/portal journeys",
+        "Pipeline messages around bind/execute errors and compare state recovery to PostgreSQL 17"
+      ],
+      "native_dependencies": [
+        "API-003"
+      ],
+      "github": {
+        "number": 60,
+        "id": 5695303286,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/60",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dudg",
+        "title": "[API-005] Implement extended queries, prepared statements and portals"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-006",
+      "milestone": "M04",
+      "title": "Implement PostgreSQL text/binary codecs and built-in type OIDs",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "API-005",
+        "SQL-003"
+      ],
+      "goal": "Round-trip supported values through existing drivers without lossy adaptation.",
+      "scope": [
+        "Implement declared scalar OIDs, parameter/result format selection and NULL framing",
+        "Define byte order, numeric/time precision and bounded value decoding",
+        "Return explicit unsupported-type/format errors"
+      ],
+      "acceptance": [
+        "All declared types round-trip both supported formats exactly",
+        "Per-column/parameter format codes and inference behave correctly",
+        "Large/invalid payloads fail without allocation abuse",
+        "OID/catalog/type codec inventories remain synchronized"
+      ],
+      "verification": [
+        "Cross-driver round trips for NULL/numeric/time/UUID/JSON/bytea boundaries",
+        "Malformed binary size/type tests and exact-value comparison to reference drivers"
+      ],
+      "native_dependencies": [
+        "API-005"
+      ],
+      "github": {
+        "number": 61,
+        "id": 5695303460,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/61",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dvJA",
+        "title": "[API-006] Implement PostgreSQL text/binary codecs and built-in type OIDs"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-007",
+      "milestone": "M04",
+      "title": "Implement catalog introspection and supported session settings",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "API-003",
+        "SQL-001",
+        "SQL-014"
+      ],
+      "goal": "Provide accurate metadata/session behavior needed by drivers and migration tools.",
+      "scope": [
+        "Expose scoped pg_catalog/information_schema objects and supported SHOW/SET",
+        "Define server identity/version and capability reporting strategy",
+        "Implement application_name, search_path, timezone and timeout behavior as supported"
+      ],
+      "acceptance": [
+        "Introspection reports real columns/types/indexes/constraints",
+        "Unsupported settings with semantic/security impact fail explicitly",
+        "Connection pool reset prevents prior session settings leaking to the next user",
+        "Historical schema queries do not masquerade as current catalogs"
+      ],
+      "verification": [
+        "Run selected ORM/migration introspection queries",
+        "Pool reuse with altered search_path/timezone/timeouts and verify reset/permissions"
+      ],
+      "native_dependencies": [
+        "API-003",
+        "SQL-014"
+      ],
+      "github": {
+        "number": 62,
+        "id": 5695303651,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/62",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dv4w",
+        "title": "[API-007] Implement catalog introspection and supported session settings"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-008",
+      "milestone": "M04",
+      "title": "Implement COPY streaming and transactional bulk import/export",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "API-003",
+        "API-006",
+        "SQL-006",
+        "SQL-008"
+      ],
+      "goal": "Support bounded bulk movement without bypassing relational correctness.",
+      "scope": [
+        "Implement COPY FROM/TO STDIN/STDOUT text/CSV initially",
+        "Define quoting/NULL/encoding behavior and protocol cancellation/error drain",
+        "Gate binary COPY behind separate complete format fixtures"
+      ],
+      "acceptance": [
+        "COPY FROM errors roll back the statement's data/history effects",
+        "Constraints/authorization/payload limits apply identically to normal DML",
+        "COPY output honors the query snapshot and backpressure",
+        "Unsupported formats/server-file paths fail explicitly"
+      ],
+      "verification": [
+        "Differential quoting/NULL/CSV fixtures and large streamed imports",
+        "Disconnect/cancel during COPY and inspect transaction state plus rollback"
+      ],
+      "native_dependencies": [
+        "API-006",
+        "SQL-008"
+      ],
+      "github": {
+        "number": 63,
+        "id": 5695303888,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/63",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dw0A",
+        "title": "[API-008] Implement COPY streaming and transactional bulk import/export"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-009",
+      "milestone": "M04",
+      "title": "Implement cancellation keys, deadlines and interrupt propagation",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "API-003",
+        "API-005",
+        "TXN-008",
+        "SQL-009"
+      ],
+      "goal": "Cancel work safely across query, lock, spill and transport boundaries.",
+      "scope": [
+        "Implement scoped unpredictable BackendKeyData/CancelRequest handling",
+        "Propagate statement/session deadlines through operators and waits",
+        "Specify cancel-versus-commit race and typed outcome behavior"
+      ],
+      "acceptance": [
+        "One session cannot guess another session's cancel authorization",
+        "Cancellation releases locks/pins/output buffers without partial statement effects",
+        "A durable commit cannot be undone by a late cancel",
+        "Failed explicit transactions and ReadyForQuery state remain accurate"
+      ],
+      "verification": [
+        "Cancel lock waits, long scans, COPY and output-blocked requests",
+        "Race cancel with commit flush and validate durable/unknown-outcome contracts"
+      ],
+      "native_dependencies": [
+        "API-005"
+      ],
+      "github": {
+        "number": 64,
+        "id": 5695304072,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/64",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dxiA",
+        "title": "[API-009] Implement cancellation keys, deadlines and interrupt propagation"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-010",
+      "milestone": "M04",
+      "title": "Build pinned driver, pool and ORM compatibility journeys",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "API-004",
+        "API-005",
+        "API-006",
+        "API-007",
+        "API-008",
+        "API-009",
+        "SQL-013"
+      ],
+      "goal": "Demonstrate useful compatibility in real backend clients.",
+      "scope": [
+        "Pin psql/libpq, tokio-postgres/sqlx, Node pg, psycopg, pgJDBC and pgx versions",
+        "Test auth, typed binds, transactions, pools, COPY and cancellation",
+        "Scope ORM/migration journeys individually and record unsupported queries"
+      ],
+      "acceptance": [
+        "Every claimed supported client has a reproducible passing journey",
+        "Codec/isolation/state differences are documented against the reference",
+        "Connection-only success is never labeled full ORM compatibility",
+        "Negative unsupported behavior is included in the published matrix"
+      ],
+      "verification": [
+        "Run the client matrix against VetraDB and pinned PostgreSQL 17",
+        "Execute at least one migration plus CRUD transaction per claimed ORM candidate"
+      ],
+      "native_dependencies": [
+        "API-004",
+        "API-007",
+        "API-008",
+        "API-009",
+        "SQL-013"
+      ],
+      "github": {
+        "number": 65,
+        "id": 5695304263,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/65",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dyRw",
+        "title": "[API-010] Build pinned driver, pool and ORM compatibility journeys"
+      },
+      "parent": 5
+    },
+    {
+      "id": "API-011",
+      "milestone": "M04",
+      "title": "Verify embedded/server parity, lifecycle and directory ownership",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "API-001",
+        "API-002",
+        "API-010"
+      ],
+      "goal": "Prove that deployment adapters do not alter storage or transaction semantics.",
+      "scope": [
+        "Run equivalent mutation/query histories in embedded and server modes",
+        "Cover open/close/drain/forced kill, service opt-in and exclusive ownership",
+        "Validate platform-specific lifecycle behavior"
+      ],
+      "acceptance": [
+        "Committed ledger and relational results match across adapters",
+        "A second engine owner fails safely without modifying files",
+        "Embedded mode remains usable without network services",
+        "Forced shutdown recovers without acknowledged data loss"
+      ],
+      "verification": [
+        "Compare equivalent cross-feature candidate transactions through both modes",
+        "Race open/close/owner acquisition and kill server during in-flight requests"
+      ],
+      "native_dependencies": [
+        "API-010"
+      ],
+      "github": {
+        "number": 66,
+        "id": 5695304450,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/66",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dzAg",
+        "title": "[API-011] Verify embedded/server parity, lifecycle and directory ownership"
+      },
+      "parent": 5
+    },
+    {
+      "id": "HIS-001",
+      "milestone": "M05",
+      "title": "Finalize temporal query/API grammar and timestamp resolution",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-005",
+        "TXN-006",
+        "SQL-004"
+      ],
+      "goal": "Publish precise AS OF and history interfaces before declaring them stable.",
+      "scope": [
+        "Choose SQL/session/function grammar plus embedded basis API",
+        "Define unknown/future basis, timestamp tie/rollback and mixed-basis rules",
+        "Specify versioned history columns, paging and error mapping"
+      ],
+      "acceptance": [
+        "Transaction-basis reads are exact within one database/timeline",
+        "Timestamp selection follows greatest committed matching CSN",
+        "Point-in-time row state and intra-transaction operation history are distinct",
+        "API examples are explicit about schema/permission/retention behavior"
+      ],
+      "verification": [
+        "Review histories with equal timestamps, clock rollback and CSN gaps",
+        "Compare intended ergonomics in plain SQL and prepared driver calls"
+      ],
+      "native_dependencies": [
+        "SQL-004"
+      ],
+      "github": {
+        "number": 67,
+        "id": 5695304645,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/67",
+        "node_id": "I_kwDOU6u-SM8AAAABU3dzxQ",
+        "title": "[HIS-001] Finalize temporal query/API grammar and timestamp resolution"
+      },
+      "parent": 6
+    },
+    {
+      "id": "HIS-002",
+      "milestone": "M05",
+      "title": "Implement AS OF reads with historical schema binding",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "HIS-001",
+        "SQL-005",
+        "SQL-009",
+        "SQL-010",
+        "TXN-011"
+      ],
+      "goal": "Reconstruct consistent data and catalog at a selected commit.",
+      "scope": [
+        "Bind data/catalog to one pinned historical basis",
+        "Resolve renamed/dropped/recreated objects using stable IDs",
+        "Provide safe scan/fallback access paths for historical predicates"
+      ],
+      "acceptance": [
+        "Insert/update/delete boundaries reconstruct the exact expected row state",
+        "Rename/drop/type migration retains interpretable old values",
+        "Unknown lineage/basis and unavailable ranges fail precisely",
+        "A current-only secondary index cannot corrupt an AS OF result"
+      ],
+      "verification": [
+        "Golden history with DML/DDL/key changes at every commit boundary",
+        "Run joins at pinned historical bases during concurrent current updates"
+      ],
+      "native_dependencies": [
+        "HIS-001",
+        "SQL-010",
+        "TXN-011"
+      ],
+      "github": {
+        "number": 68,
+        "id": 5695304828,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/68",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d0fA",
+        "title": "[HIS-002] Implement AS OF reads with historical schema binding"
+      },
+      "parent": 6
+    },
+    {
+      "id": "HIS-003",
+      "milestone": "M05",
+      "title": "Implement row history, transaction range queries and diffs",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "HIS-001",
+        "HIS-002",
+        "SQL-011"
+      ],
+      "goal": "Expose lossless changes and provenance through relational queries.",
+      "scope": [
+        "Implement transaction/row history relations with before/after/schema references",
+        "Implement CSN-range scans, stable keyset pagination and basis-to-basis diff",
+        "Expose intra-transaction operations without calling them separate committed states"
+      ],
+      "acceptance": [
+        "History contains every retained committed logical operation and no aborted ones",
+        "Pagination remains stable while later transactions commit",
+        "Deletes/key changes/DDL are represented without guessing current names",
+        "Diff agrees with reconstructed endpoint states"
+      ],
+      "verification": [
+        "Compare generated histories/diffs to a reference logical ledger",
+        "Mix repeated row updates and savepoint rollback, then verify operation order"
+      ],
+      "native_dependencies": [
+        "HIS-002",
+        "SQL-011"
+      ],
+      "github": {
+        "number": 69,
+        "id": 5695305062,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/69",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d1Zg",
+        "title": "[HIS-003] Implement row history, transaction range queries and diffs"
+      },
+      "parent": 6
+    },
+    {
+      "id": "HIS-004",
+      "milestone": "M05",
+      "title": "Implement transaction metadata and trusted provenance queries",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-005",
+        "HIS-003",
+        "API-004"
+      ],
+      "goal": "Attach useful audit context without allowing caller identity spoofing.",
+      "scope": [
+        "Expose trusted principal/session/commit fields and bounded application tags",
+        "Support transaction lookup/outcome by stable identity/idempotency key",
+        "Apply metadata-specific authorization and redaction"
+      ],
+      "acceptance": [
+        "Caller actor labels cannot overwrite authenticated principal",
+        "Oversized/invalid metadata fails before commit",
+        "Credential verifiers and sensitive transport tokens never enter history output",
+        "Metadata joins identify both application correlation and exact commit basis"
+      ],
+      "verification": [
+        "Submit spoofed actor/oversized tags and inspect stored trusted fields",
+        "Test permitted/denied metadata queries and lost-response outcome lookup"
+      ],
+      "native_dependencies": [
+        "HIS-003",
+        "API-004"
+      ],
+      "github": {
+        "number": 70,
+        "id": 5695305299,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/70",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d2Uw",
+        "title": "[HIS-004] Implement transaction metadata and trusted provenance queries"
+      },
+      "parent": 6
+    },
+    {
+      "id": "HIS-005",
+      "milestone": "M05",
+      "title": "Implement pinned and named historical read snapshots",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "HIS-002",
+        "TXN-011",
+        "API-001"
+      ],
+      "goal": "Make immutable read views explicit and resource bounded.",
+      "scope": [
+        "Implement read-only snapshot handles, TTL/close and quotas",
+        "Specify named durable snapshots and reopen behavior separately",
+        "Register data/catalog/history pins atomically before exposing a basis"
+      ],
+      "acceptance": [
+        "Snapshot reads remain unchanged across later commits and vacuum",
+        "Expired/closed handles fail rather than use reclaimed storage",
+        "Opening a snapshot does not execute historical jobs/events",
+        "Persistent snapshot identity includes timeline and format range"
+      ],
+      "verification": [
+        "Hold snapshots during churn/vacuum/restart as applicable",
+        "Exhaust pin quota and verify backpressure plus explicit release/expiry"
+      ],
+      "native_dependencies": [
+        "HIS-002",
+        "API-001"
+      ],
+      "github": {
+        "number": 71,
+        "id": 5695305514,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/71",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d3Kg",
+        "title": "[HIS-005] Implement pinned and named historical read snapshots"
+      },
+      "parent": 6
+    },
+    {
+      "id": "HIS-006",
+      "milestone": "M05",
+      "title": "Implement complete-history retention and lossless compaction",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "HIS-003",
+        "HIS-005",
+        "TXN-011"
+      ],
+      "goal": "Preserve all committed history by default while managing physical layout.",
+      "scope": [
+        "Compact history without losing values/schema/provenance",
+        "Add explicit finite retention policies and oldest-basis metadata",
+        "Integrate reader/backup/consumer pins and documented expiry rules"
+      ],
+      "acceptance": [
+        "Default compaction preserves every committed historical query result",
+        "Finite expiration is opt-in, auditable and exposes unavailable ranges",
+        "Active guaranteed pins prevent removal or are explicitly expired",
+        "WAL/hot-MVCC cleanup cannot silently shorten logical history"
+      ],
+      "verification": [
+        "Compare full history before/after compaction and reopen",
+        "Apply finite policy with protected/expired snapshots and validate exact boundary errors"
+      ],
+      "native_dependencies": [
+        "HIS-003",
+        "HIS-005"
+      ],
+      "github": {
+        "number": 72,
+        "id": 5695305768,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/72",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d4KA",
+        "title": "[HIS-006] Implement complete-history retention and lossless compaction"
+      },
+      "parent": 6
+    },
+    {
+      "id": "HIS-007",
+      "milestone": "M05",
+      "title": "Specify privileged redaction, audit integrity and data erasure limits",
+      "kind": "design",
+      "priority": "p1",
+      "dependencies": [
+        "HIS-004",
+        "HIS-006",
+        "GOV-007"
+      ],
+      "goal": "Separate exceptional history removal from normal immutability and maintenance.",
+      "scope": [
+        "Define privileged preview/authorization/audit workflow for redaction",
+        "Account for backups/archives/replicas and invalidated cursors/ranges",
+        "Evaluate checksums/chained digests without overstating tamper resistance"
+      ],
+      "acceptance": [
+        "Ordinary SQL/vacuum cannot rewrite committed historical facts",
+        "Redaction authority and observable consequences are explicit",
+        "Design does not claim erasure of unmanaged external copies",
+        "Audit integrity threat model distinguishes corruption from host-admin compromise"
+      ],
+      "verification": [
+        "Walk a sensitive-data correction through retention/backup/consumer cases",
+        "Review tamper/restore scenarios and record required future implementation scope"
+      ],
+      "native_dependencies": [
+        "HIS-004",
+        "HIS-006"
+      ],
+      "github": {
+        "number": 73,
+        "id": 5695305987,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/73",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d5Aw",
+        "title": "[HIS-007] Specify privileged redaction, audit integrity and data erasure limits"
+      },
+      "parent": 6
+    },
+    {
+      "id": "HIS-008",
+      "milestone": "M05",
+      "title": "Build temporal reconstruction and authorization conformance tests",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "HIS-002",
+        "HIS-003",
+        "HIS-004",
+        "HIS-005",
+        "HIS-006",
+        "HIS-007"
+      ],
+      "goal": "Qualify complete history, not just a successful AS OF demo.",
+      "scope": [
+        "Generate DML/DDL/service histories with reference states at every CSN",
+        "Cover clock ambiguity, savepoint exclusion, compaction and history errors",
+        "Verify current authorization over old/deleted values and metadata"
+      ],
+      "acceptance": [
+        "All endpoint states and diffs agree with the reference ledger",
+        "No expired range is returned as a partial successful history",
+        "Snapshot/schema pins survive permitted maintenance",
+        "Denied history metadata/values never leak through errors or pagination"
+      ],
+      "verification": [
+        "Run golden/random histories with restart and compaction",
+        "Revoke permissions between history pages and require immediate enforcement"
+      ],
+      "native_dependencies": [
+        "HIS-007"
+      ],
+      "github": {
+        "number": 74,
+        "id": 5695306195,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/74",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d50w",
+        "title": "[HIS-008] Build temporal reconstruction and authorization conformance tests"
+      },
+      "parent": 6
+    },
+    {
+      "id": "JOB-001",
+      "milestone": "M06",
+      "title": "Implement protected queue/job catalogs and atomic enqueue",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-005",
+        "SQL-006",
+        "SQL-007",
+        "HIS-004"
+      ],
+      "goal": "Create work in the same transaction as application data.",
+      "scope": [
+        "Implement queue definitions and bounded versioned job/payload records",
+        "Expose SQL/embedded enqueue APIs using the existing transaction",
+        "Index readiness and store origin/correlation/history identities"
+      ],
+      "acceptance": [
+        "Enqueue plus business data is fully atomic on commit/rollback/recovery",
+        "User SQL cannot mutate protected queue tables directly",
+        "Queue grants and payload/size validation apply before staging",
+        "History records queue configuration and logical job creation"
+      ],
+      "verification": [
+        "Commit/abort/savepoint an order plus job and inspect ledger/state",
+        "Crash around commit and rediscover jobs without relying on wakeups"
+      ],
+      "native_dependencies": [
+        "HIS-004"
+      ],
+      "github": {
+        "number": 75,
+        "id": 5695306418,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/75",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d6sg",
+        "title": "[JOB-001] Implement protected queue/job catalogs and atomic enqueue"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-002",
+      "milestone": "M06",
+      "title": "Implement atomic claims, fenced leases and heartbeats",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "JOB-001",
+        "TXN-008",
+        "API-001"
+      ],
+      "goal": "Let concurrent workers claim jobs without stale ownership changes.",
+      "scope": [
+        "Claim eligible bounded batches using transaction locks/skip-locked behavior",
+        "Persist lease owner/expiry/fencing generation before returning work",
+        "Implement heartbeat/reclaim compare-and-set with injected clock"
+      ],
+      "acceptance": [
+        "One committed lease owner exists per job generation",
+        "Expired reclaim advances generation and rejects old heartbeats",
+        "Worker concurrency/queue quotas are reserved atomically",
+        "Claim errors/rollback do not consume invisible lease ownership"
+      ],
+      "verification": [
+        "Race many claimers for one job and a bounded batch",
+        "Expire/reclaim then send stale heartbeat; restart and verify durable lease state"
+      ],
+      "native_dependencies": [
+        "JOB-001"
+      ],
+      "github": {
+        "number": 76,
+        "id": 5695306613,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/76",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d7dQ",
+        "title": "[JOB-002] Implement atomic claims, fenced leases and heartbeats"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-003",
+      "milestone": "M06",
+      "title": "Implement fenced completion with atomic business mutations",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "JOB-002",
+        "SQL-006",
+        "TXN-010"
+      ],
+      "goal": "Allow result writes and job acknowledgment to succeed or fail together.",
+      "scope": [
+        "Implement complete/fail/ack under current lease owner/generation checks",
+        "Support completion inside the caller's existing transaction",
+        "Define cancel/completion/lease-expiry races and unknown outcomes"
+      ],
+      "acceptance": [
+        "Stale completion rolls back its companion business mutations",
+        "Duplicate completion is safe under documented idempotency behavior",
+        "A lost acknowledgment response cannot produce partial result/job state",
+        "Cancelled or superseded leases cannot silently complete"
+      ],
+      "verification": [
+        "Commit result+ack with a current and stale token",
+        "Crash after durable completion before response and verify retry/outcome semantics"
+      ],
+      "native_dependencies": [
+        "JOB-002"
+      ],
+      "github": {
+        "number": 77,
+        "id": 5695306827,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/77",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d8Sw",
+        "title": "[JOB-003] Implement fenced completion with atomic business mutations"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-004",
+      "milestone": "M06",
+      "title": "Implement retry policies, stored backoff and dead letters",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "JOB-002",
+        "JOB-003"
+      ],
+      "goal": "Make failure handling durable, bounded and inspectable.",
+      "scope": [
+        "Implement exact attempt budgets, bounded exponential backoff/jitter and stored due time",
+        "Store sanitized bounded failure details and dead-letter transitions",
+        "Provide authorized inspect/replay operations preserving lineage"
+      ],
+      "acceptance": [
+        "Restart does not redraw persisted retry delay",
+        "Attempt counting is consistent for worker failure versus lease expiry",
+        "Dead-letter replay is explicit and retains source/history references",
+        "Large/private worker errors cannot leak or exhaust storage"
+      ],
+      "verification": [
+        "Fail/reclaim jobs through their exact retry budget with a fake clock",
+        "Restart between failure scheduling and due time; inspect sanitized dead-letter history"
+      ],
+      "native_dependencies": [
+        "JOB-003"
+      ],
+      "github": {
+        "number": 78,
+        "id": 5695307021,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/78",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d9DQ",
+        "title": "[JOB-004] Implement retry policies, stored backoff and dead letters"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-005",
+      "milestone": "M06",
+      "title": "Implement priority ordering, fairness and enqueue deduplication",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "JOB-001",
+        "JOB-002",
+        "SQL-007"
+      ],
+      "goal": "Keep hot queues fair and duplicate work creation predictable.",
+      "scope": [
+        "Define priority/availability/enqueue tie ordering and aging/quota policy",
+        "Implement scoped unique deduplication keys with retention/window semantics",
+        "Distinguish insert-if-absent, reschedule and replay behavior"
+      ],
+      "acceptance": [
+        "Equal-priority ready work follows stable documented tie order",
+        "Lower priorities progress under the measured fairness policy",
+        "Concurrent duplicate enqueues resolve atomically without double jobs",
+        "Dedup key expiry/reuse does not falsify old job lineage"
+      ],
+      "verification": [
+        "Burst mixed priorities and measure starvation bounds",
+        "Race equal dedup keys across business transactions, including rollback and expiration"
+      ],
+      "native_dependencies": [
+        "JOB-002"
+      ],
+      "github": {
+        "number": 79,
+        "id": 5695307226,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/79",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d92g",
+        "title": "[JOB-005] Implement priority ordering, fairness and enqueue deduplication"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-006",
+      "milestone": "M06",
+      "title": "Implement delayed-job promotion and clock-safe wakeups",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "JOB-001",
+        "JOB-002",
+        "JOB-004"
+      ],
+      "goal": "Deliver stored deadlines despite clock changes and lost notifications.",
+      "scope": [
+        "Persist UTC available-at and use monotonic waits for sleeping",
+        "Scan indexed due jobs with bounded wakeup batches",
+        "Define backward/forward clock skew and scheduling-lag metrics"
+      ],
+      "acceptance": [
+        "No job is dispatched before its declared due policy",
+        "Lost wakeup/restart still discovers every due job",
+        "Clock rollback does not create infinite busy loops or redefine stored deadlines",
+        "Promotion and claim retain transactional visibility"
+      ],
+      "verification": [
+        "Advance/rollback fake wall clock independently of monotonic time",
+        "Crash with overdue/near-deadline jobs and verify eventual bounded rediscovery"
+      ],
+      "native_dependencies": [
+        "JOB-004"
+      ],
+      "github": {
+        "number": 80,
+        "id": 5695307424,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/80",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d-oA",
+        "title": "[JOB-006] Implement delayed-job promotion and clock-safe wakeups"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-007",
+      "milestone": "M06",
+      "title": "Implement cron schedules, timezone/DST and unique occurrences",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "JOB-006",
+        "SQL-007",
+        "HIS-004"
+      ],
+      "goal": "Materialize cron work exactly once per logical occurrence inside database state.",
+      "scope": [
+        "Implement versioned five-field cron and pinned IANA timezone data",
+        "Atomically insert occurrence key and advance next instant",
+        "Support explicit DST fold/gap and skip/coalesce/bounded-catch-up misfire policies"
+      ],
+      "acceptance": [
+        "Concurrent/restarted schedulers cannot create duplicate occurrence jobs",
+        "Schedule revision changes have documented effect on pending occurrences",
+        "Misfire catch-up respects configured batch/resource limits",
+        "Pause/resume/edit/delete operations are transactionally versioned"
+      ],
+      "verification": [
+        "Test DST gap/fold and timezone data boundaries",
+        "Crash between occurrence insert/next-time update, then race schedulers and verify one occurrence"
+      ],
+      "native_dependencies": [
+        "JOB-006"
+      ],
+      "github": {
+        "number": 81,
+        "id": 5695307615,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/81",
+        "node_id": "I_kwDOU6u-SM8AAAABU3d_Xw",
+        "title": "[JOB-007] Implement cron schedules, timezone/DST and unique occurrences"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-008",
+      "milestone": "M06",
+      "title": "Implement worker service lifecycle, cancellation and queue quotas",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "JOB-002",
+        "JOB-003",
+        "JOB-007",
+        "API-002"
+      ],
+      "goal": "Control dispatch without executing arbitrary user handlers inside the engine.",
+      "scope": [
+        "Implement explicit embedded/server dispatch enable/drain/stop APIs",
+        "Enforce queue concurrency/rate/payload/lease budgets and overlap policies",
+        "Expose cooperative cancellation and restore-paused mode"
+      ],
+      "acceptance": [
+        "Opening the engine or a historical snapshot does not invoke handlers",
+        "Shutdown stops new claims and defines bounded in-flight lease behavior",
+        "Cancel/completion races have consistent fenced outcomes",
+        "Restore service state remains paused until explicit operator resume"
+      ],
+      "verification": [
+        "Drain with active/expired leases and forced shutdown",
+        "Cancel running work and inspect job/history without promising external-effect rollback"
+      ],
+      "native_dependencies": [
+        "JOB-007"
+      ],
+      "github": {
+        "number": 82,
+        "id": 5695307818,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/82",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eAKg",
+        "title": "[JOB-008] Implement worker service lifecycle, cancellation and queue quotas"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-009",
+      "milestone": "M06",
+      "title": "Document worker SDK contracts, observability and idempotency journeys",
+      "kind": "docs",
+      "priority": "p1",
+      "dependencies": [
+        "JOB-003",
+        "JOB-004",
+        "JOB-005",
+        "JOB-007",
+        "JOB-008"
+      ],
+      "goal": "Make transactional work safe and usable for application developers.",
+      "scope": [
+        "Specify SQL/embedded worker usage and candidate Rust/client helpers",
+        "Document order+enqueue and result+ack journeys with application idempotency",
+        "Define queue depth/age, attempts, lag and stale-token metrics"
+      ],
+      "acceptance": [
+        "Examples reflect actual released APIs when implementation ships",
+        "At-least-once external execution and fencing limits are explicit",
+        "Credentials/payloads are redacted from diagnostics",
+        "Operator can inspect dead letters, leases and schedule misfires"
+      ],
+      "verification": [
+        "Run documented worker journeys against real engine APIs",
+        "Review behavior after lost result/ack responses and backup restore"
+      ],
+      "native_dependencies": [
+        "JOB-005",
+        "JOB-008"
+      ],
+      "github": {
+        "number": 83,
+        "id": 5695308026,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/83",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eA-g",
+        "title": "[JOB-009] Document worker SDK contracts, observability and idempotency journeys"
+      },
+      "parent": 7
+    },
+    {
+      "id": "JOB-010",
+      "milestone": "M06",
+      "title": "Build queue/scheduler concurrency, restart and DST qualification",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "JOB-004",
+        "JOB-005",
+        "JOB-006",
+        "JOB-007",
+        "JOB-008",
+        "JOB-009"
+      ],
+      "goal": "Qualify work guarantees with independent transition and occurrence oracles.",
+      "scope": [
+        "Model job states, leases, attempts and occurrence uniqueness",
+        "Combine fake-clock edge tests with real persistent crash/reopen tests",
+        "Cover business-data+enqueue/result+ack atomicity and service resource bounds"
+      ],
+      "acceptance": [
+        "No duplicate current ownership or accepted stale completion",
+        "No duplicate schedule occurrence or missed retained due work after restart",
+        "All declared retry/priority/misfire policies pass reference checks",
+        "Cross-feature rollback leaves neither business mutation nor work state committed"
+      ],
+      "verification": [
+        "Run randomized worker failures/claims/clock jumps and minimized regressions",
+        "Force disk/flush failure during enqueue, claim, ack and schedule advancement"
+      ],
+      "native_dependencies": [
+        "JOB-009"
+      ],
+      "github": {
+        "number": 84,
+        "id": 5695308230,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/84",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eBxg",
+        "title": "[JOB-010] Build queue/scheduler concurrency, restart and DST qualification"
+      },
+      "parent": 7
+    },
+    {
+      "id": "EVT-001",
+      "milestone": "M07",
+      "title": "Finalize versioned event/CDC envelopes and streaming API",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-005",
+        "HIS-001",
+        "API-004"
+      ],
+      "goal": "Define resumable durable delivery independently of PostgreSQL replication.",
+      "scope": [
+        "Specify cursor lineage/positions, event IDs, transaction chunk framing and schema IDs",
+        "Choose authenticated WebSocket server and bounded embedded-stream contracts or ratify alternatives",
+        "Define ACK ranges, retention gaps and authorization behavior"
+      ],
+      "acceptance": [
+        "Transport cannot mistake an incomplete transaction chunk for commit",
+        "Cursor encoding/version/timeline validation is precise",
+        "Native CDC is not presented as pgoutput compatibility",
+        "Replay and slow-consumer errors have actionable resnapshot/resume behavior"
+      ],
+      "verification": [
+        "Walk large transaction, reconnect and schema-change message sequences",
+        "Review cursor misuse/cross-database and authorization-change cases"
+      ],
+      "native_dependencies": [
+        "HIS-001",
+        "API-004"
+      ],
+      "github": {
+        "number": 85,
+        "id": 5695308419,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/85",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eCgw",
+        "title": "[EVT-001] Finalize versioned event/CDC envelopes and streaming API"
+      },
+      "parent": 8
+    },
+    {
+      "id": "EVT-002",
+      "milestone": "M07",
+      "title": "Implement transactional durable topics and PostgreSQL LISTEN/NOTIFY",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "EVT-001",
+        "TXN-005",
+        "SQL-006",
+        "SQL-007"
+      ],
+      "goal": "Publish application events atomically while preserving distinct ephemeral notification semantics.",
+      "scope": [
+        "Implement protected topic/publication catalogs and publish SQL/embedded APIs",
+        "Persist durable events under the caller transaction with payload limits",
+        "Implement separately scoped PostgreSQL LISTEN/NOTIFY commit/folding/delivery behavior"
+      ],
+      "acceptance": [
+        "Rollback/savepoint failure emits no publication or notification",
+        "Durable topics survive restart and retain stable event/cursor identity",
+        "Ephemeral notification behavior matches declared PostgreSQL fixtures",
+        "Publisher/subscriber grants and topic quotas are checked"
+      ],
+      "verification": [
+        "Commit/abort row+publish with reconnect/recovery",
+        "Differential LISTEN/NOTIFY tests including duplicate notifications and explicit transactions"
+      ],
+      "native_dependencies": [
+        "EVT-001"
+      ],
+      "github": {
+        "number": 86,
+        "id": 5695308759,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/86",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eD1w",
+        "title": "[EVT-002] Implement transactional durable topics and PostgreSQL LISTEN/NOTIFY"
+      },
+      "parent": 8
+    },
+    {
+      "id": "EVT-003",
+      "milestone": "M07",
+      "title": "Implement fenced consumer groups and transactional offsets",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "EVT-002",
+        "JOB-002",
+        "JOB-003"
+      ],
+      "goal": "Let consumers update application state and durable position atomically.",
+      "scope": [
+        "Persist groups, subscriptions, ownership generations and delivered ranges",
+        "Implement contiguous ACK/cursor compare-and-set and group handoff",
+        "Define partition/order semantics for the initial group model"
+      ],
+      "acceptance": [
+        "Offset advancement and companion business writes are all-or-nothing",
+        "Stale owner and out-of-range/timeline ACKs are rejected",
+        "Crash before ACK repeats delivery; committed ACK resumes afterward",
+        "Group rebalancing does not imply global exactly-once execution"
+      ],
+      "verification": [
+        "Race consumers/handoff and submit stale/future ACKs",
+        "Crash around result+offset commit and verify duplicate-safe resume"
+      ],
+      "native_dependencies": [
+        "EVT-002",
+        "JOB-003"
+      ],
+      "github": {
+        "number": 87,
+        "id": 5695308968,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/87",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eEqA",
+        "title": "[EVT-003] Implement fenced consumer groups and transactional offsets"
+      },
+      "parent": 8
+    },
+    {
+      "id": "EVT-004",
+      "milestone": "M07",
+      "title": "Implement committed CDC decoding and schema evolution",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "EVT-001",
+        "HIS-003",
+        "SQL-005"
+      ],
+      "goal": "Stream the exact committed change history in transaction order.",
+      "scope": [
+        "Decode row/catalog/service envelope records into versioned change frames",
+        "Include stable schema IDs, deletes, before/after images and transaction metadata",
+        "Implement bounded large-transaction framing and replay scans"
+      ],
+      "acceptance": [
+        "Aborted/uncommitted operations never appear",
+        "Every committed operation has stable ID/order and lossless schema interpretation",
+        "DDL arrives with or before dependent data decoding context",
+        "Large transactions preserve transaction boundaries under bounded memory"
+      ],
+      "verification": [
+        "Compare decoded stream to golden logical ledger across DDL/key changes",
+        "Crash decoder and replay large transactions/empty filtered transactions"
+      ],
+      "native_dependencies": [
+        "EVT-001",
+        "HIS-003"
+      ],
+      "github": {
+        "number": 88,
+        "id": 5695309262,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/88",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eFzg",
+        "title": "[EVT-004] Implement committed CDC decoding and schema evolution"
+      },
+      "parent": 8
+    },
+    {
+      "id": "EVT-005",
+      "milestone": "M07",
+      "title": "Implement atomic snapshot-to-stream bootstrap",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "EVT-004",
+        "HIS-005",
+        "TXN-006"
+      ],
+      "goal": "Remove the race between initial consistent state and later changes.",
+      "scope": [
+        "Register snapshot basis and post-basis replay pin atomically",
+        "Scan authorized snapshot data then deliver changes strictly after its basis",
+        "Bound buffering/spooling and define bootstrap-pin expiry"
+      ],
+      "acceptance": [
+        "No committed row change is skipped between snapshot and stream",
+        "Duplicate delivery follows explicit stable-ID semantics",
+        "Schema/row basis is consistent throughout bootstrap",
+        "Pin expiry or retention failure returns resnapshot instead of a partial stream"
+      ],
+      "verification": [
+        "Pause scans while concurrent updates/delete/DDL commit",
+        "Force disconnect/expiry/disk pressure during bootstrap and verify explicit safe recovery"
+      ],
+      "native_dependencies": [
+        "EVT-004",
+        "HIS-005"
+      ],
+      "github": {
+        "number": 89,
+        "id": 5695309482,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/89",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eGqg",
+        "title": "[EVT-005] Implement atomic snapshot-to-stream bootstrap"
+      },
+      "parent": 8
+    },
+    {
+      "id": "EVT-006",
+      "milestone": "M07",
+      "title": "Implement eligible realtime filters/projections and resumable streams",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "EVT-005",
+        "SQL-004",
+        "API-004"
+      ],
+      "goal": "Provide bounded live row subscriptions with clear incremental scope.",
+      "scope": [
+        "Restrict 1.0 plans to supported single-table filters/projections",
+        "Emit insert/update/delete/enter-filter/leave-filter with transaction boundaries",
+        "Implement authenticated streaming and stable resume cursors"
+      ],
+      "acceptance": [
+        "Eligibility rejects unsupported joins/aggregates/volatile expressions",
+        "Before/after predicate evaluation produces correct enter/leave events",
+        "Snapshot/replay/live values share row identity and authorization",
+        "Slow clients cannot block commit or allocate unbounded memory"
+      ],
+      "verification": [
+        "Compare live deltas applied to initial snapshot with fresh authorized queries",
+        "Disconnect/resume across filter changes and schema invalidation"
+      ],
+      "native_dependencies": [
+        "EVT-005"
+      ],
+      "github": {
+        "number": 90,
+        "id": 5695309701,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/90",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eHhQ",
+        "title": "[EVT-006] Implement eligible realtime filters/projections and resumable streams"
+      },
+      "parent": 8
+    },
+    {
+      "id": "EVT-007",
+      "milestone": "M07",
+      "title": "Implement stream retention, backpressure and permission revalidation",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "EVT-003",
+        "EVT-004",
+        "EVT-006",
+        "HIS-006"
+      ],
+      "goal": "Keep durable delivery bounded and secure under slow or revoked consumers.",
+      "scope": [
+        "Track consumer/snapshot/archive pins and per-stream lag/memory/disk budgets",
+        "Implement pause/spool/disconnect/expiry policy and explicit cursor errors",
+        "Revalidate grants/policies before replay and after permission changes"
+      ],
+      "acceptance": [
+        "Expired/wrong-timeline cursors cannot return silent gaps",
+        "Revoked users receive no later live or historical protected values",
+        "Retention reports oldest available position and pin owners",
+        "Commit latency is independent of a blocked subscriber's network writes"
+      ],
+      "verification": [
+        "Stall consumers while churning events and enforce exact bounds",
+        "Revoke grants during snapshot/replay and attempt forged/cross-timeline cursors"
+      ],
+      "native_dependencies": [
+        "EVT-003",
+        "EVT-006",
+        "HIS-006"
+      ],
+      "github": {
+        "number": 91,
+        "id": 5695309953,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/91",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eIgQ",
+        "title": "[EVT-007] Implement stream retention, backpressure and permission revalidation"
+      },
+      "parent": 8
+    },
+    {
+      "id": "EVT-008",
+      "milestone": "M07",
+      "title": "Build pub/sub, CDC and realtime end-to-end qualification",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "EVT-002",
+        "EVT-003",
+        "EVT-004",
+        "EVT-005",
+        "EVT-006",
+        "EVT-007",
+        "JOB-010"
+      ],
+      "goal": "Prove unified transactions and resumable delivery in real clients.",
+      "scope": [
+        "Run business+job+publish transactions under fault/reconnect workloads",
+        "Use independent ordered-ledger and snapshot-plus-deltas oracles",
+        "Cover duplicates, schema changes, authorization, large transactions and pressure"
+      ],
+      "acceptance": [
+        "All delivered transactions agree with durable committed history",
+        "Snapshot handoff has no missed retained changes",
+        "Client reconnect and offset persistence preserve defined at-least-once semantics",
+        "Failure/slow-consumer behavior is bounded and accurately surfaced"
+      ],
+      "verification": [
+        "Run authenticated WebSocket/embedded client journeys with repeated restart",
+        "Inject faults during commit, decode, send and ACK while validating application state"
+      ],
+      "native_dependencies": [
+        "EVT-007",
+        "JOB-010"
+      ],
+      "github": {
+        "number": 92,
+        "id": 5695310152,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/92",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eJSA",
+        "title": "[EVT-008] Build pub/sub, CDC and realtime end-to-end qualification"
+      },
+      "parent": 8
+    },
+    {
+      "id": "OPT-001",
+      "milestone": "M08",
+      "title": "Implement versioned statistics and cardinality estimates",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "SQL-007",
+        "SQL-011",
+        "HIS-002"
+      ],
+      "goal": "Feed the optimizer measurable estimates without breaking historical plans.",
+      "scope": [
+        "Collect row counts, key distributions and bounded histogram/sample statistics",
+        "Define update/analyze policy, catalog epoch and temporal-basis validity",
+        "Expose estimates and sampling cost in diagnostics"
+      ],
+      "acceptance": [
+        "Statistics collection cannot change query results or block unboundedly",
+        "Stale/missing estimates fall back safely",
+        "Historical queries do not assume current cardinality is exact",
+        "Sampling memory/work obey configurable budgets"
+      ],
+      "verification": [
+        "Compare estimates on uniform/skewed/NULL-heavy datasets",
+        "Analyze during concurrent DDL/DML and verify plan/schema validity"
+      ],
+      "native_dependencies": [
+        "SQL-011",
+        "HIS-002"
+      ],
+      "github": {
+        "number": 93,
+        "id": 5695310351,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/93",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eKDw",
+        "title": "[OPT-001] Implement versioned statistics and cardinality estimates"
+      },
+      "parent": 9
+    },
+    {
+      "id": "OPT-002",
+      "milestone": "M08",
+      "title": "Implement semantics-preserving logical rewrites",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "SQL-004",
+        "SQL-010",
+        "SQL-011",
+        "SQL-013"
+      ],
+      "goal": "Optimize SQL while preserving NULL, volatility, authorization and temporal basis.",
+      "scope": [
+        "Add predicate/projection pushdown, constant folding and supported simplifications",
+        "Specify legality for outer joins, aggregates, correlated queries and time travel",
+        "Maintain an unoptimized reference execution mode"
+      ],
+      "acceptance": [
+        "Optimized and reference plans return equivalent results/errors",
+        "Volatile expressions are not duplicated or moved across unsafe boundaries",
+        "Historical/authorization plan properties survive rewrites",
+        "Each rewrite has positive and negative legality fixtures"
+      ],
+      "verification": [
+        "Differential generated queries with NULL/outer joins/CTEs",
+        "Compare current and AS OF results with every rewrite enabled/disabled"
+      ],
+      "native_dependencies": [
+        "SQL-013"
+      ],
+      "github": {
+        "number": 94,
+        "id": 5695310546,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/94",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eK0g",
+        "title": "[OPT-002] Implement semantics-preserving logical rewrites"
+      },
+      "parent": 9
+    },
+    {
+      "id": "OPT-003",
+      "milestone": "M08",
+      "title": "Implement cost-based access paths and resumable index builds",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "OPT-001",
+        "OPT-002",
+        "SQL-007",
+        "TXN-011"
+      ],
+      "goal": "Choose useful indexes and build them safely under live write traffic.",
+      "scope": [
+        "Cost scans/ranges/composite indexes and supported covering access",
+        "Implement resumable online build/catch-up/root publication with transactional DDL",
+        "Reject historical/index-only plans lacking a valid visibility proof"
+      ],
+      "acceptance": [
+        "Chosen access path agrees with baseline results for all snapshots",
+        "Concurrent index build includes committed catch-up changes and excludes aborted ones",
+        "Interrupted build can resume/clean up without publishing partial index",
+        "EXPLAIN reports estimate and index eligibility rationale"
+      ],
+      "verification": [
+        "Run index/scan comparisons on selective/skewed workloads",
+        "Crash online build during scan/catch-up/publication while concurrent writes continue"
+      ],
+      "native_dependencies": [
+        "OPT-001",
+        "OPT-002"
+      ],
+      "github": {
+        "number": 95,
+        "id": 5695310781,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/95",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eLvQ",
+        "title": "[OPT-003] Implement cost-based access paths and resumable index builds"
+      },
+      "parent": 9
+    },
+    {
+      "id": "OPT-004",
+      "milestone": "M08",
+      "title": "Implement cost-based join ordering and hash/merge joins",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "OPT-001",
+        "OPT-002",
+        "SQL-010",
+        "SQL-011"
+      ],
+      "goal": "Improve multi-table execution without changing multiplicity or NULL semantics.",
+      "scope": [
+        "Add bounded join enumeration and supported hash/merge operators",
+        "Cost cardinality/order/memory and preserve outer-join constraints",
+        "Retain nested-loop fallback for ineligible plans"
+      ],
+      "acceptance": [
+        "All physical join choices agree with reference relational results",
+        "Planner work has a defined cap for many-table queries",
+        "NULL/duplicates/outer joins and parameter selectivity remain correct",
+        "EXPLAIN exposes join order, algorithms and estimated resources"
+      ],
+      "verification": [
+        "Compare algorithms on skewed/duplicate/empty inputs",
+        "Benchmark hot and cold multi-join datasets under fixed budgets"
+      ],
+      "native_dependencies": [
+        "OPT-001",
+        "OPT-002"
+      ],
+      "github": {
+        "number": 96,
+        "id": 5695311012,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/96",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eMpA",
+        "title": "[OPT-004] Implement cost-based join ordering and hash/merge joins"
+      },
+      "parent": 9
+    },
+    {
+      "id": "OPT-005",
+      "milestone": "M08",
+      "title": "Implement external spill and query memory accounting",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "SQL-009",
+        "SQL-011",
+        "OPT-004",
+        "API-009"
+      ],
+      "goal": "Execute large sort/join/aggregate workloads with bounded memory and safe cleanup.",
+      "scope": [
+        "Account per-query/operator allocations and spill thresholds",
+        "Implement versioned temporary runs/partitions with quotas and restrictive paths",
+        "Clean spill on cancellation/crash and enforce disk-pressure behavior"
+      ],
+      "acceptance": [
+        "Queries stay within their configured memory/spill budget policy",
+        "Spilled and in-memory results match",
+        "ENOSPC/cancellation does not leave transaction locks or unbounded temporary data",
+        "Temporary files cannot be opened through arbitrary user paths"
+      ],
+      "verification": [
+        "Force tiny memory to spill every operator and compare results",
+        "Cancel/fail disk writes and restart to verify cleanup and precise errors"
+      ],
+      "native_dependencies": [
+        "OPT-004",
+        "API-009"
+      ],
+      "github": {
+        "number": 97,
+        "id": 5695311207,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/97",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eNZw",
+        "title": "[OPT-005] Implement external spill and query memory accounting"
+      },
+      "parent": 9
+    },
+    {
+      "id": "OPT-006",
+      "milestone": "M08",
+      "title": "Implement parameter-aware plan caching and EXPLAIN diagnostics",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "OPT-003",
+        "OPT-004",
+        "OPT-005",
+        "API-005"
+      ],
+      "goal": "Reuse plans safely and explain actual execution cost.",
+      "scope": [
+        "Implement bounded caches keyed by catalog/capability/auth/basis dependencies",
+        "Define generic versus parameter-specific plans and invalidation",
+        "Expose EXPLAIN/ANALYZE metrics with documented DML effects"
+      ],
+      "acceptance": [
+        "DDL/grant/capability changes cannot reuse unsafe stale plans",
+        "Caches are bounded and do not retain obsolete snapshot pins",
+        "Parameter-sensitive queries have a measurable plan-selection policy",
+        "ANALYZE effects/cancellation match normal execution semantics"
+      ],
+      "verification": [
+        "Alter schema/grants while reusing prepared statements",
+        "Vary skewed parameters and inspect plans, cache bounds and real timings"
+      ],
+      "native_dependencies": [
+        "OPT-003",
+        "OPT-005"
+      ],
+      "github": {
+        "number": 98,
+        "id": 5695311403,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/98",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eOKw",
+        "title": "[OPT-006] Implement parameter-aware plan caching and EXPLAIN diagnostics"
+      },
+      "parent": 9
+    },
+    {
+      "id": "OPT-007",
+      "milestone": "M08",
+      "title": "Publish reproducible workload benchmarks and capacity budgets",
+      "kind": "test",
+      "priority": "p1",
+      "dependencies": [
+        "OPT-003",
+        "OPT-004",
+        "OPT-005",
+        "OPT-006",
+        "JOB-010",
+        "EVT-008"
+      ],
+      "goal": "Measure the actual cost of full history and unified backend primitives.",
+      "scope": [
+        "Define CRUD/joins/hot-key/history/queue/stream/backup-under-load workloads",
+        "Record hardware/filesystem/durability/retention/warm-state settings",
+        "Measure latency percentiles, throughput, memory, disk/WAL amplification and recovery"
+      ],
+      "acceptance": [
+        "Results are reproducible and compare equal durability/isolation configurations",
+        "Full-history retention and slow consumers are represented",
+        "Numeric release candidate SLOs/capacity limits follow measurements",
+        "Regressions cannot be fixed by silently weakening guarantees"
+      ],
+      "verification": [
+        "Run warm/cold mixed workloads at multiple data sizes",
+        "Publish raw summaries, seeds/configuration and observed saturation limits"
+      ],
+      "native_dependencies": [
+        "OPT-006",
+        "EVT-008"
+      ],
+      "github": {
+        "number": 99,
+        "id": 5695311585,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/99",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eO4Q",
+        "title": "[OPT-007] Publish reproducible workload benchmarks and capacity budgets"
+      },
+      "parent": 9
+    },
+    {
+      "id": "OPS-001",
+      "milestone": "M09",
+      "title": "Review threat model, unsafe Rust and dependency supply chain",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [
+        "GOV-007",
+        "API-004",
+        "EVT-007"
+      ],
+      "goal": "Review the implemented attack surface before production qualification.",
+      "scope": [
+        "Reconcile security.md with actual SQL/protocol/storage/worker interfaces",
+        "Review unsafe blocks, crypto dependencies, licenses and update policy",
+        "Define security blocking severities and remediation/disclosure ownership"
+      ],
+      "acceptance": [
+        "Every trust boundary has mitigations and test evidence",
+        "Unsafe operations have documented invariants and reviewed callers",
+        "Dependencies/crypto choices have a recorded rationale and license inventory",
+        "No unresolved release-blocking security finding remains"
+      ],
+      "verification": [
+        "Review malicious protocol/filesystem/cursor/metadata scenarios",
+        "Run dependency/license audits and inspect redacted diagnostic outputs"
+      ],
+      "native_dependencies": [
+        "EVT-007"
+      ],
+      "github": {
+        "number": 100,
+        "id": 5695311775,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/100",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ePnw",
+        "title": "[OPS-001] Review threat model, unsafe Rust and dependency supply chain"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-002",
+      "milestone": "M09",
+      "title": "Implement engine-level roles, ownership and granular grants",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "API-004",
+        "SQL-001",
+        "HIS-004",
+        "JOB-001",
+        "EVT-002"
+      ],
+      "goal": "Enforce permissions consistently in every deployment and feature path.",
+      "scope": [
+        "Implement roles/membership/object ownership and DDL/current/history/metadata/service grants",
+        "Apply checks inside shared engine services and protect internal tables",
+        "Version successful permission mutations and invalidate cached capabilities"
+      ],
+      "acceptance": [
+        "Embedded/server routes enforce equivalent configured principals",
+        "Current SELECT alone does not expose historical/deleted data or metadata",
+        "Queue/topic/offset/admin rights are independently enforceable",
+        "Grant revocation reaches existing prepared plans/subscriptions"
+      ],
+      "verification": [
+        "Run a role/object/action authorization matrix through both adapters",
+        "Revoke permissions during historical paging, job ACK and event replay"
+      ],
+      "native_dependencies": [
+        "JOB-001",
+        "EVT-002"
+      ],
+      "github": {
+        "number": 101,
+        "id": 5695311978,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/101",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eQag",
+        "title": "[OPS-002] Implement engine-level roles, ownership and granular grants"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-003",
+      "milestone": "M09",
+      "title": "Implement row-level policies with history and CDC parity",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "OPS-002",
+        "HIS-002",
+        "EVT-006",
+        "SQL-004"
+      ],
+      "goal": "Support tenant filtering without leaking old values through auxiliary features.",
+      "scope": [
+        "Define supported RLS policy expressions and trusted tenant context",
+        "Apply current policy to current/history/diff/before-after/realtime paths",
+        "Revalidate policy dependencies and restrict bypass/administrative authority"
+      ],
+      "acceptance": [
+        "Unauthorized rows never appear in history, errors, metadata joins or CDC images",
+        "Enter/leave-filter deltas do not leak denied old/new values",
+        "Tenant context is not accepted from untrusted spoofed metadata",
+        "Policy change invalidates/rechecks prepared and live plans"
+      ],
+      "verification": [
+        "Use two tenants with deleted/reassigned rows and historical schema changes",
+        "Change RLS mid-snapshot/replay and verify no cross-tenant delivery"
+      ],
+      "native_dependencies": [
+        "OPS-002",
+        "EVT-006"
+      ],
+      "github": {
+        "number": 102,
+        "id": 5695312184,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/102",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eROA",
+        "title": "[OPS-003] Implement row-level policies with history and CDC parity"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-004",
+      "milestone": "M09",
+      "title": "Implement unified quotas, deadlines and admission control",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "OPT-005",
+        "API-009",
+        "JOB-008",
+        "EVT-007"
+      ],
+      "goal": "Protect durability and availability from expensive inputs and pinned resources.",
+      "scope": [
+        "Enforce transaction/lock/query/connection/snapshot/job/stream budgets",
+        "Apply bounded admission/backpressure across CPU/I/O/network services",
+        "Reserve abort/recovery resources and expose rejection reasons"
+      ],
+      "acceptance": [
+        "Overload cannot cause unbounded memory/channels/pins",
+        "Rejected work has no partial committed mutation",
+        "Cancellation/deadlines release ownership and resources",
+        "Quota diagnostics reveal safe aggregate state without payload data"
+      ],
+      "verification": [
+        "Stress oversized transactions, deep SQL, pinned snapshots and slow clients",
+        "Exhaust quotas concurrently and verify bounded progress for recovery/admin operations"
+      ],
+      "native_dependencies": [
+        "OPT-005",
+        "JOB-008",
+        "EVT-007"
+      ],
+      "github": {
+        "number": 103,
+        "id": 5695312398,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/103",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eSDg",
+        "title": "[OPS-004] Implement unified quotas, deadlines and admission control"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-005",
+      "milestone": "M09",
+      "title": "Implement safe configuration, startup/drain and disk-pressure behavior",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "API-002",
+        "TXN-004",
+        "OPS-004"
+      ],
+      "goal": "Make failure and lifecycle states actionable for operators.",
+      "scope": [
+        "Implement versioned config validation, safe effective-config and reload boundaries",
+        "Integrate readiness/liveness with recovery/auth/storage/service state",
+        "Define disk reserve, ENOSPC throttling and poisoned sync state"
+      ],
+      "acceptance": [
+        "Unknown/unsafe config fails before starting listeners or workers",
+        "Sync failure stops successful write acknowledgment until safe reopen",
+        "Graceful drain and forced kill preserve the stated commit contract",
+        "Disk-pressure messages identify pins/growth without leaking secrets"
+      ],
+      "verification": [
+        "Fill constrained storage during append/checkpoint/undo and inspect state",
+        "Run config reload, graceful deadline and recovery readiness journeys"
+      ],
+      "native_dependencies": [
+        "OPS-004"
+      ],
+      "github": {
+        "number": 104,
+        "id": 5695312611,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/104",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eS4w",
+        "title": "[OPS-005] Implement safe configuration, startup/drain and disk-pressure behavior"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-006",
+      "milestone": "M09",
+      "title": "Implement redacted logs, metrics, traces and admin diagnostics",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "OPS-002",
+        "OPS-005",
+        "OPT-006",
+        "JOB-009",
+        "EVT-007"
+      ],
+      "goal": "Expose enough state to diagnose incidents without leaking application data.",
+      "scope": [
+        "Add bounded-cardinality metrics for WAL/pages/locks/history/work/streams",
+        "Implement safe transaction correlation and structured redacted logs",
+        "Expose lock/pin/integrity/capability/config diagnostics with authorization"
+      ],
+      "acceptance": [
+        "No raw credentials/parameters/payloads are logged by default",
+        "Operator can identify blocking lock/pin, queue age and consumer lag",
+        "Metric labels cannot grow with every row/job/cursor",
+        "Audit sink failure/rotation has explicit resource and fail policy"
+      ],
+      "verification": [
+        "Inject known secret markers through auth/queries/jobs and scan diagnostics",
+        "Run an incident drill for lock, snapshot pin and failed WAL flush"
+      ],
+      "native_dependencies": [
+        "OPS-002",
+        "OPS-005",
+        "OPT-006",
+        "JOB-009"
+      ],
+      "github": {
+        "number": 105,
+        "id": 5695312817,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/105",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eTsQ",
+        "title": "[OPS-006] Implement redacted logs, metrics, traces and admin diagnostics"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-007",
+      "milestone": "M09",
+      "title": "Implement consistent online backups and verified restore",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-003",
+        "HIS-005",
+        "OPS-002",
+        "OPS-005"
+      ],
+      "goal": "Preserve user data, complete history and service state in one recoverable backup.",
+      "scope": [
+        "Register a backup pin and capture consistent basis/roots/required WAL",
+        "Stream checksummed pages/manifests and atomically mark complete",
+        "Restore into fresh storage and verify lineage/format/integrity"
+      ],
+      "acceptance": [
+        "Backup during live writes restores one valid committed basis",
+        "Ledger/catalog/index/job/event/offset state agree after restore",
+        "Incomplete/corrupt backup fails instead of opening partial data",
+        "Restored workers/dispatch remain paused with a new timeline by default"
+      ],
+      "verification": [
+        "Backup during mixed write/work/stream load and restore separately",
+        "Interrupt backup/restore and remove/corrupt one required file/segment"
+      ],
+      "native_dependencies": [
+        "OPS-002",
+        "OPS-005"
+      ],
+      "github": {
+        "number": 106,
+        "id": 5695313025,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/106",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eUgQ",
+        "title": "[OPS-007] Implement consistent online backups and verified restore"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-008",
+      "milestone": "M09",
+      "title": "Implement WAL archiving and transaction/timestamp PITR",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "OPS-007",
+        "TXN-004",
+        "HIS-001"
+      ],
+      "goal": "Recover beyond a base backup with an explicit committed recovery target.",
+      "scope": [
+        "Archive validated WAL segments with retry/checksum/durable completion metadata",
+        "Recover to CSN/timestamp under documented undo/stop rules",
+        "Define archive retention and missing-segment diagnostics"
+      ],
+      "acceptance": [
+        "Acknowledged archive coverage is never recycled prematurely",
+        "PITR target excludes later commits while preserving earlier atomic participants",
+        "Missing/corrupt archive ranges fail precisely",
+        "Forked timeline invalidates old tokens/cursors and pauses external dispatch"
+      ],
+      "verification": [
+        "Restore a backup plus archive to several target commits/times",
+        "Lose archive acknowledgments/segments and verify retries plus honest recoverability reporting"
+      ],
+      "native_dependencies": [
+        "OPS-007"
+      ],
+      "github": {
+        "number": 107,
+        "id": 5695313247,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/107",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eVXw",
+        "title": "[OPS-008] Implement WAL archiving and transaction/timestamp PITR"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-009",
+      "milestone": "M09",
+      "title": "Implement retention/pin administration and audited maintenance",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "HIS-006",
+        "HIS-007",
+        "EVT-007",
+        "OPS-007",
+        "OPS-008"
+      ],
+      "goal": "Make history/WAL/stream retention observable and deliberately controllable.",
+      "scope": [
+        "Expose policy preview, oldest bases, pin owners/expiry and growth forecasts",
+        "Implement authorized policy changes, pin expiration and resumable compaction",
+        "Keep exceptional redaction separate under its accepted RFC"
+      ],
+      "acceptance": [
+        "Ordinary maintenance preserves default complete history",
+        "Policy changes and forced pin expiry have auditable observable consequences",
+        "Backup/archive/consumer guarantees are checked before removal",
+        "No unsupported purge/erasure claim is hidden behind vacuum"
+      ],
+      "verification": [
+        "Preview and apply finite retention with reader/consumer/backup pins",
+        "Interrupt maintenance and verify resume, query-range errors and retained data integrity"
+      ],
+      "native_dependencies": [
+        "HIS-007",
+        "OPS-008"
+      ],
+      "github": {
+        "number": 108,
+        "id": 5695313455,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/108",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eWLw",
+        "title": "[OPS-009] Implement retention/pin administration and audited maintenance"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-010",
+      "milestone": "M09",
+      "title": "Implement integrity checking and supported storage upgrades",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "STO-009",
+        "OPS-007",
+        "OPS-009"
+      ],
+      "goal": "Detect damage and migrate formats without gambling on production files.",
+      "scope": [
+        "Build authorized offline/online integrity tools across pages/trees/ledger/catalog",
+        "Define readable/writable format ranges and migration/export paths",
+        "Implement interrupted-upgrade recovery and rollback/restore constraints"
+      ],
+      "acceptance": [
+        "Corruption reports identify affected structures without silent repair/data loss",
+        "An incompatible binary fails before rewriting files",
+        "Supported upgrade preserves all retained history/service state",
+        "Pre-upgrade backup restore and documented rollback paths are verified"
+      ],
+      "verification": [
+        "Inject broken index/ledger/schema references and run integrity tools",
+        "Interrupt migration at every durable boundary and validate resume/restore"
+      ],
+      "native_dependencies": [
+        "OPS-009"
+      ],
+      "github": {
+        "number": 109,
+        "id": 5695313658,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/109",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eW-g",
+        "title": "[OPS-010] Implement integrity checking and supported storage upgrades"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-011",
+      "milestone": "M09",
+      "title": "Ratify encryption-at-rest, key management and erasure boundaries",
+      "kind": "design",
+      "priority": "p1",
+      "dependencies": [
+        "OPS-001",
+        "OPS-007",
+        "HIS-007"
+      ],
+      "goal": "Choose an honest data-at-rest security contract before 1.0.",
+      "scope": [
+        "Evaluate reviewed authenticated page/WAL encryption against encrypted-volume deployment",
+        "Cover key storage, nonce/reuse, rotation, backup/archive restore and diagnostics",
+        "Document implementation follow-ups or mandatory supported-volume requirements"
+      ],
+      "acceptance": [
+        "Accepted ADR specifies exactly which bytes/copies are protected",
+        "No custom cryptography or unsupported at-rest encryption claim",
+        "Rotation/lost-key/recovery risks and operator duties are explicit",
+        "If internal encryption is selected, its implementation/tests block release until done"
+      ],
+      "verification": [
+        "Review threat scenarios and encrypted backup/restore/key-loss procedures",
+        "Validate the selected deployment approach on release platforms; add implementation issues if required"
+      ],
+      "native_dependencies": [
+        "OPS-001",
+        "OPS-007",
+        "HIS-007"
+      ],
+      "github": {
+        "number": 110,
+        "id": 5695313847,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/110",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eXtw",
+        "title": "[OPS-011] Ratify encryption-at-rest, key management and erasure boundaries"
+      },
+      "parent": 10
+    },
+    {
+      "id": "OPS-012",
+      "milestone": "M09",
+      "title": "Implement release packaging, SBOM and operational documentation",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "GOV-006",
+        "OPS-005",
+        "OPS-006",
+        "OPS-007",
+        "OPS-008",
+        "OPS-010",
+        "OPS-011"
+      ],
+      "goal": "Ship reproducible embedded/server artifacts and usable runbooks.",
+      "scope": [
+        "Package Rust library, CLI/server binaries and non-root container",
+        "Publish checksums/signing policy/SBOM/license inventory and version metadata",
+        "Write sizing, deployment, backup, incident and upgrade guides against actual commands"
+      ],
+      "acceptance": [
+        "Clean users can follow documented install/start/backup/restore journeys",
+        "Artifacts identify commit/toolchain/format/capabilities",
+        "Container volumes/permissions/signals preserve durability and drain behavior",
+        "Guides distinguish supported platforms, history costs and single-node availability"
+      ],
+      "verification": [
+        "Build/verify artifacts from a clean checkout",
+        "Run docs/container backup/restore and shutdown journeys with release candidates"
+      ],
+      "native_dependencies": [
+        "OPS-006",
+        "OPS-010",
+        "OPS-011"
+      ],
+      "github": {
+        "number": 111,
+        "id": 5695314066,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/111",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eYkg",
+        "title": "[OPS-012] Implement release packaging, SBOM and operational documentation"
+      },
+      "parent": 10
+    },
+    {
+      "id": "QA-001",
+      "milestone": "M10",
+      "title": "Qualify the complete SQL, type and client compatibility matrix",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "API-010",
+        "API-011",
+        "OPT-006",
+        "OPS-003"
+      ],
+      "goal": "Freeze supported behavior on release artifacts instead of extrapolating from development tests.",
+      "scope": [
+        "Run full differential SQL/type/isolation and real-driver/ORM corpus",
+        "Pin all reference/runtime/client versions and publish deviations",
+        "Exercise error, cancellation, pool reset and unsupported-feature journeys"
+      ],
+      "acceptance": [
+        "Every 1.0 compatibility claim has reproducible passing evidence",
+        "No parser-only/connection-only pass is labeled semantic compatibility",
+        "Supported format/codecs and documented SQLSTATE/state behavior agree",
+        "Known gaps are explicit and release-blocking regressions are resolved"
+      ],
+      "verification": [
+        "Run candidate binaries with PostgreSQL 17 reference and real clients",
+        "Re-run negative catalog/unsupported syntax/session-security cases"
+      ],
+      "native_dependencies": [
+        "API-011",
+        "OPT-006",
+        "OPS-003"
+      ],
+      "github": {
+        "number": 112,
+        "id": 5695314293,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/112",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eZdQ",
+        "title": "[QA-001] Qualify the complete SQL, type and client compatibility matrix"
+      },
+      "parent": 11
+    },
+    {
+      "id": "QA-002",
+      "milestone": "M10",
+      "title": "Run cross-feature crash/recovery and atomicity campaigns",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "TXN-012",
+        "HIS-008",
+        "JOB-010",
+        "EVT-008",
+        "OPS-008",
+        "OPS-010"
+      ],
+      "goal": "Prove the engine's central shared-transaction claim under persistence faults.",
+      "scope": [
+        "Generate transactions spanning rows/indexes/catalog/history/jobs/events/offsets",
+        "Compare acknowledgment, logical-ledger and state-transition oracles",
+        "Include checkpoint, vacuum, backup, replay and restore boundaries"
+      ],
+      "acceptance": [
+        "Every acknowledged transaction survives atomically across all participants",
+        "Aborts/savepoint rollback never leak logical history or delivery",
+        "Unknown outcomes are fully committed or absent",
+        "Repeated recovery/maintenance crashes do not weaken guarantees"
+      ],
+      "verification": [
+        "Run fault-at-every-boundary and long randomized mixed campaigns",
+        "Demonstrate oracle detection on deliberately injected participant inconsistency"
+      ],
+      "native_dependencies": [
+        "HIS-008",
+        "EVT-008",
+        "OPS-010"
+      ],
+      "github": {
+        "number": 113,
+        "id": 5695314538,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/113",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eaag",
+        "title": "[QA-002] Run cross-feature crash/recovery and atomicity campaigns"
+      },
+      "parent": 11
+    },
+    {
+      "id": "QA-003",
+      "milestone": "M10",
+      "title": "Qualify platform durability and actual restore drills",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "OPS-007",
+        "OPS-008",
+        "OPS-010",
+        "OPS-012",
+        "QA-002"
+      ],
+      "goal": "Make production platform claims match real sync and recovery evidence.",
+      "scope": [
+        "Run Linux x86_64/aarch64/filesystem matrix on representative storage",
+        "Distinguish simulated loss, process kill and available hardware power-loss tests",
+        "Measure restore/PITR/recovery time and archive/data-loss bounds"
+      ],
+      "acceptance": [
+        "Only passing platforms/filesystems appear as production-supported",
+        "Documented flush semantics and torn-page protections match evidence",
+        "Release artifacts restore matching data/history/service basis",
+        "Recovery figures include configuration/data-size limitations"
+      ],
+      "verification": [
+        "Perform backup/PITR and repeated crash drills from packaged binaries",
+        "Record platform/storage details and unsupported combinations"
+      ],
+      "native_dependencies": [
+        "OPS-012",
+        "QA-002"
+      ],
+      "github": {
+        "number": 114,
+        "id": 5695314731,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/114",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ebKw",
+        "title": "[QA-003] Qualify platform durability and actual restore drills"
+      },
+      "parent": 11
+    },
+    {
+      "id": "QA-004",
+      "milestone": "M10",
+      "title": "Complete fuzzing, security review and release remediation",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "OPS-001",
+        "OPS-002",
+        "OPS-003",
+        "OPS-004",
+        "OPS-011",
+        "OPS-012"
+      ],
+      "goal": "Close security/corruption gaps before supported deployment.",
+      "scope": [
+        "Run bounded parser/protocol/page/WAL/cursor/payload fuzz campaigns",
+        "Review auth/grants/RLS/redaction/unsafe/dependency findings",
+        "Verify private reporting and supported-version remediation plan"
+      ],
+      "acceptance": [
+        "No unresolved release-blocking security finding remains",
+        "Malformed inputs cannot escape resource/bounds/authorization contracts",
+        "Secrets stay redacted across failure/crash diagnostics",
+        "Fuzz regressions and reviewed unsafe invariants are reproducible"
+      ],
+      "verification": [
+        "Run adversarial protocol, cursor and cross-tenant scenarios",
+        "Audit final artifact dependencies/SBOM and regression fixtures"
+      ],
+      "native_dependencies": [
+        "OPS-003",
+        "OPS-012"
+      ],
+      "github": {
+        "number": 115,
+        "id": 5695314950,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/115",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ecBg",
+        "title": "[QA-004] Complete fuzzing, security review and release remediation"
+      },
+      "parent": 11
+    },
+    {
+      "id": "QA-005",
+      "milestone": "M10",
+      "title": "Run measured mixed-workload soak and resource qualification",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "OPT-007",
+        "OPS-004",
+        "OPS-005",
+        "OPS-006",
+        "QA-002"
+      ],
+      "goal": "Show stable behavior and bounded resources under sustained backend load.",
+      "scope": [
+        "Ratify numeric SLOs/capacity and the proposed >=72-hour soak window",
+        "Mix CRUD/temporal/work/streams/backup with hot keys and slow consumers",
+        "Measure memory, pins, disk/WAL growth, tail latency and post-failure recovery"
+      ],
+      "acceptance": [
+        "No unexplained resource leak or corruption across the approved soak",
+        "Latencies/capacity meet published measured bounds under stated settings",
+        "Pressure/expiry/cancel behavior remains explicit and recoverable",
+        "Results include retained-history amplification and saturation limits"
+      ],
+      "verification": [
+        "Run reproducible release-candidate soak with configured fault injections",
+        "Analyze trends, restart mid-soak and verify oracle/state continuity"
+      ],
+      "native_dependencies": [
+        "OPT-007",
+        "OPS-006",
+        "QA-002"
+      ],
+      "github": {
+        "number": 116,
+        "id": 5695315156,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/116",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ec1A",
+        "title": "[QA-005] Run measured mixed-workload soak and resource qualification"
+      },
+      "parent": 11
+    },
+    {
+      "id": "QA-006",
+      "milestone": "M10",
+      "title": "Validate release docs and complete backend user journeys",
+      "kind": "test",
+      "priority": "p1",
+      "dependencies": [
+        "QA-001",
+        "QA-003",
+        "QA-004",
+        "QA-005",
+        "JOB-009",
+        "OPS-012"
+      ],
+      "goal": "Make the release usable and accurately documented from a clean environment.",
+      "scope": [
+        "Run install, order+job+event, time-travel audit, worker crash and realtime reconnect journeys",
+        "Run backup/PITR/upgrade and restore-paused operator flows",
+        "Publish API/capability/platform/support docs matched to final artifacts"
+      ],
+      "acceptance": [
+        "A clean user can reproduce every documented journey",
+        "No stale proposed API name or nonexistent command remains",
+        "Guarantee/limit wording matches passing evidence and observed behavior",
+        "Single-node support and post-1.0 HA boundaries are clear"
+      ],
+      "verification": [
+        "Execute guides with real PostgreSQL clients and native stream consumers",
+        "Verify links, artifact provenance and reproducible configs from a fresh checkout"
+      ],
+      "native_dependencies": [
+        "QA-001",
+        "QA-003",
+        "QA-004",
+        "QA-005"
+      ],
+      "github": {
+        "number": 117,
+        "id": 5695315373,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/117",
+        "node_id": "I_kwDOU6u-SM8AAAABU3edrQ",
+        "title": "[QA-006] Validate release docs and complete backend user journeys"
+      },
+      "parent": 11
+    },
+    {
+      "id": "QA-007",
+      "milestone": "M10",
+      "title": "Approve and publish the production-qualified single-node 1.0 release",
+      "kind": "docs",
+      "priority": "p0",
+      "dependencies": [
+        "QA-001",
+        "QA-002",
+        "QA-003",
+        "QA-004",
+        "QA-005",
+        "QA-006"
+      ],
+      "goal": "Release only the scope for which the project has complete qualification evidence.",
+      "scope": [
+        "Collect M00-M09 gate reviews and M10 evidence dossier",
+        "Triage all release-blocking correctness/security/compatibility findings",
+        "Tag/publish verified artifacts, support policy, migration notes and measured limits"
+      ],
+      "acceptance": [
+        "All prior single-node milestone gates are satisfied or explicitly revised before approval",
+        "No blocker is bypassed to meet a date",
+        "Artifacts/docs/checksums/SBOM refer to one reviewed release commit",
+        "Production claims exclude full PostgreSQL parity and future HA"
+      ],
+      "verification": [
+        "Review release checklist against the full issue graph and evidence",
+        "Install tagged artifacts, verify signatures/checksums and run a final critical restore journey"
+      ],
+      "native_dependencies": [
+        "QA-006"
+      ],
+      "github": {
+        "number": 118,
+        "id": 5695315568,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/118",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eecA",
+        "title": "[QA-007] Approve and publish the production-qualified single-node 1.0 release"
+      },
+      "parent": 11
+    },
+    {
+      "id": "REP-001",
+      "milestone": "M11",
+      "title": "Ratify replication, consensus and single-node migration RFC",
+      "kind": "design",
+      "priority": "p0",
+      "dependencies": [
+        "QA-007",
+        "GOV-003"
+      ],
+      "goal": "Define a distributed durability contract after single-node qualification.",
+      "scope": [
+        "Select reviewed Raft/consensus approach and explicit async-replica versus quorum modes",
+        "Specify CSN/term/log-index/lineage allocation and mutation-envelope versions",
+        "Define migration from existing history and no-SQL-reevaluation rule"
+      ],
+      "acceptance": [
+        "Existing committed CSNs/history are not renumbered during cluster conversion",
+        "Durability/read-consistency modes and RPO promises are distinct",
+        "Stable values include IDs, timestamps, schedules and retry delays",
+        "Membership/upgrade/failure contracts have concrete verification plans"
+      ],
+      "verification": [
+        "Review leader-loss-before/after-quorum timelines",
+        "Model migration, cursor continuity and mode downgrade hazards"
+      ],
+      "native_dependencies": [
+        "QA-007"
+      ],
+      "github": {
+        "number": 119,
+        "id": 5695315770,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/119",
+        "node_id": "I_kwDOU6u-SM8AAAABU3efOg",
+        "title": "[REP-001] Ratify replication, consensus and single-node migration RFC"
+      },
+      "parent": 12
+    },
+    {
+      "id": "REP-002",
+      "milestone": "M11",
+      "title": "Implement versioned replicated envelopes and durability-provider seam",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "REP-001",
+        "TXN-006",
+        "OPS-010"
+      ],
+      "goal": "Make sealed transaction mutations portable without coupling replicas to SQL execution.",
+      "scope": [
+        "Implement checked replicated-log codec and allocated-value completeness",
+        "Integrate local and future quorum barrier interfaces with commit publication",
+        "Version format/capability compatibility and peer identity"
+      ],
+      "acceptance": [
+        "Replicated records describe deterministic mutations for all participants",
+        "Followers never redraw time/random/identity or invoke user handlers",
+        "Incompatible envelopes fail before partial apply",
+        "Local provider preserves the proven single-node durability contract"
+      ],
+      "verification": [
+        "Round-trip mixed transaction envelopes across version fixtures",
+        "Compare local-provider histories before/after integration and reject malformed frames"
+      ],
+      "native_dependencies": [
+        "REP-001"
+      ],
+      "github": {
+        "number": 120,
+        "id": 5695315962,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/120",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ef-g",
+        "title": "[REP-002] Implement versioned replicated envelopes and durability-provider seam"
+      },
+      "parent": 12
+    },
+    {
+      "id": "REP-003",
+      "milestone": "M11",
+      "title": "Implement deterministic follower apply and replay watermarks",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "REP-002",
+        "TXN-004"
+      ],
+      "goal": "Apply leader mutations to native pages with a recoverable committed prefix.",
+      "scope": [
+        "Persist receive/commit/apply positions and replay idempotently",
+        "Use local WAL for page recovery under replicated transaction identity",
+        "Handle duplicates, reordered transport and crash during apply"
+      ],
+      "acceptance": [
+        "User/catalog/ledger/work/event/offset state matches the leader basis",
+        "Duplicate replay cannot create duplicate history or schedule occurrences",
+        "A follower cannot expose unapplied or uncommitted positions",
+        "Crash during apply restores correct watermarks and state"
+      ],
+      "verification": [
+        "Replay generated mixed logs into independently allocated storage",
+        "Inject crash/duplicates/reordering and compare endpoint state and ledger"
+      ],
+      "native_dependencies": [
+        "REP-002"
+      ],
+      "github": {
+        "number": 121,
+        "id": 5695316157,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/121",
+        "node_id": "I_kwDOU6u-SM8AAAABU3egvQ",
+        "title": "[REP-003] Implement deterministic follower apply and replay watermarks"
+      },
+      "parent": 12
+    },
+    {
+      "id": "REP-004",
+      "milestone": "M11",
+      "title": "Implement replica snapshot bootstrap, catch-up and log retention",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "REP-003",
+        "OPS-007",
+        "OPS-009"
+      ],
+      "goal": "Bring replicas online without losing history or retaining logs forever.",
+      "scope": [
+        "Transfer verified snapshot plus subsequent replicated records",
+        "Install snapshot atomically with lineage/format validation",
+        "Coordinate catch-up pins, bounded lag and explicit rebuild/expiry"
+      ],
+      "acceptance": [
+        "Snapshot+catch-up yields exactly the leader state at an advertised basis",
+        "Interrupted transfer/install is resumable or safely restartable",
+        "History/service state is included, not just current user rows",
+        "Expired slow replicas require explicit rebuild without silent log gaps"
+      ],
+      "verification": [
+        "Bootstrap while mixed writes and scheduling continue",
+        "Interrupt/corrupt snapshot chunks and expire a lagging replica pin"
+      ],
+      "native_dependencies": [
+        "REP-003"
+      ],
+      "github": {
+        "number": 122,
+        "id": 5695316496,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/122",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eiEA",
+        "title": "[REP-004] Implement replica snapshot bootstrap, catch-up and log retention"
+      },
+      "parent": 12
+    },
+    {
+      "id": "REP-005",
+      "milestone": "M11",
+      "title": "Implement read replicas, authenticated transport and consistency APIs",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "REP-003",
+        "REP-004",
+        "API-004",
+        "OPS-006"
+      ],
+      "goal": "Expose useful replica reads with honest freshness and secure peers.",
+      "scope": [
+        "Implement authenticated bounded peer transport and async replica mode",
+        "Expose applied-basis/lag and minimum-basis read-your-writes API",
+        "Reserve linearizable/quorum reads for consensus-qualified mode"
+      ],
+      "acceptance": [
+        "Async replicas advertise stale/read-basis behavior explicitly",
+        "Minimum-basis timeout does not silently return stale results",
+        "Untrusted/incompatible peers cannot send valid mutation records",
+        "Replica metrics/limits expose lag and backpressure"
+      ],
+      "verification": [
+        "Partition/delay a replica and exercise minimum-basis reads",
+        "Test peer authentication failure, transport pressure and reconnect/catch-up"
+      ],
+      "native_dependencies": [
+        "REP-004"
+      ],
+      "github": {
+        "number": 123,
+        "id": 5695316694,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/123",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ei1g",
+        "title": "[REP-005] Implement read replicas, authenticated transport and consistency APIs"
+      },
+      "parent": 12
+    },
+    {
+      "id": "REP-006",
+      "milestone": "M11",
+      "title": "Qualify replication equivalence, bootstrap and failure recovery",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "REP-003",
+        "REP-004",
+        "REP-005",
+        "QA-002"
+      ],
+      "goal": "Prove the replication foundation before offering consensus HA.",
+      "scope": [
+        "Run mixed histories and compare logical/current state across replicas",
+        "Test log/transport/storage faults, bootstrap, expiry and format mismatch",
+        "Publish replica consistency/retention/capacity limitations"
+      ],
+      "acceptance": [
+        "No partial or reordered committed transaction is exposed",
+        "Follower state and complete retained history agree at equal bases",
+        "Restore/bootstrap lineage prevents cursor/token confusion",
+        "Async replication is not mislabeled no-data-loss HA"
+      ],
+      "verification": [
+        "Run crash/replay/slow-replica campaigns with independent state oracle",
+        "Verify recovery and rebuild docs through actual replica processes"
+      ],
+      "native_dependencies": [
+        "REP-005"
+      ],
+      "github": {
+        "number": 124,
+        "id": 5695316901,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/124",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ejpQ",
+        "title": "[REP-006] Qualify replication equivalence, bootstrap and failure recovery"
+      },
+      "parent": 12
+    },
+    {
+      "id": "HA-001",
+      "milestone": "M12",
+      "title": "Implement quorum commit, elections and stale-leader rejection",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "REP-001",
+        "REP-002",
+        "REP-006"
+      ],
+      "goal": "Publish/acknowledge only consensus-committed transactions in HA mode.",
+      "scope": [
+        "Integrate reviewed consensus log/election implementation",
+        "Persist term/vote/commit state and connect quorum barrier to CSN publication",
+        "Define quorum-loss write rejection and unknown outcomes"
+      ],
+      "acceptance": [
+        "Minority/stale leaders cannot acknowledge successful writes",
+        "Leader change preserves every quorum-acknowledged commit",
+        "Transactions spanning all participants retain atomic visibility",
+        "Downgrade to local durability requires explicit incompatible-risk policy"
+      ],
+      "verification": [
+        "Partition leader from quorum around commit/response boundaries",
+        "Crash leaders after quorum commit and compare recovered client outcomes"
+      ],
+      "native_dependencies": [
+        "REP-006"
+      ],
+      "github": {
+        "number": 125,
+        "id": 5695317102,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/125",
+        "node_id": "I_kwDOU6u-SM8AAAABU3ekbg",
+        "title": "[HA-001] Implement quorum commit, elections and stale-leader rejection"
+      },
+      "parent": 13
+    },
+    {
+      "id": "HA-002",
+      "milestone": "M12",
+      "title": "Implement membership changes and quorum-safe snapshot compaction",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "HA-001",
+        "REP-004"
+      ],
+      "goal": "Change cluster composition without losing consensus or history.",
+      "scope": [
+        "Use protocol-correct membership transitions and authenticated node join/remove",
+        "Coordinate replicated log/snapshot retention with voters/learners",
+        "Define failed join/remove and incompatible-node behavior"
+      ],
+      "acceptance": [
+        "Membership transitions cannot produce independent writable quorums",
+        "Joining nodes verify snapshot/format/lineage before voting",
+        "Compaction retains every required recovery/catch-up range",
+        "Operator can recover interrupted changes with documented commands"
+      ],
+      "verification": [
+        "Add/remove nodes under write load and network partitions",
+        "Crash during membership/snapshot transitions and verify committed-prefix preservation"
+      ],
+      "native_dependencies": [
+        "HA-001"
+      ],
+      "github": {
+        "number": 126,
+        "id": 5695317440,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/126",
+        "node_id": "I_kwDOU6u-SM8AAAABU3elwA",
+        "title": "[HA-002] Implement membership changes and quorum-safe snapshot compaction"
+      },
+      "parent": 13
+    },
+    {
+      "id": "HA-003",
+      "milestone": "M12",
+      "title": "Implement linearizable reads, minimum-basis waits and leader routing",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "HA-001",
+        "REP-005"
+      ],
+      "goal": "Make distributed read guarantees explicit and enforceable.",
+      "scope": [
+        "Implement consensus read barrier and applied-position checks",
+        "Route writes/linearizable reads with bounded redirects and term metadata",
+        "Define stale/monotonic/read-your-writes modes and client errors"
+      ],
+      "acceptance": [
+        "Linearizable reads cannot be served by an isolated stale leader",
+        "Minimum-basis waits never report success before apply",
+        "Redirect loops and unavailable quorum are bounded actionable failures",
+        "Advertised consistency mode appears in diagnostics and tests"
+      ],
+      "verification": [
+        "Check generated read/write histories against a linearizability oracle",
+        "Partition/replace leaders while clients retry reads and writes"
+      ],
+      "native_dependencies": [
+        "HA-001"
+      ],
+      "github": {
+        "number": 127,
+        "id": 5695317621,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/127",
+        "node_id": "I_kwDOU6u-SM8AAAABU3emdQ",
+        "title": "[HA-003] Implement linearizable reads, minimum-basis waits and leader routing"
+      },
+      "parent": 13
+    },
+    {
+      "id": "HA-004",
+      "milestone": "M12",
+      "title": "Implement leadership-fenced jobs, scheduling and event services",
+      "kind": "feature",
+      "priority": "p0",
+      "dependencies": [
+        "HA-001",
+        "HA-002",
+        "JOB-010",
+        "EVT-008"
+      ],
+      "goal": "Fail over backend primitives without accepting stale service ownership.",
+      "scope": [
+        "Add cluster term/epoch to job/service ownership and replicated transitions",
+        "Restrict cron materialization/claim issuance to valid service leader",
+        "Coordinate consumer-group handoff and dispatch resume under failover"
+      ],
+      "acceptance": [
+        "Stale leader/worker cannot commit ACK/result/offset changes",
+        "One durable occurrence exists per schedule key despite elections",
+        "Previously committed jobs/events remain discoverable on new leader",
+        "External execution/delivery duplicates remain documented at least once"
+      ],
+      "verification": [
+        "Elect a new leader during lease heartbeat, cron materialization and ACK",
+        "Replay stale-term operations and compare job/ledger/stream state across nodes"
+      ],
+      "native_dependencies": [
+        "HA-002"
+      ],
+      "github": {
+        "number": 128,
+        "id": 5695317819,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/128",
+        "node_id": "I_kwDOU6u-SM8AAAABU3enOw",
+        "title": "[HA-004] Implement leadership-fenced jobs, scheduling and event services"
+      },
+      "parent": 13
+    },
+    {
+      "id": "HA-005",
+      "milestone": "M12",
+      "title": "Implement HA operations, rolling upgrades and disaster-recovery runbooks",
+      "kind": "feature",
+      "priority": "p1",
+      "dependencies": [
+        "HA-002",
+        "HA-003",
+        "HA-004",
+        "OPS-012"
+      ],
+      "goal": "Operate and upgrade clusters with measurable recovery guarantees.",
+      "scope": [
+        "Provide bootstrap/join/remove/drain/failover diagnostics and peer/key rotation",
+        "Define mixed-version envelope/page compatibility and rolling upgrade rules",
+        "Integrate backups/PITR with cluster/timeline identity and measured RPO/RTO"
+      ],
+      "acceptance": [
+        "Unsupported version mixes fail before unsafe replication",
+        "Draining/upgrading preserves quorum and service fencing",
+        "Restore creates an explicit new lineage and paused outbound services",
+        "Runbooks identify irreversible force-recovery actions and required authority"
+      ],
+      "verification": [
+        "Run rolling upgrade/rollback and node replacement on release-like clusters",
+        "Perform total-cluster restore and verify token/cursor invalidation plus paused jobs"
+      ],
+      "native_dependencies": [
+        "HA-003",
+        "HA-004"
+      ],
+      "github": {
+        "number": 129,
+        "id": 5695318179,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/129",
+        "node_id": "I_kwDOU6u-SM8AAAABU3eoow",
+        "title": "[HA-005] Implement HA operations, rolling upgrades and disaster-recovery runbooks"
+      },
+      "parent": 13
+    },
+    {
+      "id": "HA-006",
+      "milestone": "M12",
+      "title": "Qualify partitions, failover and production HA release gates",
+      "kind": "test",
+      "priority": "p0",
+      "dependencies": [
+        "HA-001",
+        "HA-002",
+        "HA-003",
+        "HA-004",
+        "HA-005",
+        "REP-006"
+      ],
+      "goal": "Publish HA only after distributed correctness and operations are evidenced.",
+      "scope": [
+        "Run consensus/linearizability, cross-feature and replicated-state oracles",
+        "Exercise partitions, disk/clock faults, delayed messages, elections and membership changes",
+        "Measure RPO/RTO, failover service duplicates, lag/retention and rolling upgrade limits"
+      ],
+      "acceptance": [
+        "No split-brain acknowledgment or loss of quorum-acknowledged commits",
+        "History/user/work/event/offset state stays atomic through failover",
+        "Read-consistency and stale-term rejection claims pass independent oracles",
+        "No unresolved HA release blocker remains; capabilities/limits are published"
+      ],
+      "verification": [
+        "Run sustained multi-node fault campaigns and operator failover/restore drills",
+        "Validate final HA artifacts with real backend drivers and stream/worker clients"
+      ],
+      "native_dependencies": [
+        "HA-005"
+      ],
+      "github": {
+        "number": 130,
+        "id": 5695318389,
+        "url": "https://github.com/ulrichheringer/vetradb/issues/130",
+        "node_id": "I_kwDOU6u-SM8AAAABU3epdQ",
+        "title": "[HA-006] Qualify partitions, failover and production HA release gates"
+      },
+      "parent": 13
+    }
+  ],
+  "published": {
+    "issues": 130,
+    "epics": 13,
+    "tasks": 117,
+    "native_parents": 117,
+    "native_blocking_edges": 183
+  }
+}

@@ -1,0 +1,32 @@
+name: Feature request
+description: Propose a scoped capability with verifiable acceptance criteria.
+title: "[Feature] "
+labels: ["kind:feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and user journey
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Proposed behavior and scope
+      description: Include SQL/API surface, transaction participation and explicit exclusions.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria and failure cases
+      description: Include rollback, recovery, concurrency, authorization and limits when applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and verification
+      description: Link related issues and describe meaningful tests or design evidence.
+    validations:
+      required: true

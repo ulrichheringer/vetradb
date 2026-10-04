@@ -1,0 +1,33 @@
+name: Design RFC
+description: Discuss an architecture or public contract change before implementation.
+title: "[RFC] "
+labels: ["kind:design"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and decision
+      description: Identify the current ADR/contract and the problem it cannot solve.
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Alternatives and tradeoffs
+      description: Include correctness, resource use, complexity and compatibility.
+    validations:
+      required: true
+  - type: textarea
+    id: effects
+    attributes:
+      label: Invariants and migration impact
+      description: Cover WAL/format, isolation, history, services, security and future replication as relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and follow-up work
+      description: Define experiments, acceptance gates and dependent implementation issues.
+    validations:
+      required: true
