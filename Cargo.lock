@@ -151,6 +151,7 @@ dependencies = [
 name = "vetra-test-support"
 version = "0.0.0"
 dependencies = [
+ "vetra-engine",
  "vetra-io",
  "vetra-types",
 ]

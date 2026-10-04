@@ -38,7 +38,7 @@ Acknowledged => exact full expected effects; aborted => no committed effects/his
 
 ## Reproducibility and minimization
 
-`cargo run --locked -p vetra-test-support --bin fuzz-foundation -- 42 10000` runs a deterministic bounded persistence-model campaign, capped at 100000 cases. This is a maintained smoke entry point, not coverage-guided codec fuzzing. Future corpus fuzzers land with real codecs in #29/#115; no nightly/compiler fuzz dependency is mandatory for current contributors.
+`cargo run --locked -p vetra-test-support --bin fuzz-foundation -- 42 10000` runs a deterministic bounded persistence-model campaign, capped at 100000 cases. This is a maintained smoke entry point, not coverage-guided codec fuzzing. The [M02 qualification suite](m02-transaction-evidence.md) now applies these independent oracles to native transactions, physical WAL/recovery and real process kills, with labeled E1/E2 limits. Future coverage-guided fuzzers remain #115; no nightly/compiler fuzz dependency is mandatory for current contributors.
 
 Store failures as synthetic traces with seed/case, submitted transaction IDs/effects, acknowledgments, surviving sector ranges, operations and expected/observed results; no credentials or production payloads. Minimize by deleting transactions/operations/faults, then shrinking values while rerunning the independent oracle and preserving the failure. Record original and minimized trace plus replay command. The current campaign reports replay seed/case/prefix and cases are already a two-write minimal shape; a general shrinker and durable trace archive are future provider/campaign work.
 
