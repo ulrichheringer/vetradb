@@ -40,8 +40,8 @@ The allocator generation/state serialization is an internal owned representation
 
 | Platform | Current scope |
 | --- | --- |
-| macOS local filesystem | Native tests on the current ARM host; development validation, not power-loss qualification |
-| Linux local filesystem | Code and tests enabled in existing x86_64/aarch64 CI; execution of this change awaits publication, no local Linux evidence claimed |
+| macOS local filesystem | Native tests on the current ARM host and CI on ARM/Intel; development validation, not power-loss qualification |
+| Linux local filesystem | All native x86_64/aarch64 CI jobs passed on Rust 1.85.0/1.97.1; platform durability qualification remains a later gate |
 | Windows/other Unix/network filesystems | Unsupported local writable provider; no NFS/SMB or crash-durability claim |
 
 Database directories must be in a trusted parent that other processes/users cannot rename during an operation. Existing directory/file permissions must deny group/other access; newly created directories/files use 0700/0600. Parent and child symlinks, traversal, lock-file names and non-file entries are rejected; Linux/macOS opens also use O_NOFOLLOW. Use a canonical trusted path (macOS `/var` is a system symlink). Hard-link/hostile-parent races are outside this trusted-parent contract. Identical database paths cannot be opened for writing by independent processes, and file handles keep the lease alive.
@@ -50,7 +50,7 @@ An unclean exit leaves `owner.lock`. Open fails with `OwnershipUnavailable`; the
 
 ## Local execution and measurements (2026-10-04)
 
-The consolidated gate passed locally on macOS ARM with the pinned Rust 1.85.0 and 1.97.1 compilers. It includes 33 new storage/I/O integration tests, formatting, warning-free Clippy, the existing workspace/doc tests, embedded-only build, static format fixtures and both seed-42 campaigns. These are local results; this change has not been published to remote CI.
+The consolidated gate passed locally on macOS ARM with the pinned Rust 1.85.0 and 1.97.1 compilers. It includes 33 new storage/I/O integration tests, formatting, warning-free Clippy, the existing workspace/doc tests, embedded-only build, static format fixtures and both seed-42 campaigns. The published implementation also passed all eight [native CI jobs](https://github.com/ulrichheringer/vetradb/actions/runs/37239571535), covering Linux x86_64/aarch64 and macOS ARM/Intel on both compilers. The final interrupted-sync/failed-rename regression is included in this remote evidence.
 
 The release-mode seed-42 storage campaign passed 10,000 operations on 64 possible 8-byte keys, 8-byte values and fanout 3. It sealed 9,374 actions and staged 233,708 page images (1,914,535,936 cumulative image bytes). The harness drains completed test actions after each operation, preserving the journal LSN high-water, so this cumulative traffic is not retained memory. These are generated page-image counts, not measured disk/WAL traffic or a production benchmark. They substantiate the severe O(n) write-amplification cost of the correctness-first repacker.
 
@@ -58,4 +58,4 @@ The native pager/cache round-trip traverses persisted multi-level tree pages wit
 
 ## Review/closure
 
-The local implementation gates provide reproducible M01 evidence, with the restrictions above. Architectural review and cross-platform CI for this change remain review/publication steps. No GitHub issue is auto-closed, and M02 prerequisites are not marked complete by a volatile replay test. Review this evidence against each child issue before closing the epic.
+The implementation is published in [PR #134](https://github.com/ulrichheringer/vetradb/pull/134), with passing local and cross-platform native CI. Acceptance evidence is mapped to each child issue. Epic #2, tasks #21–#29 and milestone M01 were closed on 2026-10-04 for the experimental physical-storage scope. PR merge and architecture/release ratification remain separate review steps. M02 remains open; volatile replay does not complete its durability or transaction gates.

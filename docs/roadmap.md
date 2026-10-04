@@ -54,7 +54,7 @@ Ratified contracts, module/MSRV/dependency policy, durable-format and fault-mode
 
 ## M01 — Pages, buffer pool and B+Trees
 
-[Experimental implementation and acceptance evidence](specs/m01-storage-evidence.md) cover STO-001 through STO-009. The native page/tree model, malformed-format and split/merge/allocation fault gates pass locally. Publication and review status are tracked in epic #2; durable recovery remains M02.
+[Experimental implementation and acceptance evidence](specs/m01-storage-evidence.md) cover STO-001 through STO-009. The native page/tree model, malformed-format and split/merge/allocation fault gates pass locally and in all eight native CI jobs. Epic #2 and tasks #21–#29 are closed for this experimental scope; [PR #134](https://github.com/ulrichheringer/vetradb/pull/134) tracks integration review. Durable recovery remains M02.
 
 Native page engine with checked codecs, allocation, overflow, bounded buffer management and structurally validated B+Trees.
 
