@@ -4,14 +4,16 @@
 
 The engine is a synchronous, storage-focused core with explicit I/O, clock, randomness and durability interfaces. Server networking and embedded adapters wrap the same transaction, catalog and query services. Async network tasks must not hold page latches across await points. Blocking storage work uses bounded execution capacity.
 
-These are proposed module boundaries, not existing Rust crates:
+These approved module boundaries now have foundation Rust crates; most declare ownership without implementing database behavior. The detailed ownership, MSRV/target and dependency policy is in [modules.md](specs/modules.md); [modules.json](specs/modules.json) defines the direct acyclic graph.
 
 | Module | Responsibility | Permitted dependencies |
 | --- | --- | --- |
 | `types` | Stable IDs, SQL values, errors, encodings | Small reviewed utilities |
 | `io` | File ownership, positioned reads/writes, sync, injectable faults | Platform APIs |
-| `storage` | Pages, allocation, buffer pool, B+Trees, overflow records | `types`, `io`, WAL interface |
-| `wal` / `recovery` | Record framing, flush, checkpoint, redo/undo | `types`, `io`, page recovery interface |
+| `recovery-api` | Owned recovery commands and WAL/durability traits | `types` |
+| `storage` | Pages, allocation, buffer pool, B+Trees, overflow records | `types`, `io`, `recovery-api` |
+| `wal` | Record framing, append and durable flush | `types`, `io`, `recovery-api` |
+| `recovery` | Analysis, redo, undo and checkpoint orchestration | `types`, `wal`, `storage`, `recovery-api` |
 | `txn` | MVCC, row/key/range locks, commit sequencing, savepoints | Storage and WAL services |
 | `catalog` | Versioned schema, object IDs, grants, dependency graph | `txn` |
 | `history` | Immutable transaction envelopes and temporal indexes | `txn`, `catalog` |
@@ -21,10 +23,11 @@ These are proposed module boundaries, not existing Rust crates:
 | `events` | Publication records, offsets, CDC, subscriptions | `txn`, `history`, catalog authorization |
 | `engine` | Database lifecycle and bounded orchestration | Core services above |
 | `embedded` | Safe Rust ownership, transactions, snapshots, shutdown | `engine` |
-| `pgwire` / `server` | Sessions, auth, codecs, cancellation, transport | `engine`, security provider |
+| `pgwire` | Protocol message/session types | `types` |
+| `server` | Auth, cancellation and bounded runtime/transport | `types`, `engine`, `pgwire` |
 | `admin` / `cli` | Backup, integrity checks, migrations, diagnostics | Public management services |
 
-Dependency cycles are prohibited. Transaction participation is an internal capability, not a plugin callback that may perform arbitrary I/O during commit.
+Dependency cycles are prohibited. Typed participant mutations and envelope installation belong to `txn`; catalog/history services use them from above. The transaction layer never calls back into catalog/history. `engine` wires lower-layer interfaces to concrete implementations. Transaction participation is an internal capability, not a plugin callback that may perform arbitrary I/O during commit.
 
 ```mermaid
 flowchart TD
@@ -36,14 +39,20 @@ flowchart TD
   SQL --> TX[Transaction manager]
   Work --> TX
   Events --> TX
-  TX --> Catalog[Versioned catalog]
-  TX --> History[Committed history ledger]
+  SQL --> Catalog[Versioned catalog]
+  Catalog --> TX
+  Engine --> History[Committed history services]
+  History --> Catalog
+  History --> TX
   TX --> Storage[Pages, buffer pool and B+Trees]
   TX --> WAL[WAL and durability barrier]
-  Storage --> WAL
+  Storage --> Interfaces[Recovery and WAL interfaces]
+  WAL --> Interfaces
   WAL --> IO[Local filesystem]
   Storage --> IO
 ```
+
+The [format-v1 candidate](specs/persistent-format-v1.md) defines persisted identifiers, page/WAL framing and envelope bounds. Its fixtures and crash walkthroughs are [review evidence](specs/foundation-evidence.md), not an implemented recovery guarantee.
 
 ## Identifiers and scopes
 

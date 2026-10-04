@@ -44,6 +44,8 @@ This diagram summarizes release gates. Independent tasks may overlap once their 
 
 ## M00 — Foundation and design freeze
 
+The first three executable issues (#14–#16) have [local design deliverables and fixture evidence](specs/foundation-evidence.md). The owner accepted these designs on 2026-10-04; they do not close the epic or satisfy the remaining foundation gates.
+
 Ratified contracts, module/MSRV/dependency policy, durable-format and fault-model specifications, contributor/release governance.
 
 **Exit gate:** Experimental implementation may start only after the transaction/storage/history invariants and verification plan are reviewed.

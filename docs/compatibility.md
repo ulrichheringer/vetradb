@@ -4,6 +4,8 @@ Status: every row below is **planned and unimplemented**. Stage denotes intended
 
 PostgreSQL separates protocol startup, simple queries, extended queries and COPY. Passing a connection test is only one part of compatibility. [Official PostgreSQL 17 protocol overview](https://www.postgresql.org/docs/17/protocol-overview.html).
 
+The accepted [conformance contract](specs/postgresql-conformance.md) and [machine-readable matrix](specs/postgresql-matrix.json) enumerate planned/unsupported/deferred status, native namespaces, session/catalog inventory, negative acceptance fixtures and promotion requirements. The foundation workspace has response state types only, not a PostgreSQL adapter.
+
 ## Progression
 
 | Stage | Target | Evidence required |

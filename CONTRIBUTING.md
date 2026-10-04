@@ -1,6 +1,6 @@
 # Contributing to VetraDB
 
-VetraDB is at the planning stage. There is no implementation to build or run yet. Start from the [roadmap](docs/roadmap.md), [issue index](docs/planning/issue-index.md) and architecture documents.
+VetraDB is at the foundation stage. The Rust workspace and verification tooling build and run; no usable database engine exists yet. Use the [development guide](docs/development.md) and run `python3 tools/verify.py`. Start from the [roadmap](docs/roadmap.md), [issue index](docs/planning/issue-index.md) and architecture documents.
 
 ## Work selection
 
@@ -21,7 +21,7 @@ An implementation issue must contain a clear contract, scoped behavior, failure 
 
 An issue is complete when every acceptance criterion is demonstrated, dependencies are satisfied, required fixtures and behavioral tests pass, public contracts/docs are updated and review evidence is linked. A design issue finishes with an accepted RFC/ADR and concrete follow-up work. A test issue finishes with a runnable oracle and demonstrated failure detection, not a test that merely duplicates implementation structure.
 
-CI, Rust workspace/MSRV, formatting/linting, test commands, performance budgets and artifact packaging will be established by the foundation milestone. Do not invent build commands in documentation before they exist.
+Workspace/MSRV, CI, formatting/linting and unit/integration/documentation gates now exist; commands are documented in the [development guide](docs/development.md). Real database performance budgets and artifact packaging remain their own milestone work. Do not present future engine campaigns as maintained workflows.
 
 ## Planning source
 

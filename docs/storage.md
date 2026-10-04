@@ -2,7 +2,7 @@
 
 ## Initial physical design
 
-Proposed initial page size: 8 KiB, fixed for a database and encoded in its superblock. The format-freeze issue must confirm it with overflow, cache and write-amplification measurements. A superblock carries magic, format version, database/timeline IDs, generation and checkpoint metadata with checksummed redundant copies.
+The [format-v1 candidate](specs/persistent-format-v1.md) specifies 8 KiB pages, fixed for a database and encoded in its superblock, with exact field layouts, bounds, CRC32C and recovery rules. [ADR 0013](adr/0013-persistent-format-v1.md) is accepted by the repository owner on 2026-10-04; overflow, cache and write-amplification measurements remain implementation gates. [Static fixtures and crash walkthroughs](specs/foundation-evidence.md) provide design review evidence. A superblock carries magic, format version, database/timeline IDs, generation and checkpoint metadata with checksummed redundant copies.
 
 Page headers contain kind, page ID, reuse generation, page LSN, checksum and bounds. Slotted pages store variable-length records; overflow chains store large values. No persisted data uses native Rust memory layout, pointer values, `usize` or unchecked enum discriminants. Key encoding must preserve SQL order, including NULL placement and collation identifiers.
 

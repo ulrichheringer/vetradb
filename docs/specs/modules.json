@@ -1,0 +1,104 @@
+{
+  "types": [],
+  "io": [
+    "types"
+  ],
+  "recovery-api": [
+    "types"
+  ],
+  "wal": [
+    "types",
+    "io",
+    "recovery-api"
+  ],
+  "storage": [
+    "types",
+    "io",
+    "recovery-api"
+  ],
+  "recovery": [
+    "types",
+    "wal",
+    "storage",
+    "recovery-api"
+  ],
+  "txn": [
+    "types",
+    "storage",
+    "wal",
+    "recovery-api"
+  ],
+  "catalog": [
+    "types",
+    "txn"
+  ],
+  "history": [
+    "types",
+    "txn",
+    "catalog"
+  ],
+  "sql": [
+    "types",
+    "catalog"
+  ],
+  "planner": [
+    "types",
+    "sql",
+    "catalog"
+  ],
+  "executor": [
+    "types",
+    "planner",
+    "txn",
+    "storage",
+    "catalog"
+  ],
+  "work": [
+    "types",
+    "txn",
+    "catalog"
+  ],
+  "events": [
+    "types",
+    "txn",
+    "history",
+    "catalog"
+  ],
+  "engine": [
+    "types",
+    "io",
+    "wal",
+    "storage",
+    "recovery",
+    "txn",
+    "catalog",
+    "history",
+    "executor",
+    "work",
+    "events"
+  ],
+  "embedded": [
+    "types",
+    "engine"
+  ],
+  "pgwire": [
+    "types"
+  ],
+  "server": [
+    "types",
+    "engine",
+    "pgwire"
+  ],
+  "admin": [
+    "types",
+    "engine"
+  ],
+  "cli": [
+    "types",
+    "admin"
+  ],
+  "test-support": [
+    "types",
+    "io"
+  ]
+}

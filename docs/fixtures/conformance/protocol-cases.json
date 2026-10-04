@@ -1,0 +1,148 @@
+[
+  {
+    "id": "startup-success",
+    "flow": [
+      "Startup(3.0)",
+      "TLS+SCRAM",
+      "AuthenticationOk",
+      "ParameterStatus",
+      "BackendKeyData",
+      "ReadyForQuery(I)"
+    ],
+    "sqlstate": null,
+    "ready_state": "I",
+    "effect": "none",
+    "status": "planned"
+  },
+  {
+    "id": "auth-failure",
+    "flow": [
+      "Startup(3.0)",
+      "SCRAM",
+      "ErrorResponse",
+      "Close"
+    ],
+    "sqlstate": "28P01",
+    "ready_state": null,
+    "effect": "none",
+    "status": "planned"
+  },
+  {
+    "id": "explicit-error",
+    "flow": [
+      "BEGIN",
+      "ReadyForQuery(T)",
+      "SELECT 1/0",
+      "ErrorResponse",
+      "ReadyForQuery(E)"
+    ],
+    "sqlstate": "22012",
+    "ready_state": "E",
+    "effect": "none",
+    "status": "planned"
+  },
+  {
+    "id": "failed-transaction",
+    "flow": [
+      "failed explicit transaction",
+      "SELECT 1",
+      "ErrorResponse",
+      "ReadyForQuery(E)"
+    ],
+    "sqlstate": "25P02",
+    "ready_state": "E",
+    "effect": "none",
+    "status": "planned"
+  },
+  {
+    "id": "savepoint-recovery",
+    "flow": [
+      "BEGIN",
+      "SAVEPOINT s",
+      "statement error",
+      "ROLLBACK TO s",
+      "ReadyForQuery(T)"
+    ],
+    "sqlstate": null,
+    "ready_state": "T",
+    "effect": "savepoint rollback",
+    "status": "planned"
+  },
+  {
+    "id": "implicit-multi-error",
+    "flow": [
+      "Query: INSERT; SELECT 1/0; INSERT",
+      "ErrorResponse",
+      "ReadyForQuery(I)"
+    ],
+    "sqlstate": "22012",
+    "ready_state": "I",
+    "effect": "all implicit changes rolled back",
+    "status": "planned"
+  },
+  {
+    "id": "extended-error-drain",
+    "flow": [
+      "Parse/Bind/Execute error",
+      "ErrorResponse",
+      "discard through Sync",
+      "ReadyForQuery(E)"
+    ],
+    "sqlstate": "42601",
+    "ready_state": "E",
+    "effect": "none in failed explicit transaction",
+    "status": "planned"
+  },
+  {
+    "id": "copy-invalid",
+    "flow": [
+      "BEGIN",
+      "COPY FROM",
+      "invalid input",
+      "ErrorResponse",
+      "ReadyForQuery(E)"
+    ],
+    "sqlstate": "22P02",
+    "ready_state": "E",
+    "effect": "COPY changes rolled back",
+    "status": "planned"
+  },
+  {
+    "id": "unsupported-setting",
+    "flow": [
+      "Startup: unknown semantic option",
+      "ErrorResponse",
+      "Close"
+    ],
+    "sqlstate": "42704",
+    "ready_state": null,
+    "effect": "none",
+    "status": "planned"
+  },
+  {
+    "id": "unsupported-extension",
+    "flow": [
+      "CREATE EXTENSION",
+      "ErrorResponse",
+      "ReadyForQuery(I)"
+    ],
+    "sqlstate": "0A000",
+    "ready_state": "I",
+    "effect": "none",
+    "status": "planned"
+  },
+  {
+    "id": "cancellation",
+    "flow": [
+      "BEGIN",
+      "running SELECT",
+      "CancelRequest",
+      "ErrorResponse",
+      "ReadyForQuery(E)"
+    ],
+    "sqlstate": "57014",
+    "ready_state": "E",
+    "effect": "statement rolled back",
+    "status": "planned"
+  }
+]

@@ -1,0 +1,242 @@
+{
+  "postgresql_major": 17,
+  "protocol": 196608,
+  "features": [
+    {
+      "id": "ddl-dml",
+      "status": "planned",
+      "contract": "SQL transactional DDL/DML and constraints",
+      "issues": [
+        42,
+        45,
+        46,
+        47,
+        49
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "relational",
+      "status": "planned",
+      "contract": "Queries, joins, grouping, subqueries and common windows",
+      "issues": [
+        43,
+        50,
+        51,
+        52,
+        54
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "scalar-types",
+      "status": "planned",
+      "contract": "Enumerated scalar types and text/binary codecs",
+      "issues": [
+        44,
+        61
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "json-sequences-upsert",
+      "status": "planned",
+      "contract": "Enumerated JSON/default/identity/ON CONFLICT operations",
+      "issues": [
+        53,
+        55
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "isolation",
+      "status": "planned",
+      "contract": "Read committed, repeatable read, serializable and savepoints",
+      "issues": [
+        37,
+        38,
+        39,
+        40
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "startup-auth",
+      "status": "planned",
+      "contract": "Protocol 3.0 startup, TLS and SCRAM",
+      "issues": [
+        58,
+        59
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "extended-query",
+      "status": "planned",
+      "contract": "Prepared statements, portals and Sync recovery",
+      "issues": [
+        60
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "copy-text-csv",
+      "status": "planned",
+      "contract": "Bounded transactional COPY text/CSV",
+      "issues": [
+        63
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "catalog-settings",
+      "status": "planned",
+      "contract": "Accurate catalog subset and allowlisted settings",
+      "issues": [
+        62
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "cancel",
+      "status": "planned",
+      "contract": "Authenticated bounded cancellation",
+      "issues": [
+        64
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "listen-notify",
+      "status": "planned",
+      "contract": "Ephemeral PostgreSQL channel",
+      "issues": [
+        86
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "native-history-work-events",
+      "status": "planned",
+      "contract": "Versioned VetraDB namespace and grants",
+      "issues": [
+        67,
+        75,
+        85
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "postgres-physical-format",
+      "status": "unsupported",
+      "contract": "Native storage only",
+      "issues": [
+        22
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "stored-code-extensions",
+      "status": "unsupported",
+      "contract": "No PL/pgSQL, native extensions or arbitrary callbacks",
+      "issues": [
+        17
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "cross-database-txn",
+      "status": "unsupported",
+      "contract": "Single-database commit boundary",
+      "issues": [
+        14
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "arrays-udt",
+      "status": "deferred",
+      "contract": "Requires independent type/codecs qualification",
+      "issues": [
+        44
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "recursive-cte",
+      "status": "deferred",
+      "contract": "Requires explicit grammar/semantic expansion",
+      "issues": [
+        54
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "binary-copy",
+      "status": "deferred",
+      "contract": "Separate binary COPY qualification",
+      "issues": [
+        63
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "protocol-new-minor",
+      "status": "deferred",
+      "contract": "Protocol above 3.0 requires negotiation qualification",
+      "issues": [
+        58
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    },
+    {
+      "id": "pgoutput",
+      "status": "deferred",
+      "contract": "Native CDC is not PostgreSQL logical replication",
+      "issues": [
+        119
+      ],
+      "evidence": [],
+      "versions": {},
+      "deviations": []
+    }
+  ]
+}

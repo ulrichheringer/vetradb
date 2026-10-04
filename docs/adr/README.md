@@ -15,4 +15,20 @@ These records capture accepted **planning directions**, not implemented or verif
 | [0009](0009-single-node-before-ha.md) | Single-node qualification before replication/HA |
 | [0010](0010-retention-and-history-security.md) | Complete default history, explicit retention and present-day authorization |
 
+The detailed foundation ADRs below were accepted by the repository owner on 2026-10-04 and refine the planning directions.
+
+| ADR | Decision |
+| --- | --- |
+| [0011](0011-product-release-contract.md) | Product scope and release vocabulary (#14) |
+| [0012](0012-rust-module-policy.md) | Acyclic synchronous core and adapter dependencies (#15) |
+| [0013](0013-persistent-format-v1.md) | Explicit v1 pages, WAL and transaction envelopes (#16) |
+
+The owner authorized implementation continuation on 2026-10-04; these follow-up decisions document that scope.
+
+| ADR | Decision |
+| --- | --- |
+| [0014](0014-postgresql-conformance.md) | Enumerated PostgreSQL conformance and native namespace (#17) |
+| [0015](0015-fault-oracle-contract.md) | External correctness oracles and labeled fault evidence (#18) |
+| [0016](0016-workspace-bootstrap.md) | Rust workspace and runnable contributor gates (#19) |
+
 New ADRs should include status/date, context, decision, alternatives, consequences, invariant changes, migration/verification and links to affected tasks. Do not delete old decisions to hide incompatible changes.

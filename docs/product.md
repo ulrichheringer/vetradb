@@ -32,6 +32,8 @@ Durable queue claims, scheduler occurrences, acknowledgments, event publication 
 - Durable historical queries and complete retained transaction history, not a claim of legal non-repudiation or tamper-proof storage against a privileged host attacker.
 - No distributed transactions, sharding, cross-node execution, PostgreSQL extensions, PL/pgSQL, arbitrary stored code, or transparent drop-in PostgreSQL replacement in the initial release.
 
+The [foundation release contract](specs/foundation.md) defines planned, experimental, supported and production-qualified capability status, and traces these journeys to implementation/qualification tasks. [ADR 0011](adr/0011-product-release-contract.md) records the accepted design.
+
 ## Readiness
 
 Production readiness requires passing the [verification gates](verification.md), operational restore drills, reviewed format and upgrade policies, security evidence and a supported compatibility matrix. Feature availability alone cannot satisfy this requirement. Capacity and latency limits will be published from measured workloads; no performance number is promised before measurement.

@@ -26,7 +26,7 @@ Snapshot handles are immutable read views with explicit close/TTL and resource q
 
 ## Metadata and audit
 
-Trusted fields include authenticated principal, database/session identity and engine commit time. Application metadata includes request/correlation ID, actor claim, source and tags, capped by a proposed 64 KiB per transaction and a validated shape. Application-supplied actor labels never replace the authenticated principal.
+Trusted fields include authenticated principal, database/session identity and engine commit time. Application metadata includes request/correlation ID, actor claim, source and tags, capped at 16 KiB per transaction by the [accepted format-v1 contract](specs/persistent-format-v1.md) and a validated shape. Application-supplied actor labels never replace the authenticated principal.
 
 Successful mutations are audited through the transaction ledger. Failed authentication, denied access and operational actions use a separate bounded security/operations audit sink because an aborted transaction must not enter committed data history. Secrets, password verifiers and transport credentials never appear as general history payloads or user-query logs; credential state is held behind the security-provider boundary. Full versioning covers relational application data and declared service state.
 

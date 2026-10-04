@@ -2,7 +2,7 @@
 
 **A Rust database engine for modern backends: relational SQL, complete transaction history, and transactional backend primitives in one durability boundary.**
 
-> Planning stage. This repository contains architecture, specifications, and a development backlog. There is no database implementation or supported release yet. Production readiness is a release gate, not a current claim.
+> Foundation stage. This repository contains accepted designs, a Rust workspace and runnable verification tooling. There is no usable database implementation or supported release yet. Production readiness is a release gate, not a current claim.
 
 VetraDB is designed to combine an independent page-based storage engine with progressively tested PostgreSQL compatibility. Applications should be able to change relational data, enqueue work, and publish durable events atomically, then inspect how that state evolved.
 
@@ -44,10 +44,12 @@ The history model is inspired by Datomic's treatment of transactions and time. V
 - [PostgreSQL compatibility](docs/compatibility.md)
 - [Roadmap and milestone gates](docs/roadmap.md)
 - [Development issue index](docs/planning/issue-index.md)
+- [Workspace setup and verification](docs/development.md)
+- [Foundation implementation evidence](docs/specs/bootstrap-evidence.md)
 
 ## Contributing
 
-Start with [CONTRIBUTING.md](CONTRIBUTING.md). Development is sequenced by milestone and explicit issue dependencies. Architectural changes need an RFC or ADR; correctness claims need reproducible evidence. This initial contribution deliberately contains no Rust crate, server, executable examples, build pipeline, or implementation stub.
+Start with [CONTRIBUTING.md](CONTRIBUTING.md). Development is sequenced by milestone and explicit issue dependencies. Architectural changes need an RFC or ADR; correctness claims need reproducible evidence. The foundation workspace and CI are bootstrapped; most engine crates currently declare module boundaries. Run `python3 tools/verify.py` for the maintained checks. Server/storage/SQL behavior remains unimplemented.
 
 ## License
 

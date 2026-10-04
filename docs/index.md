@@ -1,11 +1,19 @@
 # Documentation
 
-All capabilities in these documents are planned unless a released support matrix explicitly records them as tested. The initial repository is documentation only.
+All capabilities in these documents are planned unless a released support matrix explicitly records them as tested. The foundation workspace and verification tooling exist; database behavior remains unimplemented.
 
 | Document | Purpose |
 | --- | --- |
 | [Product contract](product.md) | Target workloads, scope, examples and non-goals |
 | [Architecture](architecture.md) | Modules, transaction boundary, commit protocol and deployment modes |
+| [Foundation contract](specs/foundation.md) | Release vocabulary, boundaries and journey-to-task trace |
+| [Module policy](specs/modules.md) | Acyclic Rust ownership, MSRV/targets and dependency review |
+| [Format v1 candidate](specs/persistent-format-v1.md) | Byte layouts, WAL/envelope framing and recovery boundaries |
+| [Development](development.md) | Maintained workspace/CI commands and deferred workflows |
+| [Conformance contract](specs/postgresql-conformance.md) | Feature inventory, negative wire cases and driver/ORM pinning |
+| [Fault/oracle contract](specs/fault-oracles.md) | Evidence levels and independent bounded models/oracles |
+| [Bootstrap evidence](specs/bootstrap-evidence.md) | Actual #17–#19 results and platform limits |
+| [Foundation evidence](specs/foundation-evidence.md) | Runnable fixture checks, hand-worked recovery traces and accepted designs |
 | [Storage](storage.md) | Page/B+Tree organization, WAL, recovery and format invariants |
 | [SQL](sql.md) | Relational semantics, catalog, constraints, types and execution |
 | [Compatibility](compatibility.md) | PostgreSQL reference baseline, stages and client evidence |

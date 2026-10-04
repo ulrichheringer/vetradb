@@ -1,6 +1,8 @@
 # Verification and release evidence
 
-Production-grade means the engine has evidence for its stated contracts under failure and concurrency. No implementation, test runner or benchmark exists in this initial planning commit.
+Production-grade means the engine has evidence for its stated contracts under failure and concurrency. The Rust foundation workspace and independent reference models/oracles now run. No usable database engine or database benchmark exists yet. The [foundation fixture checker](specs/foundation-evidence.md) verifies proposed byte examples and module dependencies; it does not qualify storage/recovery behavior.
+
+Maintained checks and CI are documented in [development.md](development.md); [fault-oracles.md](specs/fault-oracles.md) defines evidence levels and remaining fault-provider requirements. [Bootstrap evidence](specs/bootstrap-evidence.md) records actual local results and remote-platform limits.
 
 ## Layers
 
