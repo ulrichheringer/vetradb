@@ -1,6 +1,6 @@
 # Development issue index
 
-Initial plan: **13 milestones, 13 epics and 117 scoped tasks (130 issues total)**. All are planned and open at publication; no engine code is implemented. GitHub holds live status.
+Initial plan: **13 milestones, 13 epics and 117 scoped tasks (130 issues total)**. This table preserves the initial plan; GitHub holds live status. M00 is complete, and the [M01 experimental storage implementation](../specs/m01-storage-evidence.md) is delivered for review. Later milestones remain planned.
 
 Each task has scope, acceptance criteria, negative scenarios, verification and prerequisite links. Native sub-issues attach tasks to epics; native blocked-by relationships use a transitive reduction preserving the same dependency reachability. P0 marks correctness/security/release gates; P1 marks required product/operational work.
 

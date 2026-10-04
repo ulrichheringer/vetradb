@@ -1,5 +1,7 @@
 # Storage, WAL and recovery
 
+The [M01 implementation and evidence](specs/m01-storage-evidence.md) now provide checked native pages, allocation, a bounded cache, serialized copy-on-write B+Trees and row-version access hooks. The journal provider is volatile; durable WAL recovery remains M02. [ADR 0018](adr/0018-m01-storage-bringup.md) records implementation limits and review status.
+
 ## Initial physical design
 
 The [format-v1 candidate](specs/persistent-format-v1.md) specifies 8 KiB pages, fixed for a database and encoded in its superblock, with exact field layouts, bounds, CRC32C and recovery rules. [ADR 0013](adr/0013-persistent-format-v1.md) is accepted by the repository owner on 2026-10-04; overflow, cache and write-amplification measurements remain implementation gates. [Static fixtures and crash walkthroughs](specs/foundation-evidence.md) provide design review evidence. A superblock carries magic, format version, database/timeline IDs, generation and checkpoint metadata with checksummed redundant copies.
