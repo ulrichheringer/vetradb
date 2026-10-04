@@ -1,6 +1,6 @@
 # Foundation review evidence
 
-Local deliverables for GitHub [#14](https://github.com/ulrichheringer/vetradb/issues/14), [#15](https://github.com/ulrichheringer/vetradb/issues/15), [#16](https://github.com/ulrichheringer/vetradb/issues/16). Status: design and example verification complete for review; **accepted by the repository owner on 2026-10-04**. No issues are closed and no database runtime correctness or production claim is made. Subsequent workspace/model results are recorded in [bootstrap evidence](bootstrap-evidence.md).
+Local deliverables for GitHub [#14](https://github.com/ulrichheringer/vetradb/issues/14), [#15](https://github.com/ulrichheringer/vetradb/issues/15), [#16](https://github.com/ulrichheringer/vetradb/issues/16). Status: design and example verification complete for review; **accepted by the repository owner on 2026-10-04**. Foundation completion and issue closure evidence are consolidated in [M00 completion](m00-completion.md); no database runtime correctness or production claim is made. Subsequent workspace/model results are recorded in [bootstrap evidence](bootstrap-evidence.md).
 
 ## Reproduce
 
@@ -35,4 +35,4 @@ Fixtures are static hex bytes under [foundation fixtures](../fixtures/foundation
 
 ## Review limits
 
-The repository owner accepted ADRs 0011–0013 on 2026-10-04 in the implementation conversation. Design dependencies #14–#16 are accepted; remaining M00 tasks and actual runtime evidence are still required. Production correctness remains unverified until the actual independent engine and platform oracles run. Each follow-up above names existing issues; no new external issue/comment/message is created by this local implementation.
+The repository owner accepted ADRs 0011–0013 on 2026-10-04 in the implementation conversation. Design dependencies #14–#16 are accepted; all M00 task evidence is consolidated in [M00 completion](m00-completion.md); actual runtime evidence is still required by the subsystem milestones. Production correctness remains unverified until the actual independent engine and platform oracles run. Each follow-up above names existing issues; no new external issue/comment/message is created by this local implementation.

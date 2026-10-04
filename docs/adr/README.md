@@ -30,5 +30,6 @@ The owner authorized implementation continuation on 2026-10-04; these follow-up 
 | [0014](0014-postgresql-conformance.md) | Enumerated PostgreSQL conformance and native namespace (#17) |
 | [0015](0015-fault-oracle-contract.md) | External correctness oracles and labeled fault evidence (#18) |
 | [0016](0016-workspace-bootstrap.md) | Rust workspace and runnable contributor gates (#19) |
+| [0017](0017-governance-release-policy.md) | Maintainer, disclosure and release ownership (#20) |
 
 New ADRs should include status/date, context, decision, alternatives, consequences, invariant changes, migration/verification and links to affected tasks. Do not delete old decisions to hide incompatible changes.

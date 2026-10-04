@@ -30,4 +30,4 @@ The development-only `test-support` crate is not in the embedded closure. Public
 
 ## Deferred workflows
 
-Real page/codec coverage fuzzing and corpus shrinking (#29/#115), actual engine crash/isolation campaigns (#41/#113), driver/ORM reference containers (#65/#112), database benchmarks/soak (#99/#116), security review (#100/#115), packaging/SBOM/signing/restore (#111/#114) are not implemented by this bootstrap. The CI target matrix is configured; platforms other than the local machine are unverified until remote jobs run. This repository does not claim its CI configuration already passed on GitHub.
+Real page/codec coverage fuzzing and corpus shrinking (#29/#115), actual engine crash/isolation campaigns (#41/#113), driver/ORM reference containers (#65/#112), database benchmarks/soak (#99/#116), security review (#100/#115), packaging/SBOM/signing/restore (#111/#114) are not implemented by this bootstrap. The foundation commit `5deedef` passed all eight native [CI jobs](https://github.com/ulrichheringer/vetradb/actions/runs/37233402933). This proves bootstrap/tooling execution, not database/platform durability.

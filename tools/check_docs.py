@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def check(root=ROOT):
     errors = []
-    files = [root / 'README.md', root / 'CONTRIBUTING.md', root / 'GOVERNANCE.md', root / 'SECURITY.md']
+    files = [root / 'README.md', root / 'CONTRIBUTING.md', root / 'GOVERNANCE.md', root / 'SECURITY.md', root / 'CODE_OF_CONDUCT.md']
     files += sorted((root / 'docs').rglob('*.md'))
     for path in files:
         for target in re.findall(r'\]\(([^)]+)\)', path.read_text()):

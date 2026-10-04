@@ -19,7 +19,7 @@ def run(command, directory, should_fail=False):
 if __name__ == '__main__':
     with tempfile.TemporaryDirectory(prefix='vetra-gates-') as temp:
         directory = Path(temp)
-        for name in ['Cargo.toml', 'Cargo.lock', 'rust-toolchain.toml', 'README.md', 'CONTRIBUTING.md', 'GOVERNANCE.md', 'SECURITY.md']:
+        for name in ['Cargo.toml', 'Cargo.lock', 'rust-toolchain.toml', 'README.md', 'CONTRIBUTING.md', 'GOVERNANCE.md', 'SECURITY.md', 'CODE_OF_CONDUCT.md']:
             shutil.copy2(ROOT / name, directory / name)
         for name in ['crates', 'docs', 'tools']:
             shutil.copytree(ROOT / name, directory / name, ignore=shutil.ignore_patterns('__pycache__'))

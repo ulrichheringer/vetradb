@@ -9,6 +9,7 @@ All capabilities in these documents are planned unless a released support matrix
 | [Foundation contract](specs/foundation.md) | Release vocabulary, boundaries and journey-to-task trace |
 | [Module policy](specs/modules.md) | Acyclic Rust ownership, MSRV/targets and dependency review |
 | [Format v1 candidate](specs/persistent-format-v1.md) | Byte layouts, WAL/envelope framing and recovery boundaries |
+| [M00 completion](specs/m00-completion.md) | Foundation exit evidence and governance/disclosure verification |
 | [Development](development.md) | Maintained workspace/CI commands and deferred workflows |
 | [Conformance contract](specs/postgresql-conformance.md) | Feature inventory, negative wire cases and driver/ORM pinning |
 | [Fault/oracle contract](specs/fault-oracles.md) | Evidence levels and independent bounded models/oracles |
