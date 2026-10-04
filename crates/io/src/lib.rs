@@ -21,6 +21,8 @@ pub trait DirectoryIo {
     fn acquire_exclusive(&mut self) -> Result<Self::Ownership, IoFailure>;
     fn open(&mut self, name: &str) -> Result<Self::File, IoFailure>;
     fn rename(&mut self, source: &str, destination: &str) -> Result<(), IoFailure>;
+    /// Existing file names, sorted; discovery must not create missing files.
+    fn files(&self) -> Result<Vec<String>, IoFailure>;
     fn sync_directory(&mut self) -> Result<(), IoFailure>;
 }
 

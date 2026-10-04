@@ -171,12 +171,13 @@ impl Allocator {
         {
             return Err(Error::Corrupt("allocation count"));
         }
+        let mut previous = 1;
         for c in b[16..].chunks_exact(32) {
             let id = u64::from_le_bytes(c[..8].try_into().unwrap());
             let generation = u64::from_le_bytes(c[8..16].try_into().unwrap());
             let owner = u64::from_le_bytes(c[16..24].try_into().unwrap());
             Address::checked(id, generation)?;
-            if id < 2
+            if id <= previous
                 || c[24] > 1
                 || c[25..].iter().any(|v| *v != 0)
                 || (owner == 0 && c[24] != 0)
@@ -184,6 +185,7 @@ impl Allocator {
             {
                 return Err(Error::Corrupt("allocation entry"));
             }
+            previous = id;
             a.entries.insert(
                 id,
                 Entry {
@@ -195,8 +197,27 @@ impl Allocator {
         }
         Ok(a)
     }
-    pub(crate) fn restore(&self, b: &[u8]) -> Result<Self> {
+    pub(crate) fn restore(&self, b: &[u8], owner: u64, forward: bool) -> Result<Self> {
         let mut a = Self::decode(b, self.max_pages)?;
+        for (&id, old) in &self.entries {
+            if !forward {
+                break;
+            }
+            let Some(next) = a.entries.get(&id) else {
+                if old.owner == Some(owner) {
+                    return Err(Error::Corrupt("allocator identity regression"));
+                }
+                continue;
+            };
+            if (old.owner == Some(owner) || next.owner == Some(owner))
+                && (next.generation < old.generation
+                    || next.generation == old.generation
+                        && next.owner.is_some()
+                        && next.owner != old.owner)
+            {
+                return Err(Error::Corrupt("allocator generation/ownership regression"));
+            }
+        }
         for address in self.pins.lock().map_err(|_| Error::Pinned)?.keys() {
             let old = self.entries.get(&address.id).ok_or(Error::Stale)?;
             let next = a.entries.get(&address.id).ok_or(Error::Pinned)?;

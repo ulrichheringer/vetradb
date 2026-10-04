@@ -153,6 +153,24 @@ impl DirectoryIo for LocalDirectory {
             })
         }
     }
+    fn files(&self) -> Result<Vec<String>, IoFailure> {
+        self.owned()?;
+        let mut names = Vec::new();
+        for entry in fs::read_dir(&self.path).map_err(error)? {
+            let entry = entry.map_err(error)?;
+            let name = entry
+                .file_name()
+                .into_string()
+                .map_err(|_| IoFailure::InvalidInput)?;
+            if name == "owner.lock" {
+                continue;
+            }
+            self.name(&name)?;
+            names.push(name);
+        }
+        names.sort();
+        Ok(names)
+    }
     fn rename(&mut self, source: &str, destination: &str) -> Result<(), IoFailure> {
         self.owned()?;
         fs::rename(self.name(source)?, self.name(destination)?).map_err(error)?;

@@ -71,7 +71,7 @@ impl BPlusTree {
             epoch: 0,
         })
     }
-    pub(crate) fn staged_copy(&self) -> Self {
+    pub fn staged_copy(&self) -> Self {
         Self {
             owner: self.owner,
             root: self.root,
@@ -86,7 +86,7 @@ impl BPlusTree {
     pub(crate) fn share_allocator(&mut self, other: &Self) {
         self.allocator = other.allocator.clone();
     }
-    pub(crate) fn stamp(&mut self, lsn: u64) {
+    pub fn stamp(&mut self, lsn: u64) {
         self.epoch = lsn;
         for p in Arc::make_mut(&mut self.pages).values_mut() {
             p.lsn = lsn;
@@ -364,7 +364,9 @@ impl BPlusTree {
                 return Err(Error::Corrupt("retired page set"));
             }
         }
-        let allocation = self.allocator.restore(&action.allocation)?;
+        let allocation = self
+            .allocator
+            .restore(&action.allocation, self.owner, !repeated)?;
         let mut pages = BTreeMap::new();
         for p in &action.pages {
             let a = Address::checked(p.id, p.generation)?;
