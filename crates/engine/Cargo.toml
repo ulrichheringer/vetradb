@@ -1,0 +1,24 @@
+[package]
+name = "vetra-engine"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+vetra-types = { path = "../types" }
+vetra-io = { path = "../io" }
+vetra-wal = { path = "../wal" }
+vetra-storage = { path = "../storage" }
+vetra-recovery = { path = "../recovery" }
+vetra-txn = { path = "../txn" }
+vetra-catalog = { path = "../catalog" }
+vetra-history = { path = "../history" }
+vetra-executor = { path = "../executor" }
+vetra-work = { path = "../work" }
+vetra-events = { path = "../events" }
