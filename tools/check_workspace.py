@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+"""Enforce declared crate graph, runtime-free embedded closure and std-only bootstrap."""
+import json
+import tomllib
+from pathlib import Path
+from verify_foundation import graph_check
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def check():
+    graph = json.loads((ROOT / 'docs/specs/modules.json').read_text())
+    graph_check(graph)
+    actual = {path.parent.name for path in (ROOT / 'crates').glob('*/Cargo.toml')}
+    if actual != set(graph):
+        raise ValueError('workspace/module inventory mismatch')
+    for name, dependencies in graph.items():
+        manifest = tomllib.loads((ROOT / f'crates/{name}/Cargo.toml').read_text())
+        declared = manifest.get('dependencies', {})
+        if set(declared) != {f'vetra-{dep}' for dep in dependencies}:
+            raise ValueError(f'{name}: dependency policy mismatch')
+        for dep in dependencies:
+            if declared[f'vetra-{dep}'] != {'path': f'../{dep}'}:
+                raise ValueError(f'{name}: external/features dependency needs reviewed inventory')
+        if manifest.get('dev-dependencies') or manifest.get('build-dependencies'):
+            raise ValueError(f'{name}: undeclared test/build dependency')
+        if manifest.get('lints') != {'workspace': True}:
+            raise ValueError(f'{name}: unsafe/lint policy override')
+        package = manifest['package']
+        for key in ('version', 'edition', 'rust-version', 'license', 'repository', 'publish'):
+            if package.get(key) != {'workspace': True}:
+                raise ValueError(f'{name}: {key} must inherit workspace policy')
+        if package.get('name') != f'vetra-{name}':
+            raise ValueError('crate name does not match graph')
+    lock = tomllib.loads((ROOT / 'Cargo.lock').read_text())
+    if any(package.get('source') or package.get('checksum') for package in lock['package']):
+        raise ValueError('external dependency requires reviewed license/security/MSRV inventory')
+    return len(actual)
+
+
+if __name__ == '__main__':
+    print(f'Workspace policy: {check()} crates; no third-party dependencies or embedded network adapter.')
