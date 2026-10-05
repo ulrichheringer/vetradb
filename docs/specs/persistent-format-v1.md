@@ -123,3 +123,5 @@ Tail truncation is permitted only for an incomplete final record in the last seg
 ## Implemented internal COW action metadata
 
 [ADR 0019](../adr/0019-m02-durable-core.md) specifies the internal `VACT0001`/`VALLOC01` metadata carried in v1 WAL overflow images for completed M02 top actions. It defines root/allocator/record-identity replay without changing the framing above or claiming SQL codec compatibility. See [M02 evidence](m02-transaction-evidence.md) for real native recovery, retained-WAL limits and qualified crash levels.
+
+M03 SQL/catalog participants carry the versioned internal `VSQLV001` and `VCAT0001` codecs inside existing envelope Bytes fields; see [ADR 0020](../adr/0020-m03-relational-core.md). Native v1 frame/tag layouts remain unchanged.

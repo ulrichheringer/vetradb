@@ -15,7 +15,18 @@
       ],
       "evidence": [],
       "versions": {},
-      "deviations": []
+      "deviations": [],
+      "native_status": "tested",
+      "native_evidence": [
+        "docs/specs/m03-sql-evidence.md",
+        "docs/fixtures/sql/postgresql-17-results.json",
+        "crates/engine/tests/sql.rs"
+      ],
+      "native_versions": {
+        "reference": "PostgreSQL 17.10",
+        "runtime": "Rust 1.85.0 / 1.97.1",
+        "scope": "bounded native SQL; wire codec/driver portions remain planned"
+      }
     },
     {
       "id": "relational",
@@ -30,7 +41,18 @@
       ],
       "evidence": [],
       "versions": {},
-      "deviations": []
+      "deviations": [],
+      "native_status": "tested",
+      "native_evidence": [
+        "docs/specs/m03-sql-evidence.md",
+        "docs/fixtures/sql/postgresql-17-results.json",
+        "crates/engine/tests/sql.rs"
+      ],
+      "native_versions": {
+        "reference": "PostgreSQL 17.10",
+        "runtime": "Rust 1.85.0 / 1.97.1",
+        "scope": "bounded native SQL; wire codec/driver portions remain planned"
+      }
     },
     {
       "id": "scalar-types",
@@ -42,7 +64,18 @@
       ],
       "evidence": [],
       "versions": {},
-      "deviations": []
+      "deviations": [],
+      "native_status": "tested",
+      "native_evidence": [
+        "docs/specs/m03-sql-evidence.md",
+        "docs/fixtures/sql/postgresql-17-results.json",
+        "crates/engine/tests/sql.rs"
+      ],
+      "native_versions": {
+        "reference": "PostgreSQL 17.10",
+        "runtime": "Rust 1.85.0 / 1.97.1",
+        "scope": "bounded native SQL; wire codec/driver portions remain planned"
+      }
     },
     {
       "id": "json-sequences-upsert",
@@ -54,7 +87,18 @@
       ],
       "evidence": [],
       "versions": {},
-      "deviations": []
+      "deviations": [],
+      "native_status": "tested",
+      "native_evidence": [
+        "docs/specs/m03-sql-evidence.md",
+        "docs/fixtures/sql/postgresql-17-results.json",
+        "crates/engine/tests/sql.rs"
+      ],
+      "native_versions": {
+        "reference": "PostgreSQL 17.10",
+        "runtime": "Rust 1.85.0 / 1.97.1",
+        "scope": "bounded native SQL; wire codec/driver portions remain planned"
+      }
     },
     {
       "id": "isolation",

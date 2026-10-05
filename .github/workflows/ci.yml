@@ -48,3 +48,33 @@ jobs:
             Cargo.lock
           retention-days: 7
           if-no-files-found: error
+  sql-reference:
+    name: SQL differential (PostgreSQL 17.10)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      RUSTUP_TOOLCHAIN: '1.85.0'
+    services:
+      reference:
+        image: postgres@sha256:a426e44bac0b759c95894d68e1a0ac03ecc20b619f498a91aae373bf06d8508d
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: reference
+        ports:
+          - 15439:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Install MSRV
+        run: rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal
+      - name: Compare actual SQL results, NULLs, OIDs and errors
+        run: python3 tools/sql_differential.py

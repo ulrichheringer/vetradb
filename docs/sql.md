@@ -1,5 +1,7 @@
 # Relational SQL and execution contract
 
+Implementation status: [M03 native SQL evidence and exact supported subset](specs/m03-sql-evidence.md). The remaining text is the longer-term architectural contract; unsupported variants are not implied by grammar acceptance.
+
 ## Core language
 
 The first usable SQL milestone covers schemas/tables, transactional DDL, INSERT/UPDATE/DELETE, RETURNING, SELECT with filtering/projection/order/limit, joins, grouping/aggregates, NULL logic, parameters, transactions and constraints. The 1.0 milestone adds common subqueries, non-recursive CTEs, views, upsert, sequences, generated/default values, supported JSON operations, COPY and common window functions. Each construct gets a compatibility entry; syntax acceptance alone is insufficient.
