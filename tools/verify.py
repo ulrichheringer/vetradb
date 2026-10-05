@@ -22,4 +22,4 @@ if __name__ == '__main__':
     for command in commands:
         print('> ' + ' '.join(command), flush=True)
         subprocess.run(command, cwd=ROOT, check=True)
-    print('All local foundation and storage gates passed.')
+    print('All local foundation, storage and transaction gates passed.')

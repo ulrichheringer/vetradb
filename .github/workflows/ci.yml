@@ -44,6 +44,7 @@ jobs:
             docs/specs/*.json
             docs/fixtures/**/*.hex
             docs/fixtures/**/*.json
+            docs/fixtures/transactions/*
             Cargo.lock
           retention-days: 7
           if-no-files-found: error

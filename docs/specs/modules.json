@@ -99,6 +99,7 @@
   ],
   "test-support": [
     "types",
-    "io"
+    "io",
+    "engine"
   ]
 }

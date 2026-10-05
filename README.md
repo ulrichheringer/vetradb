@@ -2,7 +2,7 @@
 
 **A Rust database engine for modern backends: relational SQL, complete transaction history, and transactional backend primitives in one durability boundary.**
 
-> Foundation stage. This repository contains accepted designs, a Rust workspace, experimental native page storage/B+Trees and runnable verification tooling. There is no usable database implementation or supported release yet. Production readiness is a release gate, not a current claim.
+> Experimental native core. This repository implements page storage/B+Trees, WAL, crash recovery and a synchronous Rust transaction API with MVCC, locks, savepoints and immutable committed envelopes. SQL/PostgreSQL server support and a supported release remain unimplemented. Production readiness is a release gate.
 
 VetraDB is designed to combine an independent page-based storage engine with progressively tested PostgreSQL compatibility. Applications should be able to change relational data, enqueue work, and publish durable events atomically, then inspect how that state evolved.
 
@@ -49,7 +49,7 @@ The history model is inspired by Datomic's treatment of transactions and time. V
 
 ## Contributing
 
-Start with [CONTRIBUTING.md](CONTRIBUTING.md). Development is sequenced by milestone and explicit issue dependencies. Architectural changes need an RFC or ADR; correctness claims need reproducible evidence. The foundation workspace and CI are bootstrapped; most engine crates currently declare module boundaries. Run `python3 tools/verify.py` for the maintained checks. The [M01 storage foundation](docs/specs/m01-storage-evidence.md) is experimental; durable recovery, server and SQL behavior remain unimplemented.
+Start with [CONTRIBUTING.md](CONTRIBUTING.md). Development is sequenced by milestone and explicit issue dependencies. Architectural changes need an RFC or ADR; correctness claims need reproducible evidence. The foundation workspace and CI are bootstrapped; most engine crates currently declare module boundaries. Run `python3 tools/verify.py` for the maintained checks. The [M01 storage foundation](docs/specs/m01-storage-evidence.md) and [M02 durable transaction core](docs/specs/m02-transaction-evidence.md) are experimental. Native durability/isolation tests run; server and SQL behavior remain unimplemented.
 
 ## License
 

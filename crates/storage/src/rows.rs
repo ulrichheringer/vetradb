@@ -115,7 +115,11 @@ impl RowStore {
     }
     /// One outer structural action seals both projections. Completed row payloads
     /// are never overwritten; logical uniqueness remains a transaction-layer gate.
-    pub fn append(&mut self, row: RowVersion, journal: &mut impl StructuralJournal) -> Result<()> {
+    pub fn append(
+        &mut self,
+        row: RowVersion,
+        journal: &mut (impl StructuralJournal + ?Sized),
+    ) -> Result<()> {
         let k = key(row.id)?;
         if self.versions.get(&k)?.is_some() {
             return Err(Error::Duplicate);
@@ -147,6 +151,58 @@ impl RowStore {
         self.versions = versions;
         self.directory = directory;
         Ok(())
+    }
+    /// Isolated projection for transaction preparation; publication swaps the whole store.
+    pub fn staged_copy(&self) -> Self {
+        let versions = self.versions.staged_copy();
+        let mut directory = self.directory.staged_copy();
+        directory.share_allocator(&versions);
+        Self {
+            versions,
+            directory,
+        }
+    }
+    pub fn all_versions(&self) -> Result<Vec<RowVersion>> {
+        self.versions
+            .snapshot()?
+            .scan(
+                std::ops::Bound::Unbounded,
+                std::ops::Bound::Unbounded,
+                false,
+                None,
+                self.config().max_records,
+            )?
+            .into_iter()
+            .map(|(_, v)| RowVersion::decode(&v))
+            .collect()
+    }
+    /// Remove obsolete serving entries through the same atomic two-tree boundary.
+    pub fn retain(
+        &mut self,
+        keep: impl Fn(&RowVersion) -> bool,
+        journal: &mut (impl StructuralJournal + ?Sized),
+    ) -> Result<()> {
+        let rows = self.all_versions()?;
+        let mut versions = self.versions.staged_copy();
+        let mut directory = self.directory.staged_copy();
+        for row in rows.into_iter().filter(|r| !keep(r)) {
+            let mut staged = MemoryJournal::default();
+            versions.share_allocator(&directory);
+            versions.delete(&key(row.id)?, &mut staged)?;
+            let mut candidate = primary(row.id.table, &row.primary)?;
+            candidate.extend(row.id.row.to_be_bytes());
+            candidate.extend(row.id.version.to_be_bytes());
+            directory.share_allocator(&versions);
+            directory.delete(&candidate, &mut staged)?;
+            versions.share_allocator(&directory);
+            let actions = staged.completed.into_iter().map(|(_, a)| a).collect();
+            let lsn = journal.seal_batch(actions)?;
+            versions.stamp(lsn);
+            directory.stamp(lsn);
+        }
+        self.versions = versions;
+        self.directory = directory;
+        self.validate()
     }
     fn versions_owner(&self) -> u64 {
         self.versions.owner()

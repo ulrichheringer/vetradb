@@ -13,3 +13,4 @@ workspace = true
 [dependencies]
 vetra-types = { path = "../types" }
 vetra-io = { path = "../io" }
+vetra-engine = { path = "../engine" }

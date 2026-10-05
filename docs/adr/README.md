@@ -39,3 +39,5 @@ Experimental implementation decisions awaiting merge/release review:
 | ADR | Decision |
 | --- | --- |
 | [0018](0018-m01-storage-bringup.md) | Bounded physical storage and serialized copy-on-write tree bring-up (#2) |
+
+| [0019](0019-m02-durable-core.md) | Durable native transactions, physical root batches, isolation and recovery (#3) |
