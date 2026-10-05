@@ -1,12 +1,12 @@
 # Development and maintained workflows
 
-The foundation Rust workspace exists. It is **not a usable database**: most crates currently declare approved boundaries; owned identities, injectable I/O traits, protocol state bytes and independent test models/oracles are implemented. Native file ownership, pages, WAL recovery, SQL, listeners and application APIs remain subsystem issues.
+The foundation Rust workspace exists. It is **not a usable database**: most crates currently declare approved boundaries; owned identities, injectable I/O traits, protocol state bytes and independent test models/oracles are implemented. Native file ownership, checked pages, allocation, a bounded cache, B+Trees and row-version hooks now have experimental M01 implementations; WAL recovery, SQL, listeners and application APIs remain subsystem issues. See [M01 evidence](specs/m01-storage-evidence.md).
 
 ## Fresh checkout
 
 Install Git, rustup and Python 3.11+ (CI uses 3.12). The root `rust-toolchain.toml` selects Rust 1.85.0 with rustfmt/clippy; rustup installs it automatically. No third-party Cargo packages are used; Cargo.lock is committed for reproducible bootstrap. No services, credentials or database fixtures are needed.
 
-Run `python3 tools/verify.py` from the root. It validates local documentation links, compatibility inventory, crate dependency/license policy, binary design fixtures, Rust formatting, warning-free Clippy, unit/integration/doc tests, an embedded-only build and a seed-42 model campaign. Cargo operations use `--locked`; format checking does not rewrite files. Use `cargo fmt --all` deliberately to format edits.
+Run `python3 tools/verify.py` from the root. It validates local documentation links, compatibility inventory, crate dependency/license policy, binary design fixtures, Rust formatting, warning-free Clippy, unit/integration/doc tests, an embedded-only build a seed-42 foundation model campaign and a real storage codec/tree campaign. Cargo operations use `--locked`; format checking does not rewrite files. Use `cargo fmt --all` deliberately to format edits.
 
 `python3 tools/probe_gates.py` copies only source/docs/tooling into a temporary directory and initializes a disposable Git branch. It demonstrates that an intentionally incorrect behavioral test, unformatted Rust and a broken local Markdown link all fail their gates. Your checkout and changes are not modified. Temporary artifacts are removed on completion/failure.
 
@@ -20,6 +20,7 @@ Run `python3 tools/verify.py` from the root. It validates local documentation li
 | `python3 tools/check_contracts.py` | Feature status/evidence requirements and planned negative protocol fixture inventory |
 | `cargo test --locked -p vetra-test-support` | Independent atomicity/serial/lease/handoff examples and single-file persistence model |
 | `cargo run --locked -p vetra-test-support --bin fuzz-foundation -- 42 10000` | Seeded bounded persistence-model campaign; not coverage-guided codec fuzzing |
+| `cargo run --locked -p vetra-storage --bin fuzz-storage -- 42 1000` | Real native codecs/tree reference-map mutation campaign, bounded and reproducible; no durability claim |
 | `cargo run --release --locked -p vetra-test-support --bin bench-foundation` | Harness-only timing; no database performance claim |
 | `.github/workflows/ci.yml` | Native Linux x86_64/aarch64 and macOS Intel/ARM, Rust 1.85.0/1.97.1; 20-minute jobs, pinned action SHAs, contents-read-only, seven-day failure artifacts |
 | `.github/dependabot.yml` | Weekly action pin update proposals, max three open PRs; reviewed before merge |
@@ -30,4 +31,4 @@ The development-only `test-support` crate is not in the embedded closure. Public
 
 ## Deferred workflows
 
-Real page/codec coverage fuzzing and corpus shrinking (#29/#115), actual engine crash/isolation campaigns (#41/#113), driver/ORM reference containers (#65/#112), database benchmarks/soak (#99/#116), security review (#100/#115), packaging/SBOM/signing/restore (#111/#114) are not implemented by this bootstrap. The foundation commit `5deedef` passed all eight native [CI jobs](https://github.com/ulrichheringer/vetradb/actions/runs/37233402933). This proves bootstrap/tooling execution, not database/platform durability.
+Coverage-guided page/codec fuzzing and automatic corpus shrinking (#115), actual engine crash/isolation campaigns (#41/#113), driver/ORM reference containers (#65/#112), database benchmarks/soak (#99/#116), security review (#100/#115), packaging/SBOM/signing/restore (#111/#114) are not implemented by this bootstrap. The foundation commit `5deedef` passed all eight native [CI jobs](https://github.com/ulrichheringer/vetradb/actions/runs/37233402933). This proves bootstrap/tooling execution, not database/platform durability.

@@ -33,3 +33,9 @@ The owner authorized implementation continuation on 2026-10-04; these follow-up 
 | [0017](0017-governance-release-policy.md) | Maintainer, disclosure and release ownership (#20) |
 
 New ADRs should include status/date, context, decision, alternatives, consequences, invariant changes, migration/verification and links to affected tasks. Do not delete old decisions to hide incompatible changes.
+
+Experimental implementation decisions awaiting merge/release review:
+
+| ADR | Decision |
+| --- | --- |
+| [0018](0018-m01-storage-bringup.md) | Bounded physical storage and serialized copy-on-write tree bring-up (#2) |
