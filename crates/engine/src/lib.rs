@@ -293,3 +293,5 @@ impl<F: vetra_io::FileIo + Send> vetra_storage::buffer::PageIo for DataPages<F> 
         })
     }
 }
+
+pub mod sql;

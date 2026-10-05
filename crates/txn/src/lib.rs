@@ -116,6 +116,7 @@ struct Attempt {
     serial_start: u64,
     reads: Vec<(Resource, u64)>,
     deadlock: bool,
+    statement_basis: Option<u64>,
 }
 #[derive(Clone)]
 struct Version {
@@ -488,6 +489,7 @@ impl Manager {
                     serial_start: 0,
                     reads: Vec::new(),
                     deadlock: false,
+                    statement_basis: None,
                 },
             );
         }
@@ -594,6 +596,7 @@ impl Manager {
                 serial_start,
                 reads: Vec::new(),
                 deadlock: false,
+                statement_basis: None,
             },
         );
         Ok(Transaction {
@@ -1039,6 +1042,48 @@ impl Transaction {
         }
         Ok(())
     }
+    /// Freeze one RC statement basis across all operator reads; adapters must end it.
+    pub fn begin_statement(&self) -> Result<u64> {
+        let mut c = self.manager.core()?;
+        let visible = c.visible;
+        let a = c.attempts.get_mut(&self.id).ok_or(Error::State)?;
+        check_active(a)?;
+        if a.statement_basis.is_some() {
+            return Err(Error::State);
+        }
+        if matches!(
+            a.isolation,
+            Isolation::ReadCommitted | Isolation::ReadUncommitted
+        ) {
+            a.basis = visible;
+        }
+        a.statement_basis = Some(a.basis);
+        Ok(a.basis)
+    }
+    pub fn end_statement(&self) -> Result<()> {
+        self.manager
+            .core()?
+            .attempts
+            .get_mut(&self.id)
+            .ok_or(Error::State)?
+            .statement_basis = None;
+        Ok(())
+    }
+    /// Adapter-owned predicate lock, subject to the same grants and wait/cancel policy.
+    pub fn acquire(
+        &self,
+        resource: locks::Resource,
+        mode: locks::Mode,
+        cancel: &AtomicBool,
+    ) -> Result<()> {
+        let probe = Key {
+            participant: resource.participant,
+            object: resource.object,
+            bytes: resource.lower.clone().unwrap_or_else(|| vec![0]),
+        };
+        self.authorize(&probe, mode == locks::Mode::Exclusive)?;
+        self.finish_statement(self.manager.lock(self.id, resource, mode, cancel))
+    }
     pub fn statement_error(&self) -> Result<()> {
         let mut c = self.manager.core()?;
         let a = c.attempts.get_mut(&self.id).ok_or(Error::State)?;
@@ -1078,7 +1123,7 @@ impl Transaction {
             a.isolation,
             Isolation::ReadCommitted | Isolation::ReadUncommitted
         ) {
-            a.basis = visible;
+            a.basis = a.statement_basis.unwrap_or(visible);
         }
         let basis = a.basis;
         if a.reads.len() >= read_limit {
@@ -1141,7 +1186,7 @@ impl Transaction {
             a.isolation,
             Isolation::ReadCommitted | Isolation::ReadUncommitted
         ) {
-            a.basis = visible;
+            a.basis = a.statement_basis.unwrap_or(visible);
         }
         let basis = a.basis;
         if a.reads.len() >= read_limit {

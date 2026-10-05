@@ -3,3 +3,5 @@ pub use vetra_engine::{
     Context, Database, Error, Image, Isolation, Key, Limits, Lineage, Participant, PinKind,
     Snapshot, Status, Transaction, Value,
 };
+
+pub use vetra_engine::sql;
