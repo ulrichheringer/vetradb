@@ -64,3 +64,5 @@ mod tests {
         assert_eq!(TransactionId::new(u64::MAX).unwrap().get(), u64::MAX);
     }
 }
+
+pub mod sql;

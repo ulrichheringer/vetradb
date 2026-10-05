@@ -1,6 +1,6 @@
 # PostgreSQL compatibility plan
 
-Status: every row below is **planned and unimplemented**. Stage denotes intended evidence, not present support. The reference baseline is PostgreSQL 17; this deliberately pins semantics and frontend/backend protocol 3.0 while allowing newer client testing later. PostgreSQL 18+ minor-protocol negotiation is a future explicit addition.
+Status: the bounded M03 native SQL subset is implemented and qualified by [M03 evidence](specs/m03-sql-evidence.md). Wire/server/client rows remain planned and unimplemented. Stage denotes intended evidence, not present support. The reference baseline is PostgreSQL 17; this deliberately pins semantics and frontend/backend protocol 3.0 while allowing newer client testing later. PostgreSQL 18+ minor-protocol negotiation is a future explicit addition.
 
 PostgreSQL separates protocol startup, simple queries, extended queries and COPY. Passing a connection test is only one part of compatibility. [Official PostgreSQL 17 protocol overview](https://www.postgresql.org/docs/17/protocol-overview.html).
 

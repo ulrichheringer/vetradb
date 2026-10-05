@@ -13,3 +13,5 @@ workspace = true
 [dependencies]
 vetra-types = { path = "../types" }
 vetra-catalog = { path = "../catalog" }
+
+sqlparser = { version = "=0.53.0", default-features = false, features = ["std", "visitor"] }

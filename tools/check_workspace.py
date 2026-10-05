@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Enforce declared crate graph, runtime-free embedded closure and std-only bootstrap."""
+"""Enforce declared crate graph, runtime-free embedded closure and reviewed locked dependencies."""
 import json
 import tomllib
 from pathlib import Path
@@ -14,14 +14,18 @@ def check():
     actual = {path.parent.name for path in (ROOT / 'crates').glob('*/Cargo.toml')}
     if actual != set(graph):
         raise ValueError('workspace/module inventory mismatch')
+    inventory = json.loads((ROOT / "docs/specs/dependencies.json").read_text())
     for name, dependencies in graph.items():
         manifest = tomllib.loads((ROOT / f'crates/{name}/Cargo.toml').read_text())
         declared = manifest.get('dependencies', {})
-        if set(declared) != {f'vetra-{dep}' for dep in dependencies}:
+        if set(declared) != {f'vetra-{dep}' for dep in dependencies} | set(inventory['direct'].get(name, {})):
             raise ValueError(f'{name}: dependency policy mismatch')
         for dep in dependencies:
             if declared[f'vetra-{dep}'] != {'path': f'../{dep}'}:
                 raise ValueError(f'{name}: external/features dependency needs reviewed inventory')
+        for dep, options in inventory['direct'].get(name, {}).items():
+            if declared.get(dep) != options:
+                raise ValueError(f'{name}: unreviewed external options')
         if manifest.get('dev-dependencies') or manifest.get('build-dependencies'):
             raise ValueError(f'{name}: undeclared test/build dependency')
         if manifest.get('lints') != {'workspace': True}:
@@ -33,10 +37,12 @@ def check():
         if package.get('name') != f'vetra-{name}':
             raise ValueError('crate name does not match graph')
     lock = tomllib.loads((ROOT / 'Cargo.lock').read_text())
-    if any(package.get('source') or package.get('checksum') for package in lock['package']):
-        raise ValueError('external dependency requires reviewed license/security/MSRV inventory')
+    expected = {(p['name'], p['version'], p['source'], p['checksum']) for p in inventory['packages']}
+    actual_external = {(p['name'], p['version'], p['source'], p['checksum']) for p in lock['package'] if p.get('source')}
+    if expected != actual_external:
+        raise ValueError('external lockfile drift from reviewed inventory')
     return len(actual)
 
 
 if __name__ == '__main__':
-    print(f'Workspace policy: {check()} crates; no third-party dependencies or embedded network adapter.')
+    print(f'Workspace policy: {check()} crates; reviewed locked dependency inventory.')
